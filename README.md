@@ -18,7 +18,7 @@
 - TODO: 2024/01/26 スズキ ワゴン R MT の試乗記を追加したい。
 - TODO: 2024/01/26 スズキ アルトワークスの試乗記を追加したい。
 
-[部誌のすすめ](https://shirasakito.github.io/bushi.htm)
+[部誌編纂のすすめ](https://shirasakito.github.io/bushi.htm)
 - TODO: 2024/01/25 フォトブックサービスの動向を更新しておきたい。
 
 [WPF テロッパ](https://shirasakito.github.io/wpf_telopper.htm)
