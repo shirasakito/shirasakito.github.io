@@ -23,11 +23,11 @@
 
 [WPF テロッパ](https://shirasakito.github.io/wpf_telopper.htm)
 - 通常この目的には OBS Studio をお使いください。
-- ゲームパッドのボタンアサインの研究用途の試作品。OBS Studio プラグインへ書き直したい。
+- ゲームパッドのボタンアサインの研究用途の試作品。OBS Studio プラグインへ書き直したい。KeybindConceptMaker
 
 AutoPrinter
 - 帳票印刷マクロの置き換え用 Excel アドイン
-- XLOOKUP() で帳票の中身を書き換えながら印刷するようなシートについてマウス操作できるようにしたアドイン。
+- XLOOKUP NV() で帳票の中身を書き換えながら印刷するようなシートについてマウス操作できるようにしたアドイン。
 
 ## Clip
 - 『まだ』（2003 年、ソニー VX1000、制作奨励賞）
