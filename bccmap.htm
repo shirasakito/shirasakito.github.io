@@ -1,0 +1,2875 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WX17TL4M4V"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-WX17TL4M4V');
+	</script>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[Draft] 中高放送部の地理情報システム（福井市）を構築する</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+    <!-- tocbot -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<!-- Fixed navbar -->
+<style>
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.navbar {
+  margin-bottom: 20px;
+}
+.toc {
+  .is-positon-fixed {position; fixed !important;top:0}
+}
+</style>
+<div class="container">
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">index.html</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">作成したもの<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="pinkreceiptcombinationscalculator.htm">Pink Receipt Combinations Calculator</a></li>
+            </ul>
+          <li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">放送部関連で作成したもの<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="wpf_telopper.htm">WPF テロッパ</a></li>
+              <li class="active"><a href="bccmap.htm">放送部の地図（福井市）</a></li>
+              <li><a href="bushi.htm">部誌編纂のすすめ――中高放送部の方へ</a></li>
+            </ul>
+          </li>
+        </ul>
+        <!--<ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="./">Default</a></li>
+          <li><a href="../navbar-static-top/">Static top</a></li>
+          <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+        </ul>-->
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </div>
+</div>
+<!--<div class="container">-->
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyBhbnSQ21zDpeNxsDl9OdjL2EetOJEIe48"></script>
+<div class="container content js-toc-content soft-double">
+<h1 id="title">中高放送部の地理情報システム（福井市）を構築する</h1>
+<div class="alert alert-warning" role="alert"><p>2020 年 7 月現在新型コロナウィルス COVID-19 の影響がありますので内容を読み替えてご自身の感染に十分注意してください。</p></div>
+<nav class="toc js-toc soft-double transiton--300 position--absolute"></nav>
+
+<h2 id="uniq-id-0.3429683331794319">対象読者</h2>
+<ul>
+<li>主に福井市内の学校に通学する放送部所属の中高生のかた
+<li>放送部を新規に立ち上げたまたは技術の継承が途絶えているなどで，とくに活動の方針がないけれどもドキュメンタリ制作を一度してみたいという放送部の部員のかた
+<li>大会入賞よりも楽しく活動したい放送部員のかた
+</ul>
+<p>大会入賞や動画再生数の伸びに寄与するかどうかでいうと書き手にまったく受賞歴がないのでおそらく寄与しないのと，興味やリソースをあちこちに分散させてしまう内容なのでトータルで大会入賞への寄与はマイナスの可能性もあります。</p>
+
+<p>さらに放送部内のアナウンス＋映像記者＋演者チーム，脚本演出チーム，技術チームのうちの一番地味で日の当たらないというか日陰からの後方支援が好きな技術チームに偏った内容です。放送部の花形は一般にアナウンスと脚本演出です。</P>
+
+<h2 id="uniq-id-0.4311289739863502">地図</h2>
+<div class="alert alert-info" role="alert"><p>2018 年から Google Map API が有料化されたので「正しく読み込まれませんでした」というダイアログが出ますが異常ではありません。ご自身で地図を作成される場合は，部員各々で放送部用のアカウントを作成して Google マイマップのレイヤを共有していくか，後述の Nextcloud サーバを構築して Map プラグインで地図を共有する手法などを検討してください。</p></div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">放送部の地図（福井市）</h3>
+</div>
+<div class="panel-body">
+<!--map-->
+<div id="map" style="width: 100%; height: 600px;"></div>
+<!--map-->
+<p>内容は 2013 年現在のもの。2018 年以降 Google Map API が有償化されたため今のところ開発用途向けである旨のダイアログが出ます。</p>
+</div>
+</div>
+<script type="text/javascript">
+  function attachMessage(marker, msg) {
+    google.maps.event.addListener(marker, 'mouseover', function(event) {
+      new google.maps.InfoWindow({
+        content: msg
+      }).open(marker.getMap(), marker);
+    });
+  }
+  // 位置情報と表示データの組み合わせ
+  var data = new Array();//マーカー位置の緯度経度
+  data.push({position: new google.maps.LatLng(36.077437, 136.216902), content: '福井市立図書館<br />44 万冊'});
+  data.push({position: new google.maps.LatLng(36.060574, 136.223468), content: '福井市立桜木図書館<br />14 万冊 + データベース<br /><br />福井市地域交流プラザ<br />ホール 250 名<br />研修室<br />会議室<br /><br />福井県県民ホール<br />ホール 535 席'});
+  data.push({position: new google.maps.LatLng(36.062244, 136.219756), content: '勝木書店'});
+  data.push({position: new google.maps.LatLng(36.061550, 136.219810), content: '紀伊國屋書店'});
+  data.push({position: new google.maps.LatLng(36.062175, 136.220362), content: '響のホール<br />貸しスタジオ<br />ホール 213 席<br />会議室<br />パフォーミングボックス 9 x 6.5 x 5.5 m<br /><br />THE★放送 6-13 回'});
+  data.push({position: new google.maps.LatLng(36.087032, 136.208239), content: '勝木書店新二の宮店<br />専門書多め'});
+  data.push({position: new google.maps.LatLng(36.052014, 136.191244), content: '福井市立みどり図書館<br />39 万冊<br />雑誌，小説，CD 多め'});
+  data.push({position: new google.maps.LatLng(36.085029, 136.221693), content: 'ブックオフ福井二の宮店'});
+  data.push({position: new google.maps.LatLng(36.084023, 136.222969), content: 'マルツパーツ館福井二の宮店'});
+  data.push({position: new google.maps.LatLng(36.076163, 136.211892), content: '福井大学附属図書館<br />59 万冊<br />閲覧のみ'});
+  data.push({position: new google.maps.LatLng(36.069028, 136.196059), content: '福井工業大学附属図書館<br />20 万冊<br />閲覧貸し出し可'});
+  data.push({position: new google.maps.LatLng(36.036893, 136.242372), content: '福井県立図書館<br />85 万冊 + データベース<br />福井駅間の無料のバス運行あり<br />多目的ホール 200 名'});
+  data.push({position: new google.maps.LatLng(36.042159, 136.234100), content: 'ブックオフ福井板垣店'});
+  data.push({position: new google.maps.LatLng(36.073579, 136.243059), content: 'ブックオフ米松店'});
+  data.push({position: new google.maps.LatLng(36.095853, 136.252350), content: 'ヤマダ電機テックランド福井大和田店'});
+  data.push({position: new google.maps.LatLng(36.097695, 136.251862), content: '勝木書店大和田店'});
+  data.push({position: new google.maps.LatLng(36.088861, 136.249271), content: '100 満ボルト福井本店'});
+  data.push({position: new google.maps.LatLng(36.067448, 136.234567), content: '松木屋みゅうじかん<br />貸しスタジオ'});
+  data.push({position: new google.maps.LatLng(36.039140, 136.188785), content: 'ブックオフ福井やしろ店'});
+  data.push({position: new google.maps.LatLng(36.035592, 136.198454), content: 'ヤマダ電機テックランド福井本店'});
+  data.push({position: new google.maps.LatLng(36.035388, 136.199178), content: '100 満ボルト福井南本店'});
+  data.push({position: new google.maps.LatLng(36.035340, 136.206120), content: 'パソコンの館福井店<br />PC パーツ'});
+  data.push({position: new google.maps.LatLng(36.098181, 136.243966), content: 'ケーズデンキ福井北店'});
+  data.push({position: new google.maps.LatLng(36.089639, 136.242252), content: 'ジョーシン福井本店'});
+  data.push({position: new google.maps.LatLng(36.068748, 136.212860), content: '福井市文化会館<br />ホール 1,162 名<br />会議室'});
+  data.push({position: new google.maps.LatLng(36.074246, 136.217176), content: 'フェニックスプラザ<br />大ホール 2,000 人<br />小ホール 500 人<br />会議室<br /><br />映像文化センター（廃止）<br />The 放送 1-4 回'});
+  data.push({position: new google.maps.LatLng(36.014797, 136.207482), content: '福井県立音楽堂 ハーモニーホールふくい<br />大ホール 1,456 席<br />小ホール 610 席'});
+  data.push({position: new google.maps.LatLng(36.067435, 136.225448), content: '福井県国際交流会館<br />ホール 300 人<br />会議室'});
+  data.push({position: new google.maps.LatLng(36.035908, 136.231542), content: '福井県生活学習館<br />ホール 700 名<br />ホール 130 名<br />学習室'});
+  data.push({position: new google.maps.LatLng(36.098515, 136.250145), content: '福井新聞社 風の森ホール<br />ホール 300 人<br />ホール 80 人<br />学習室'});
+  data.push({position: new google.maps.LatLng(36.062946, 136.219724), content: '福井カルチャーセンター・カルチャーホール<br />ホール<br />The 放送 5 回'});
+  data.push({position: new google.maps.LatLng(36.052759, 136.253482), content: '福井テレビホール<br />ホール 300 席<br />ホール 70 席'});
+  data.push({position: new google.maps.LatLng(36.055145, 136.213775), content: '福井商工会議所<br />ホール 650 席<br />ホール 200 席<br />会議室'});
+  data.push({position: new google.maps.LatLng(36.086251, 136.235844), content: '福井県自治会館<br />ホール 420 名<br />研修室'});
+  data.push({position: new google.maps.LatLng(36.042662, 136.228666), content: '福井県立羽水高等学校図書館<br />2.65 万冊<br />関係者のみ'});
+  data.push({position: new google.maps.LatLng(36.079458, 136.215963), content: '福井県立藤島高等学校図書館<br />3.73 万冊<br />関係者のみ'});
+  var myMap = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,//地図縮尺
+    center: new google.maps.LatLng(36.062122, 136.223334),//地図の中心点
+    scrollwheel: true,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+ 
+  for (i = 0; i < data.length; i++) {
+    var myMarker = new google.maps.Marker({
+      position: data[i].position,
+      map: myMap
+    });
+    attachMessage(myMarker, data[i].content);
+  }
+</script>
+<h2 id="uniq-id-0.024636059724278514">ソウルフード</h2>
+<p>私見を多分に含みます。</p>
+<ul>
+<li>JR 福井駅――今庄そば福井駅（そばうどん），8 番らーめん福井駅（ラーメン），さくら茶屋福井駅（粉もの），秋吉福井駅前（焼き鳥）
+<li>えちぜん鉄道・福井鉄道 田原町駅――オレボ（弁当総菜），パンテス（パン），ほかほか弁当ホットフーズ田原町店（弁当）
+<li>えちぜん鉄道 福大前西福井駅――ハニー食彩館西福井（スーパー弁当総菜），8 番らーめん福井大学前店（ラーメン）
+</ul>
+
+<ul>
+<li>羽水高校――ハーツ羽水店（スーパー弁当総菜），たい夢板垣店（粉もの），ヨーロッパ軒木田店（カツ丼）
+<li>高志中学高校――杉森大判焼店（粉もの），ファミリーマート（コンビニ，フリースポット），マルサパン（パン），ヨーロッパ軒みゆき（カツ丼），寿がきやパリオ福井店（ラーメン）
+<li>仁愛女子高校――ローソン（コンビニ，フリースポット），セブンイレブン（コンビニ，フリースポット）
+<li>福井商業高校・啓新高校――ハニー食彩館西福井（スーパー弁当総菜），本家かまどや花月（弁当），ほっともっと福井花月（弁当），ポワール花月（パン），みちばた（粉もの），ヨーロッパ軒花月（カツ丼），餃子の王将福井学園店（中華料理）
+<li>藤島高校――ベーカリーマルキ（パン），蛸八（粉もの），お菓子のナカムラ（洋菓子），ヨーロッパ軒幾久（カツ丼）
+<li>北陸中学高校――オレボ（弁当総菜），パンテス（パン），チャイニーズレストランもりた（中華料理，フリースポット），ヨーロッパ軒幾久（カツ丼）
+</ul>
+
+<h2 id="uniq-id-0.7547778218768136">図書館</h2>
+<p>放送部ではまず編集やドキュメンタリ制作の定跡などの基本的な技術を仕入れるときに使用します。その次の制作段階ではドキュメンタリ番組制作の本職の肩書きでいうところのリサーチャーを担当するときなどに図書館を使います。たとえば一般雑誌専門私設図書館の大宅壮一文庫は利用者の九割がマスコミ関係者で複数の映像制作会社のスタッフが常に調べ物に来ているそうです。</p>
+<p>調べ物にも定跡があって，なにかを調べたい場合に通常は最初に学校内の図書館，次に自治体の図書館の順に本を探します。さらに詳しい本であれば近くの大学図書館，国会図書館，公設・私設の資料室の順に探します。図書館の使い方に関する本を何冊か読んでみると意外に知らないことばかりで調べ物の効率が 100 倍以上違ってくるので是非一読をお勧めします。おそらく図書館の総記の棚に図書館の使い方に関する本が置いてあります。また学校図書館か県立図書館で図書館の使い方に関するガイダンスが開かれているはずなので参加してみてください。</p>
+<p>文献の検索エンジンは次のものが有名です。各種検索エンジンの特徴については若狭高校ウェブサイトの<a href="http://web.archive.org/web/20110923143649/http://www.wakasa-h.ed.jp/sitemap/kensaku.html">「リサーチの入り口」（内容は 2011 年当時のもの）</a>のコメントが参考になります。</p>
+<ul>
+<li><a href="http://webcatplus.nii.ac.jp/">Webcat Plus</a>
+<li><a href="https://ndlonline.ndl.go.jp/">国立国会図書館オンライン</a>
+<li>WorldCat（世界最大の図書館共同カタログ）
+<li>大宅壮一文庫 Web OYA-bunko（わが国最大の雑誌検索データベース，有償）
+<li>magagineplus（わが国最大の雑誌見出し検索データベース，有償）
+<!--<li>Amazon.co.jp
+<li>Amazon.com-->
+</ul>
+
+<ul>
+<li>Web of Science（学術論文の検索エンジン，有償）
+<li>CiNii Articles（日本語学術論文の検索エンジン）
+<li><a href="https://scholar.google.co.jp/">Google Scholar</a>（学術論文の検索エンジン）
+</ul>
+
+<h3>学校内の図書館（2013 年現在）</h3>
+<p>学校図書館は放送室からの近さがメリットです。<ruby><rb>辞典</rb><rp>(</rp><rt>ことばてん</rt><rp>)</rp></ruby>，<ruby><rb>事典</rb><rp>(</rp><rt>ことてん</rt><rp>)</rp></ruby>，新書，もしあれば新聞記事データベース（DVD-ROM 形態，若狭高校図書館のような年間サブスクリプション契約など）が調べ物のとっかかりとしては狙い目です。</p>
+<p>学校図書館は，冊数で比べれば自治体図書館の小さめの図書館と同じくらいの規模といえるかもしれません。映画『耳をすませば』（スタジオジブリ，1995）のモデルにもなっている多摩市図書館の，2013 年現在の 7 館の図書館が 3.7 万冊から 34.6 万冊の規模です。ただし多摩市図書館は 77 万冊の蔵書を職員や利用者が常に移動させて全館一体運用しているので，7 館の図書館間で蔵書の重複がほとんどありません。</p>
+<table class="table">
+<caption>福井県内の学校図書館（2013 年現在）
+</caption>
+<tr><th>図書館</th><th>蔵書（万冊）</th><th> </th><th>備考</th></tr>
+<tr>
+<td>羽水高校図書館
+</td>
+<td>3
+</td><td>|||</td>
+<td>渡り廊下を挟んで放送室の隣／生徒玄関至近
+</td></tr>
+<tr>
+<td>大野高校図書館
+</td>
+<td>5
+</td><td>|||||</td>
+<td>
+</td></tr>
+<tr>
+<td>金津高校図書館
+</td>
+<td>3
+</td><td>|||</td>
+<td>
+</td></tr>
+<tr>
+<td>高志高校図書館
+</td>
+<td>-
+</td><td>-</td>
+<td>学校評価の文書によると桜木図書館利用者が多いとのこと。
+</td></tr>
+<tr>
+<td>仁愛女子高校図書館
+</td>
+<td>4
+</td><td>||||</td>
+<td>放送室の真上／2012 年本館建て替えに伴うリニューアル
+</td></tr>
+<tr>
+<td>武生高校図書館
+</td>
+<td>5
+</td><td>|||||</td>
+<td>県内最大規模
+</td></tr>
+<tr>
+<td>北陸中学高等学校図書館
+</td>
+<td>5
+</td><td>|||||</td>
+<td>2013/02 現在，校舎建て替えの影響で仮運営中
+</td></tr>
+<tr>
+<td>藤島高校図書館
+</td>
+<td>4
+</td><td>||||</td>
+<td>生徒玄関至近
+</td></tr>
+<tr>
+<td>若狭高校図書館
+</td>
+<td>4
+</td><td>||||</td>
+<td>商用データベース（読売新聞）有り
+</td></tr>
+</table>
+<p>出典：福井県内で蔵書数が記載されている各学校図書館のウェブサイト，各学校のウェブサイト，記念誌</p>
+<h3>大学図書館</h3>
+<p>大学図書館は大学の研究機能・教育機能の中枢です。和文の学術雑誌，和文の専門書，洋文の学術雑誌（の電子版），洋文の専門書メインの図書館で，論文誌，専門書いずれも非常に高価ですので入退館の際にセキュリティ上の一手間があります。福井県の場合は福井県立図書館のウェブサイトで県内の複数の大学図書館の蔵書を串刺し検索できて，かつ福井県立図書館を窓口にして資料を借りることができます。</p>
+<p>蔵書の閲覧のみであれば大学関係者でない地域住民も身分証のチェックで入館できる場合がほとんどです。通常は図書館入り口の入館証ゲート前に一般利用者受け付け用の呼び鈴ないし電話機があります。もし文献を借りられなくても硬貨または電子マネー対応のコピー機または据え置きのフラットベッドスキャナ（美大の附属図書館など）で欲しい資料をコピーできます。ちなみにデジタルカメラによる資料の撮影はできる図書館とできない図書館があります。</p>
+<p>市立・県立図書館にない資料を探すケースか，自宅から大学図書館の距離が近く地元自治体と大学との間で利用者カードの提携を行っているという幸運なケースで利用をおすすめします。</p>
+<ul>
+<li>国立大学法人福井大学附属図書館 総合図書館（総合図書館では，調査研究や生涯学習を目的として利用されたい方のために所蔵資料を公開しています）――<strong>電子ジャーナル・データベースの利用ができます</strong>とあるのでおそらく Web of Science が使えます。えちぜん鉄道三国芦原線福大前西福井駅または福井鉄道田原町駅下車。すぐ近くに福井市立図書館本館もあります。
+<li>国立大学法人福井大学附属図書館 医学図書館（学外者の方にも公開しています）――えちぜん鉄道勝山線松岡駅下車，京福バス福井大学病院下車（100 円区間）。バス路線によってはなぜかバス停対岸の公民館の駐車場で乗り降りする罠があるので注意してください。<!--附属病院 B 棟一階に学外・患者以外の人間も利用できるレストラン，タリーズコーヒー，ホスピタルローソン，パン弁当売り場があります。またレストラン脇の休憩室にニチレイの冷食の自販機があります。さらに正面出入り口にもローソンと鯛焼き店，外来第二駐車場付近に大きめのスーパーがあります。-->
+<li><del>福井県立大学附属図書館 永平寺</del>（福井県に居住または勤務する 18 歳以上の方（高校生や受験生などのご利用はご遠慮ください））――蔵書に関しては県立図書館経由で利用できそうです。
+<li><del>福井県立大学附属図書館 小浜</del>（福井県に居住または勤務する 18 歳以上の方（高校生や受験生などのご利用はご遠慮ください））――蔵書に関しては県立図書館経由で利用できそうです。
+<li><del>敦賀市立看護大学附属図書館</del>（敦賀市に在住又は勤務する 18 歳以上の方）――蔵書に関しては県立図書館経由で利用できそうです。
+<li>私学福井工業大学図書館（本学図書館の利用を希望される方は，どなたでも図書館を利用することができます）
+<li>私学仁愛大学附属図書館（中学生以上の方で，当館内での閲覧を目的とする方なら，どなたでも利用できます）
+<li>私学仁愛女子短期大学附属図書館（中学生以上の方で，本館内での閲覧を目的とする方）
+<li>私学福井医療大学図書館（福井市に居住又は勤務する者）
+<li>国立高等専門学校機構福井工業高等専門学校図書館（事前連絡なしでご来館いただいても構いません）
+</ul>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/fSwaCkY50XU?start=91" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h4>学術論文</h4>
+<p>番組製作に学術論文を直接引用するのは難易度が高いのでおすすめできないのですが，製作資料やインタビューで指し示された論文の全文のチェックは文脈の把握やファクトチェックの意味合いでおすすめです。製作活動とは別に変わった学術論文も多くて面白いので一度読んでみることをおすすめします。英語と統計学と Python ができると読める論文が増えてより世界が広がります。</p>
+
+<p>番組を制作する中で集めた新聞記事や本の中に出てきた学術論文の全文が読んでみたいという場合は Google Scholar や Web of Science（主に英語論文）や CiNii（日本語論文）で検索をかけると見つかります。フルテキストの表示をクリックしても読めない場合は論文の掲載された雑誌を所蔵している図書館にコピー依頼をして郵送してもらう必要があります。番組の制作予算が特別に多ければ論文誌の出版元または代理店から論文を直接購入することもできます。</p>
+
+<p>学術論文のデータベースの被引用数の数字に注目して，読みたい論文を引用している別の論文も自分の興味のある可能性が高い論文です。また論文の掲載誌が全く知らない分野でもインパクトファクターや h-index といった指標で信憑性を計ることができます。</p>
+
+<h3>公共図書館</h3>
+<p>構成編集デザイン発声などの技術的な入門書は中高の学校図書館にはあまりないので，その場合は公共図書館を利用します。ほかの自治体の公共図書館と同じように福井市立図書館各館も，福井市以外に住んでいても，福井市内の学校に通っていれば生徒手帳でカードを発行できます。確かできたはずです。カードがなくても入館と閲覧はできますので，小銭があれば資料をコピーして持ち帰ることができます。とくに福井市立桜木図書館は，中高生にとって利用しやすい立地と開館時間です。また学校図書館にない商用データベースを使えます。一般的に商用データベースは<a href="http://www.trc.co.jp/solution/onlinedb_price.html">個人で契約すると非常に高価</a>です。ちなみに福井県は人口比で図書館多めだそうです。</p>
+<p>福井県内の大学図書館の蔵書や，福井県に隣接する県の県立図書館の蔵書も福井市立図書館のウェブサイトから申請することで借りられるようです。米国議会図書館なども実費で複写を受け付けてくれます。</p>
+<h4>検索サービス</h4>
+<ul>
+<li><a href ="https://www.library-archives.pref.fukui.lg.jp/wo/cross">福井県内図書館横断検索</a>
+<li>カーリル
+</ul>
+
+<h4>各図書館</h4>
+<ul>
+<li>国立国会図書館
+	<ul>
+	<li>東京本館
+	<li>関西館
+	<li>国際子ども図書館
+	</ul>
+</ul>
+
+<ul>
+<li>福井県立図書館
+	<ul>
+	<li><a href="https://www.library-archives.pref.fukui.lg.jp/tosyo/index.html">福井県立図書館</a>――商用データベース有り，2020 年現在無料バスあり福井駅東口発 -> 県立図書館行毎時 00，30 分。県立図書館発 -> 福井駅東口行毎時 00，30 分。所要時間 16-18 分。
+	<li>福井県文書館
+	<li>福井県ふるさと文学館
+	<li>福井県立若狭図書学習センター
+	</ul>
+</ul>
+
+<ul>
+<li>福井市立図書館（市内にお住まい，または市内に通勤・通学されている方）
+	<ul>
+	<li>福井市立図書館
+	<li>福井市立みどり図書館
+	<li>福井市立桜木図書館――商用データベース有り
+	<li>福井市立清水図書館
+	<li>福井市立美山図書館
+	</ul>
+<li>鯖江市図書館（福井県内在住者であれば利用可能）
+<li>越前市図書館（福井県内在住者であれば利用可能）
+</ul>
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/FR-owglFx4g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h4>商用データベース</h4>
+<ul>
+<li>日経テレコン
+<li>ヨミダス文書館
+<li>官報情報検索サービス
+<li>法情報総合データベース
+<li>国立国会図書館「デジタル化資料送信サービス」
+<li>JDream
+<li>マガジンプラス
+<li>福井新聞縮刷版 DVD（2011/03 以降分）
+</ul>
+
+<h3>オープンアクセス資料</h3>
+<ul>
+<li>国立国会図書館デジタルコレクションにあるオープンアクセス資料
+<li>青空文庫
+<li>プロジェクトグーテンベルク
+<li>プロジェクト杉田玄白
+</ul>
+<ul>
+<li>Google Scholar，CiNii， PubMed などで検索できるオープンアクセス論文
+<ul>
+<li>J-Stage
+<ul>
+<li>e.g. 妹尾克利<a href="https://www.jstage.jst.go.jp/article/hokkaidoshakai/26/0/26_19/_pdf/-char/ja">「学校放送部によるメディア表現活動の教育効果に関する考察――高校放送部の映像制作活動を手がかりに」</a>『現代社会学研究』第 26 巻，北海道社会学会，2013 年，19-37 頁。
+</ul>
+</ul>
+<li>各大学，国立高専の機関リポジトリにある紀要，発表資料など
+<li>プレプリントサーバ
+</ul>
+<h3>放送部向きのめぼしい本</h3>
+<p>『ビデオサロン』誌に紹介記事が載っているようなハイアマ向けの映画製作の教本や，昨今では YouTuber の指南書のような本もおすすめです。映像制作の本だと書店の美術分野の棚にあります。作品制作のテーマ決めに関しては前々から温めているものがなければ既存の優秀作品をひたすら観て傾向をキャッチアップするほうがゼロから練り上げるよりも速いかもしれません。</p>
+<dl>
+<dt><a href="https://www.youtube.com/user/678008">林直哉</a>『高校生のためのメディア・リテラシー』ちくまプリマー新書，2007 年。</dt>
+	<dd>強豪放送部の顧問の先生が書かれた本で放送部がどんな部活動か，強豪校がどんな感じかがわかります。</dd>
+<dt>宮内泰介『自分で調べる技術――市民のための調査入門』岩波アクティブ新書，2004 年。</dt>
+	<dd>環境社会学 1994-1996 福井県立大学助教授，2011- 北海道大学大学院教授</dd>
+	<dd>環境，まちづくり系 NPO 法人の活動に必要な文献調査の方法やインタビューの方法などを扱った本です。放送部の社会系のドキュメンタリ制作にまるまる応用が効きます。文献調査の正規の手順がわかれば評価の高いドキュメンタリ作品の名前や，ドキュメンタリ作品の作り方を解説した本や，より高度なインタビューの作法，コンテの描き方，シナリオの書き方，映像・音響技法の入門書も効率良く探せるようになります。こういった入門書の探し方もそうですがやり方を探すやり方を会得すると割となんでもできるようになります。</dd>
+<dt>山登義明『ドキュメンタリーを作る 2.0――スマホ時代の映像制作』京都：京都大学学術出版会，2016 年。
+	<dd>
+<dt>ビデオ SALON 編集部『ビデオ SALON』玄光社，1980/11 - 現行。
+	<dd>主に撮影機材に関する雑誌です。中高放送部の活動もたまに記事になっています。</dd>
+<dt>Lippmann, Walter, <i>Public Opinion</i>, New York: Harcourt, 1922.<br />
+〔ウォルター・リップマン『世論』掛川トミ子訳，岩波文庫，1987 年〕
+	<dd>ジャーナリズム論の古典です。この本はなぜ放送活動をするのかという根本的な疑問に答えてくれます。N コンでいう中高生の視点で地域のあれこれをというのはつまり市民社会のなかの中高生のある種の代表として中高生が関心を持つような物事を見つけてきてその多様な側面に光を当てるために放送部は活動しているということだと思います。中高の放送部としては基本的には同世代の中高生向けに制作するのが最大のパワーを発揮できると思います。</dd>
+</dl>
+
+<h3>読書案内</h3>
+<p>読みたい本がこれといって思い付かないというときは中高生向け，大学新入生向けの読書案内が参考になります。図書館の総記カテゴリにあります。大学新入生向けの本は現役の高校生も割合読めますのでおすすめです。</p>
+<dl>
+<dt>Adler, Mortimer Jerome, Charles Van Doren, <i>How to read a book</i>, New York: Simon and Schuster, 1972.<br />
+〔モティマー・アドラー，チャールズ・ヴァン・ドーレン『本を読む本』外山滋比古，槇未知子訳，講談社学術文庫，1997 年〕</dt>
+<dd>我々自身の一生の尺度から見て人生において本当に読むべき本は実はそれほど多くないということがわかります。</dd>
+<dt>麻布学園図書館部<a href="http://web.archive.org/web/20150507180800/http://www.azabu-jh.ed.jp/syuppan/toshokan-syuppan.htm">『夏休みに読んでおきたい本のリスト (PDF)』</a>2014 年。</dt>
+<dd>麻布の先生が選んだ各教科の推薦図書です。コメントや対象学年があって参考になります。推薦図書としてよく見る『君たちはどう生きるか』から，普通の学校から見るとちょっと珍しい『LaTeX はじめの一歩』のような論文組版ソフトの本もあってかなり幅広く紹介されています。放送部員の関心のあるところではジャーナリズム論の古典として名高いウォルター・リップマン『世論』もリストに載っています。</dd>
+<dt>広島大学 101 冊の本委員会編『大学新入生に薦める 101 冊の本』新版，岩波書店，2009 年。</dt>
+<dd>広島大学の先生が選んだ 101 冊の本のタイトルとその紹介文の本です。最終章の「本の選び方買い方」が特に参考になります。ちなみにこの本は確か広島大学の入学生に配布されていたような気がします。紹介されている本の中では，苅谷剛彦『知的複眼思考法』（講談社プラスアルファ文庫，2002 年）などが社会系のドキュメンタリ制作向きです。大学で配布される本繋がりなのですが，予備校主催の模試で慶應義塾を志望校としてマークされている方は『福翁自伝』（岩波文庫）もおすすめです。</dd>
+<dt>苅谷剛彦『知的複眼思考法』講談社プラスアルファ文庫，2002 年。</dt>
+<dd>ドキュメンタリ制作担当者は必読です。まさにリップマンの『世論』の実践の一つのような本です。
+<dt>Rutherford, F. James and Andrew Ahlgren, <i>Science for all Americans: a Project 2061 report on literacy goals in science mathematics, and technology</i>, New York: Oxford University Press, 1989.<br />
+〔フロイド・ジェームズ・ラザフォード，アンドリュー・アールグレン<a href="http://www.project2061.org/publications/sfaa/SFAA_Japanese.pdf">『すべてのアメリカ人のための科学――科学，数学，技術におけるリテラシー目標に関するプロジェクト 2061 の報告書 (PDF)』</a>文部科学省，日米理数教育比較研究会訳，2005 年〕<br />
+〔フロイド・ジェームズ・ラザフォード，アンドリュー・アールグレン<a href="http://sfaainjapanese.seesaa.net/">『すべてのアメリカ人のための科学 (HTML)』</a>Science for All Americans 翻訳プロジェクト訳，2008 年〕</dt>
+	<dd>この本が科学教育に有用だということで原書のほかに日本語訳も公式訳と有志訳の二種類が無償で公開されています。タイトルの通りすべてのアメリカ市民が生きていく上で最低限身につけるべき科学リテラシーの基準をアメリカ科学振興協会が示したものです。科学を使って生活するためあるいは自分を教育していくための網羅的かつ最小限の科学が使えるようになります。類書もあまりないのでこれさえ読んでおけば安心です。人類史と科学史，技術史が凝縮されていてたいへん楽しい本です。</dd>
+<dt>福井県立藤島高等学校 SSH 企画会議編<a href="http://www.fujishima-h.ed.jp/data/Kouki%20kenkyukiso%20text%20bunkei.pdf">「高校生のための研究入門――探究のサイクルを楽しむ 藤島高等学校 SSH 文系テキスト (PDF)」</a>福井：福井県立藤島高等学校，2012 年。</dt>
+	<dd>スーパーサイエンスハイスクール用の教材です。内容は文科系の一般的な研究方法の紹介になっています。『知の技法』（東京大学出版会，1994 年）を凝縮したような高大接続教育のような内容です。文書内で紹介されている『方法序説』――これは略称で正式には『もろもろの学問分野で，正しく理詰めで真理を探究するための方法についての考察』は山形浩生訳が無償で読めますのでおすすめです。</dd>
+<dt>Descartes, René, <i>Discours de la méthode pour bien conduire sa raison, et chercher la vérité dans les sciences</i>, Leyde, 1637. (Chales Adam and Paul Tannery, <i>Discours de la méthode & Essais</i>, Paris: Du ministère de l'instruction publique, 1902.)<br />
+〔ルネ・デカルト<a href="https://www.genpaku.org/dcart01/dcart10j.html">『もろもろの学問分野で，正しく理詰めで真理を探究するための方法についての考察 (PDF)』</a>山形浩生訳，プロジェクト杉田玄白，1999 年〕<br />
+〔ルネ・デカルト『方法序説』山田弘明訳，ちくま学芸文庫，2010 年〕</dt>
+	<dd>本当にゼロから確かそうなものだけを選んで物事を考えてみたらどうなるかという人類の歴史上画期的な本です。</dd>
+<dt>小林康夫，船曳建夫編『知の技法――東京大学教養学部「基礎演習」テキスト』東京大学出版会，1994 年。</dt>
+<dd>大学の文科系学部一年生で受ける導入教育（≒初年次教育⊂高大接続教育）――履修する際の具体的な講座名だと基礎演習（東京大学ほか），基礎ゼミ（東京都立大学ほか），ILAS セミナー（<a href="https://www.z.k.kyoto-u.ac.jp/freshman-guide/ilas-seminars/list">京都大学</a>）などの呼称の少人数ゼミの教科書です。東大教養学部の学部紹介では「基礎演習(文科系)は、小人数ゼミ形式を原則とし、資料の収集や調査の方法を実践的に学ぶとともに、日本語による口頭発表ならびに論文作成能力を養う機会とする」とあります。各分野の基本的な道具立てと表現方法がまとまっています。ベストセラーにもなっているようです。最後のアウトプットが論文か脚本か動画編集ソフトのタイムラインかの違いで放送部に応用が効きます。</dd>
+<dt>福井県立藤島高等学校教養テキスト編集委員会編『近代とは何か 高校生のための基礎教養第 1 集』石川：東京書籍北陸支社，2016 年。<a href="https://www.fujishima-h.ed.jp/wp-content/uploads/2018/04/kinndaitohananika.pdf">目次</a>，<a href="https://nie.fukuishimbun.co.jp/docs/pdfs_new/00270010.pdf">新聞記事</a></dt>
+	<dd></dd>
+<dt>福井県立藤島高等学校教養テキスト編集委員会編『私たちはなぜ科学するのか 高校生のための基礎教養第 2 集』石川：東京書籍北陸支社，2018 年。<a href="https://www.fujishima-h.ed.jp/wp-content/uploads/2018/08/kyouyou-1.pdf">目次</a></dt>
+	<dd></dd>
+
+</dl>
+<h3>英語</h3>
+<p>英語ができると読める本が爆発的に増えるのでおすすめです。自分が伝え聞いた方法では得意な分野の洋書を何冊か買ってきて英英辞典を引きながら読んでいるうちに 10 冊目くらいで俄然読めるようになるそうです。ちなみに英語学習者向けの英英辞典はロングマンかコリンズコウビルドが有名なようです。</p>
+<ul>
+<li><i>Longman Dictionary of Contemporary English</i>, Harlow: Pearson Education. ――説明文が平易になるように語彙が 3,000 語程度に制限されているので学習者は嬉しい。<br />
+<blockquote class="blockquote">"a book that gives a list of words in alphabetical order and explains their meanings in the same language, or another language"</blockquote>
+<li><i>Collins COBUILD Advanced Dictionary</i>, Glasgow: HarperCollins. ――説明文が細切れでない完全な文章になっているので学習者は嬉しい。個人的には一番好きな辞書なのですが，英語が得意な方から見ると記述が迂遠なのかもしれません。COBUILD は Collins Birmingham University International Language Database の頭文字でコリンズとバーミンガム大学が開発した辞書で，コーパスを初めて採用した辞書として有名だそうです。<br />
+<blockquote class="blockquote">"A dictionary is a book in which the words and phrases of a language are listed alphabetically, together with their meanings or their translations in another lanuage."</blockquote>
+<li><i>Oxford Advanced Learner's Dictionary</i>, Oxford: Oxford University Press. ――オックスフォード大学の英語の辞書には誰も反論できないので学習者は嬉しい。<br />
+<blockquote class="blockquote">"a book or electronic resource that gives a list of the words of a language in alphabetical order and explains what they mean, or gives a word for them in a foreign language"</blockquote>
+
+
+</ul>
+
+<p>実際に読む本としては Oxford University Press の A Very Short Introduction シリーズはわが国でいう新書相当のもので読みやすいと昔聞いたことがあります。今であればもっとありそうです。</p>
+<ul>
+<li>Nowell-Smith, Geoffrey, <i>The History of Cinema: A Very Short Introduction</i>, Oxford: Oxford University Press, 2018.
+<li>Aufderheide, Patricia, <i>Documentary Film: A Very Short Introduction</i>, Oxford: Oxford University Press, 2007.
+</ul>
+<figure><img class="img-responsive" src="vsi01.png" width="75%"><figcaption><i>Documentary Film: A Very Short Introduction</i> 表紙</figcaption></figure>
+<figure><img class="img-responsive" src="vsi02.png" width="75%"><figcaption><i>Documentary Film: A Very Short Introduction</i> チャプター 1 の冒頭部分</figcaption></figure>
+<p>このほか英語の必要性でいうとプログラミングに必要なリファレンスマニュアルやエラーメッセージや開発ツールの UI も英語で書かれていることがほとんどなのでプログラミングのためにも英語が必要になります。この手のマニュアルは意図的に平易に書かれているので 3,000 語から 5,000 語程度の高校卒業程度の語彙力でも結構読めます。</p>
+
+<h3>統計学</h3>
+<p>古典統計学ができると学術書と学術論文が読めるようになるのでおすすめです。</p>
+<p>近年，統計学の重要性が叫ばれて高校数学の統計の単元の分量が拡充されました。またわが国の大学の理科系学部だけでなく文科系学部においても経済学，社会学，心理学などで統計学が必修に近い形になっています。統計学を勉強しておかないと統計が出てくる文献が全部読めないので大変です。ちなみにわが国では経済学をなぜか文科系に括っていますが研究が盛んな最新分野の内容は数式と計量データの塊です。</p>
+
+<h3>高校数学または高校卒業程度の数学</h3>
+<p>自分は数学が特に苦手なので，その負い目からよりそう感じるのかもしれませんが，対数グラフが読めないと片側対数グラフを使用しているたとえば感染症の感染者数の増減を記録した本や新聞記事が読めないので高校数学の習得は読める本を増やすためにもおすすめです。余力があれば数学 III および 数学 C（2022 年度新課程）までの範囲と数値計算（1994-2012 年度，2013 年度新課程から情報 B に移行）など学校や学科によっては授業がない／なかった単元もおさえておくべきかもしれません。高校数学の学び直しや先取りで調べるとチャートかフォーカスによる自習が一般的なようです。</p>
+
+<ul>
+<li>『くもんの中学基礎がため 100%』くもん出版――易しい。中学数学が怪しいという場合におすすめです。自分はかなり怪しかったのでこの本で助かりました。
+</ul>
+<ul>
+<li>『チャート式基礎と演習数学（白チャート）』数研出版――易しい。学校で使うチャートが黄色以上でよくわからんという場合におすすめらしいです。
+<li>『チャート式解法と演習数学（黄チャート）』数研出版――中間。高志高校（<a href="http://blog.trygroup.co.jp/fukui/2012/09/394">2012 年度時点</a>），仁愛女子高校特進・英語留学コース（2020 年度時点）などが採用しています。
+<li>『チャート式基礎からの数学（青チャート）』数研出版――難しい。藤島高校（<a href="http://blog.trygroup.co.jp/fukui/2012/09/394">2012 年度時点</a>），仁愛女子高校グローバルサイエンスコース（2020 年度時点），北陸高校特進（時期不明）などが採用しています。
+<li>『フォーカスゼータ』啓林館
+<li>『フォーカスゴールド』啓林館――内容・難易度ともに青チャート相当のようです。藤島高校が採用（<a href="https://axis-kobetsu.jp/measures/fukui/high.html">時期不明</a>）。
+</ul>
+
+<h3>プログラミング</h3>
+<p>Python ができると読める本が少しまたは大幅に増えます。Python は各国の公教育で教育用言語として採用されていて汎用言語かつ人気プログラミング言語の一つです。</p>
+<ul>
+<li><a href="https://docs.python.org/ja/3/tutorial/">「Python チュートリアル」</a>
+<li>新井紀子『コンピュータが仕事を奪う』日本経済新聞社，2010 年。――雇用を減らさないもしくは増やす方向性のソフトウェア設計をおすすめします。
+<!--<li>Biermann, Alan W., <i>Great Ideas in Computer Science: A Gentle Introduction</i>, Cambridge, Mass.: MIT Press, 1990.-->
+<li>石田晴久編『改訂新版 コンピュータの名著・古典 100 冊』改訂新版，インプレス，2006 年。
+</ul>
+<p>放送部ではグラフのアニメーションなどのデータ可視化（データビジュアライズ）に主に使用します。弱電分野や映像配信の各工程にも使用します。</p>
+<ul>
+<li>榊原進『はやわかり Mathematica』第 3 版，共立出版，2010 年。
+<li>上坂吉則『MATLAB プログラミング入門』改訂版，牧野書店，2011 年。
+<li>Processing の入門書
+<li>Unity の入門書
+<li>Arduino の入門書
+</ul>
+<!--
+<p>以下はすべて余談です。学校では高等学校情報「情報 I」または「情報 II」で教科書や担当教員によっては Python の取り扱いがあるはずです。大学だとプログラミングは手段でしかないということで事前に指定された本を読み込んでおいて特定の言語をチュートリアル程度は覚えてきて講義で確認または実習があって課題を提出というスパルタな形が多いです。Python を使う具体的な科目名でいうと国立福井高専電子情報工学科「電子情報工学実験 IV」，福井大学共通課程「計算機言語」，「シミュレーション工学」，仁愛大学人間学部「プログラミング」などです。一つできればほかもだいたい同じなので学校で習うのが MATLAB や C 言語（<a href="https://www.jikkyo.co.jp/book/detail/130058">高等学校工業『プログラミング技術』実教出版</a>）や JavaScript（<a href="https://syllabus.kosen-k.go.jp/Pages/PublicSyllabus?school_id=19&department_id=14&subject_id=0016&year=2019&lang=ja">国立福井高専</a>）や VBA（<a href="https://www.jikkyo.co.jp/book/detail/17000030">高等学校情報『情報の科学』実教出版</a>）なら Python でなくても構いません。</p>
+<ul>
+<li><a href="https://jp.mathworks.com/campaigns/products/trials.html?prodcode=ML">無料の MATLAB 評価版</a>――2020 年現在学生用が 9,990 円，非営利の個人用で 15,500 円，商用年間が 114,000 円，商用永久が 285,000 円です。
+</ul>
+
+<p>プログラミングの学習は特に作りたい物がなければ高校物理の問題集をパソコンで解くような比較的簡単な数値計算がおすすめです。高校物理なのは問題をコンピュータプログラムに落とし込みやすく，数値解を求める問題であればほぼ確実に解があることが判っていて，難易度も高校生が解ける範囲で，問題集であれば答え合わせが可能で，かつ問題の解という形で報酬がすぐに得られるというモチベーション維持の観点からです。数値計算用の言語としては Python，MATLAB，Octave（MATLAB クローン），R，C 言語，C++，Fortran，Julia などがよく用いられます。</p>
+<p>キャリア形成に絡めて考えると就きたい職業職種がどこであってもコンピュータを触る限りは VBA やシェルスクリプト（PowerShell，bash，zsh）や正規表現（grep，ripgrep）を使えて損はありません。進学したい大学の研究室のウェブサイトに「うちの研究室では MATLAB と C++ を使いますので最低限使えるようにしてきてください」と書いてあったり，就職したい企業の中途の求人情報を見ると身につけておくべきスキルセットの記載がありますのでそこから逆算してプログラミングを学習できます。</p>
+-->
+
+<!--
+<ul>
+<li>「パワートレーン制御システム開発（ハイブリッドシステム制御/自動車用変速機制御/エンジン制御/開発）MATLAB等の解析シミュレーション経験者、制御開発/ソフトウェア開発経験者歓迎」<a href="https://www.toyota-recruit.com/job.phtml">“職種検索”</a>「トヨタ | キャリア採用情報 | 技術系募集職種」2020/12 閲覧。パワートレーンなど興味のある分野にチェックを入れて検索する。
+<li>「利用される言語はごく一般的なFortran/C/C++などが利用されています。スパコンを動かすためのアプリケーションは、研究者自身がつくる場合もあれば、アプリケーション専門企業が開発したものを購入して利用することも可能です。」理化学研究所計算科学研究センター<a href="https://www.r-ccs.riken.jp/jp/outreach/faq.html">“「京」でプログラミングするためには、どのコンピュータ言語を習得する必要がありますか？”</a>2020/12 閲覧。
+<li>North<a href="https://research.sakura.ad.jp/2010/03/29/lunar-landing/">“月とコンピュータ”</a>「さくらインターネット研究所」2010/03/29，2020/12 閲覧。
+<li><a href="https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%9D%E3%83%AD%E8%AA%98%E5%B0%8E%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF">“アポロ誘導コンピュータ”</a>「ウィキペディア日本語版」2020/12 閲覧。
+<li>アメリカ航空宇宙局有人宇宙船センター，MIT 機械研究所<a href="https://github.com/chrislgarry/Apollo-11/blob/master/README.ja.md">“アポロ誘導コンピュータ司令船用・月着陸船用のソースコードの一部”</a>「github」1969/04/11-1969/07/14，2020/12 閲覧。
+<li>「Crew Dragonでも、LinuxベースでC++で書かれたフライトソフトウェアが稼働している。この宇宙船のタッチスクリーンのインターフェースは、ChromiumとJavaScriptでレンダリングされている。」Vaughan-Nichols, Steven J.<a href="https://japan.cnet.com/article/35154820/">“ISSに宇宙飛行士を届けた「Falcon 9」はLinuxで動く”</a>「CNET Japan」2020/06/09，2020/12 閲覧。
+</ul>
+-->
+<!--
+<p>そのほか 2020 年現在映像制作分野では次の言語が取っ掛かりとしておすすめです。<a href="https://unity.com/ja">Unity</a> (C#) と <a href="https://www.unrealengine.com/ja/">Unreal Engine</a> (C++) と Adobe Action Script (ECMAScript) と <a href="https://processing.org/">Processing</a> (Processing, Java) と openFrameworks (C++) と OBS プラグイン (C#, C++) と Autodesk Maya 拡張 (Lisp, Python, Qt) と Blednder 拡張 (Python) など。組み込み分野では micro:bit (MicroPython) と Arduino (Arduino) がおすすめです。スマートフォン向けアプリ開発ではネイティブ開発として <a href="https://developer.android.com/studio/install?hl=ja">Android</a> (Kotlin, Java) や iOS (Swift) で書く方法やクロスプラットフォーム開発として <a href="https://docs.microsoft.com/ja-jp/xamarin/get-started/what-is-xamarin">Xamarin</a> (C#)，<a href"https://www.embarcadero.com/jp/products/delphi/starter"=>Delphi</a> (Object Pascal) で書く方法と，主に JavaScript ベースのウェブアプリケーションをスマートフォン上で実行できるようにパッケージ化する方法があります。広くコンピュータサイエンス一般では Python 以外では C 言語，C++，Java，ECMAScript が定番です。</p>
+<ul>
+<li><a href="https://www.team-lab.com/recruit/fresh/interactive_artist/">あると望ましい経験/スキル</a>“インタラクティブエンジニア（グラフィック/モーション）”「チームラボ」2020/12 閲覧。
+<li><a href="https://www.pixar.com/careers-at-pixar">“CAREERS AT PIXAR”</a>「Pixar Animation Studio」2020/12 閲覧。
+<li>このほか CG アニメーション制作会社，コンピュータゲーム制作会社の映像部門の求人情報などに映像制作に必要なスキルセットの記載があります。
+</ul>
+-->
+<!--
+<ul>
+<li><a href="https://careers.google.com/jobs/results/?hl=ja_JP">「Google 人材募集」</a>2020/12 閲覧。検索欄に Youtube と入力して検索する。
+<li><a href="https://jobs.netflix.com/">「Netflix Jobs」</a>2020/12 閲覧。検索欄に Engineer と入力して検索する。
+<li><a href="https://www.amazon.jobs/jp">「Amazon.jobs」</a>2020/12 閲覧。
+<li>このほか NHK 技研の刊行物などに放送技術開発に必要なスキルセットの記載があります。
+</ul>
+-->
+
+<!--
+<h4>偏りが強い入門書</h4>
+<p>まわりの方と同じ言語，同じ入門書をおすすめします。</p>
+<ul>
+<li>遠藤雅守『大学生・エンジニアのための関数電卓活用ガイド』森北出版，2018 年。――関数電卓を使えることがプログラミングの前提知識として求められる気がします。
+<li>上坂吉則『MATLAB プログラミング入門』改訂版，牧野書店，2011 年。
+<li>村井潤一郎『はじめての R――ごく初歩の操作から統計解析の導入まで』京都：北大路書房，2013 年。
+<li><a href="http://www7b.biglobe.ne.jp/~robe/cpphtml/">ロベール「ロベールの C++ 教室」</a>
+</ul>
+
+<ul>
+<li>Boswell, Dustin and Trevor Foucher, <i>The Art of Readable Code: simple and practical techniques for writing better code</i>, Sebastopol, CA: O'Reilly & Associates, 2011.
+<br />〔『リーダブルコード――より良いコードを書くためのシンプルで実践的なテクニック』角征典訳，オライリー，2012 年。〕
+</ul>
+-->
+
+<h4>プログラミング環境</h4>
+<p>映像音声を扱うことが多い放送部では 2021 年現在 Processing と Processing 公式の Sound，Video，HardwareIO ライブラリか D3.js が簡単便利です。このほか Unity，OBS プラグイン，openFrameworks，Unreal Engine もおすすめです。</p>
+<p>一般のプログラミング環境についてはマイクロソフト製のプログラミング言語や Windows 専用アプリケーションや一部の組み込み分野以外はほとんどの場合 UNIX (POSIX) を前提にしているので，お手持ちのコンピュータの OS が x86_64 版 Windows 10 の場合は VirtualBox か WSL 上に Linux をインストールしてしまうほうが環境構築は簡単かもしれません。コンピュータに直接インストールできる場合は Linux のほかに各種 BSD UNIX の選択肢もあります。</p>
+<ul>
+<li>『日経 Linux』誌
+</ul>
+<li>エディタのマニュアル
+<li>POSIX コマンドの入門書
+<li>POSIX シェルスクリプトの入門書
+<li>青木峰郎『ふつうの Linux プログラミング――Linux の仕組みから学べる gcc プログラミングの王道』第二版，ソフトバンククリエイティブ，2017 年。
+<li><a href="https://www.debian.org/doc/">“ユーザ文書”「Debian プロジェクト」</a>
+<li><a href="https://wiki.archlinux.jp">Arch Linux「ArchWiki」</a>
+<li><a href="https://www.freebsd.org/ja/projects/newbies/">FreeBSD プロジェクト“FreeBSD が初めてという方へ”「FreeBSD」</a>
+</ul>
+
+<h4>簡単なコードの紹介</h4>
+<p>お手元に関数電卓があればご用意いただいて次の通り入力してみてください。環境によって末尾の一桁の処理が違う場合があります。</p>
+<ul>
+<li>遠藤雅守『大学生・エンジニアのための関数電卓活用ガイド』森北出版，2018 年。
+</ul>
+
+<pre><code># Android など各 OS 付属の関数電卓または電卓メーカー各社の標準的な関数電卓で半径が 2.0 の円の面積を求める。
+[π][*][2][*][2][=]
+12.566371
+
+# カシオ計算機の自然入力関数電卓で円の面積を求める。
+[Shift][*10<sup>x</sup>][*][2][*][2][=][s<=>d]
+4π
+12.56637061
+
+# 逆ポーランド記法電卓 (xcalc -rpn や macOS 付属電卓の RPN モード) で円の面積を求める。
+[π][Enter][2][*][Enter][2][*]
+12.566371</code></pre>
+
+<pre><code># 表計算ソフトで円の面積を求める。
+=pi()*2*2[Enter]
+12.566370614359173 # gnumeric
+12.5663706143592   # LibreOffice Calc
+12.56637061        # Google Spreadsheets
+12.56637061        # Microsoft Excel
+
+# MATLAB/Octave/Julia/R/Wolfram Alpha/Google の対話環境で円の面積を求める。
+pi*2*2[Enter]
+12.5663706143592   # MATLAB/Octave (format long)</code></pre>
+
+<pre><code># Mathematica で円の面積を求める。
+π*2<sup>2</sup>(Shift)+(Enter)N[%](Shift)+(Enter)
+12.5664
+
+# 余談ですが同じく Mathematica で N[] の第二引数に桁数を与えると桁数を 21 億桁またはメモリの上限まで増やせるはずです。この桁数は内部で使用しているはずの GMP: GNU Multi-Precision Library の上限です。
+π*2<sup>2</sup>(Shift)+(Enter)N[%, 1000](Shift)+(Enter)
+12.5663706143591729538505735331180115367886775975004232838997783692312\
+6562514483599451213930136846827192859234605312922658837537843820232892\
+6901437632513924469801136410807754084422238578491795819721527857715243\
+9026637337845139025929351471326610848076365825942676938413944418173065\
+9285357442904099656509489834802642526235269952608368385131701636686145\
+7471570361440045322122195281866085536587807766046437732229081463038367\
+8123687444695277304471724204741922978495198509982694075430108995649117\
+5273204779651933469344976262657234408557978558089894876280871944377481\
+1082156868705172707009538699273870677620528002272508581054243311143085\
+3710311584366945487148858737636048998137205861983414842031691187570356\
+9416807982444851608784345613767263925451909908523984207482884539999999\
+3491912199804238926931264385274380097837821387633210570089233013378740\
+1410477247526840400125513550115463501328335256824687106765892143930139\
+6171502187492463825145552941515037500783112743112212868490722645200771\
+150644478363686568080
+
+# Maxima で円の面積を求める。
+π･2<sup>2</sup>;[Shift]+[Enter]float(%);[Shift]+[Enter]
+12.56637061435917
+
+# Maxima も Mathematica と同様に fpprec で桁数をおそらく GMP: GNU Multi-Precision Library の上限まで増やせます。ここでは 1.2566...b1 = 1.2566...×10<sup>1</sup> という指数表記になっています。
+fpprec:1000;[Shift]+[Enter]π･2<sup>2</sup>;[Shift]+[Enter]bfloat(%);[Shift]+[Enter]
+1.2566370614359172953850573533118011536788677597500423283899778369231265\
+625144835994512139301368468271928592346053129226588375378438202328926901437632\
+513924469801136410807754084422238578491795819721527857715243902663733784513902\
+592935147132661084807636582594267693841394441817306592853574429040996565094898\
+348026425262352699526083683851317016366861457471570361440045322122195281866085\
+536587807766046437732229081463038367812368744469527730447172420474192297849519\
+850998269407543010899564911752732047796519334693449762626572344085579785580898\
+948762808719443774811082156868705172707009538699273870677620528002272508581054\
+243311143085371031158436694548714885873763604899813720586198341484203169118757\
+035694168079824448516087843456137672639254519099085239842074828845399999993491\
+912199804238926931264385274380097837821387633210570089233013378740141047724752\
+684040012551355011546350132833525682468710676589214393013961715021874924638251\
+4555294151503750078311274311221286849072264520077115064447836368656808b1
+
+# MATLAB Symbolic Math Toolbox で同様に円の面積を求める。
+vpa(sym(pi*2^2),1000)[Enter]</code></pre>
+
+<p>次に例示するコードは一般的な Linux 上で動作します。今回は主に Raspberry Pi OS 上で書いて Windows 10 の Windows Subsystem for Linux でも動作チェックしています。openFrameworks を Windows 10 で実行する場合は VS2017 または msys2 のインストールが必要です。</p>
+<ul>
+<li>Raspberry Pi 3B, Raspberry Pi OS 32-bit (Debian GNU/Linux 10 Buster armhf), nodejs, rust, clang, gfortran, python3, lua5.3, openjdk-11-jdk, r-base, octave, wolfram, maxima, x11-apps, julia-1.3.1-linux-armv7l, openFrameworks-0.11.0-linux-armv6l, jupyter
+<li>x86_64 版 Windows 10 20H2 Pro, WSL2, Debian GNU/Linux 10 Buster amd64, nodejs,  rust, clang, gfortran, python3, lua5.3, openjdk-11-jdk, r-base, octave, maxima, x11-apps, julia-1.5.3-linux-x86_64, jupyter
+<li>x86_64 版 Windows 10 20H2 Pro, VS2017, openFrameworks-0.11.0-vs2017
+<!--
+<li>Google Colaboratory, MATLAB Online R2020b, <a href="https://www.typescriptlang.org/ja/play">TypeScript Playground</a>, Rust Playground
+-->
+</ul>
+
+<pre><code>(* 円の面積を求める Woflram スクリプト。en_no_menseki.wls *)
+ennomenseki[hankei_] := Pi * hankei * haneki
+Print[ennomenseki[2.0]]</code></pre>
+
+<pre><code># 円の面積を求める Python スクリプト。en_no_menseki.py
+import math
+def en_no_menseki(hankei)
+    return math.pi * hankei * hankei
+
+print(en_no_menseki(2.0))</code></pre>
+
+<pre><code>// 円の面積を求める TypeScript スクリプト。en_no_menseki.ts
+function en_no_menseki(hankei) {
+  return Math.PI * hankei * hankei;
+}
+
+console.log(en_no_menseki(2.0));</code></pre>
+
+<pre><code>-- 円の面積を求める Lua スクリプト。en_no_menseki.lua
+function en_no_menseki(hankei)
+  return math.pi * hankei * hankei
+end
+
+print(en_no_hankei(2.0))</code></pre>
+
+<pre><code>% 円の面積を求める Octave (MATLAB) プログラム。en_no_menseki.m
+function main()
+    disp(en_no_menseki_(2.0));
+end
+function ret = en_no_menseki_(hankei)
+    ret = pi * hankei * hankei;
+end</code></pre>
+
+<pre><code>!     円の面積を求める Fortran プログラム。en_no_menseki.f08
+program main
+  real :: menseki
+  menseki = en_no_menseki(2.0)
+  print *, menseki
+end program main
+function en_no_menseki(hankei)
+  real,parameter :: pi=acos(-1d0) ! Fortran では PI が定数として定義されていないので，アークコサインマイナス 1 ラジアンを利用して円周率を定義するのが一般的なようです。
+  real :: hankei
+  real :: en_no_menseki
+  en_no_menseki = pi * hankei * hankei
+  return
+end function en_no_menseki</code></pre>
+
+<pre><code>// 円の面積を求める C プログラム。en_no_menseki.c
+#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+double en_no_menseki(double hankei)
+{
+  return M_PI * hankei * hankei;
+}
+
+int main(void)
+{
+  printf("%f\n", (double)en_no_menseki(2.0));
+  return 0;
+}</code></pre>
+
+<pre><code>// 円の面積を求める C++ プログラム。en_no_menseki.cpp
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+double en_no_menseki(double hankei)
+{
+  return M_PI * hankei * hankei;
+}
+
+int main()
+{
+  cout &lt;&lt; en_no_menseki(2.0) &lt;&lt; endl;
+  return 0;
+}</code></pre>
+
+<pre><code>// 円の面積を求める Rust プログラム。en_no_menseki.rs
+fn en_no_menseki(hankei: f64) -> f64 {
+   return std::f64::consts::PI * hankei * hankei;
+}
+
+fn main() {
+    println!("{}", en_no_menseki(2.0));
+}</code></pre>
+
+<!--<pre><code>// 円の面積を求める Java プログラム。Main.java
+public class Main {
+    public static double en_no_menseki(double hankei) {
+        return Math.PI * hankei * hankei;
+    }
+    public static void main(String[] args) {
+        System.out.println(en_no_menseki(2.0));
+    }
+}</code></pre>
+
+<pre><code>// 円の面積を求める C# プログラム。Program.cs
+using System;
+namespace ConsoleApp1
+{
+    class Program
+    {
+        private static double En_no_menseki(double hankei)
+        {
+            return Math.PI * hankei * hankei;
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine(En_no_menseki(2.0));
+        }
+    }
+}</code></pre>
+
+
+<pre><code>! 円の面積を求める十進 BASIC プログラム。en_no_menseki.bas
+10 DECLARE EXTERNAL FUNCTION EN_NO_MENSEKI
+20 PRINT EN_NO_MENSEKI(2.0)
+30 END
+40 EXTERNAL FUNCTION EN_NO_MENSEKI(HANKEI)
+50 LET EN_NO_MENSEKI=PI*HANKEI*HANKEI
+60 END FUNCTION</code></pre>-->
+
+<pre><code># 円の面積を求める Julia プログラム。en_no_menseki.jl
+function en_no_menseki(hankei)
+  return pi * hankei * hankei
+end
+
+println(en_no_menseki(2.0))</code></pre>
+
+<pre><code># 素数判定と素数を列挙する Julia プログラム。suu-a-p178-ren12-sosuu.jl
+# 「2 以上の自然数を入力して，その数が素数かどうかを判定するプログラムを作れ」
+# 「10000 以下の自然数の中で，最も大きい素数を探せ」
+# 「2 以上の自然数 N を入力して，N 以下の素数をすべて求めるプログラムを作れ」
+# 1994 年度新課程「計算とコンピュータ」『改訂版 高等学校 新編 数学 A』数研出版，1997 年，178 頁。例題 4，練習 12 ほかの Julia 1.3 での回答例。
+
+"素数判定 引数 x が素数であるかどうかを true か false の二値で返す。"
+function is_prime_number(x)
+  for i = 2 : x-1
+    if mod(x, i) == 0
+       return false
+    end
+  end
+
+  return true
+end
+
+"引数 x 以下の最大の素数 i を返す。"
+function extract_max_prime_number(x)
+  for i = x : -1 : 2
+    if is_prime_number(i) == true
+      return i
+    end
+  end
+
+  return 0
+end
+
+"引数 x 以下のすべての素数 a を配列で返す。"
+function extract_all_prime_numbers(x)
+  a = []
+  for i = x : -1 : 2
+    if is_prime_number(i) == true
+      append!(a, i)
+    end
+  end
+
+  return a
+end
+
+function main()
+  print("自然数 N を入力してください:")
+  print( extract_all_prime_numbers( parse( Int, readline() ) ) )
+  print(" [完了]\n")
+  return 0
+end
+
+main()</code></pre>
+
+<p>高校数学では一つの大きなゴールが微積分の習得で，そのゴールへの第一ステップとして等差数列を学習します。</p>
+<pre><code>// 等差数列を出力する TypeScript スクリプト。suu-b-p158-tousa.ts
+// 「初項と公差を入力して，第 1 項から第 30 項までの値を順に表示するプログラムを作れ」
+// 1994 年度新課程「算法とコンピュータ」『改訂版 高等学校 新編 数学 B』数研出版，1997 年，158-159 頁を TypeScript で書いたもの。
+
+var n = 1;
+var m = 30;
+var a = 7;
+var b = 7;
+
+while (n <= m) {
+  console.log(n + " " + a);
+  n += 1;
+  a += b;
+}
+
+/* 実行結果
+[LOG]: "1 7" 
+[LOG]: "2 14" 
+[LOG]: "3 21" 
+[LOG]: "4 28" 
+[LOG]: "5 35" 
+[LOG]: "6 42" 
+[LOG]: "7 49" 
+[LOG]: "8 56" 
+[LOG]: "9 63" 
+[LOG]: "10 70" 
+[LOG]: "11 77" 
+[LOG]: "12 84" 
+[LOG]: "13 91" 
+[LOG]: "14 98" 
+[LOG]: "15 105" 
+[LOG]: "16 112" 
+[LOG]: "17 119" 
+[LOG]: "18 126" 
+[LOG]: "19 133" 
+[LOG]: "20 140" 
+[LOG]: "21 147" 
+[LOG]: "22 154" 
+[LOG]: "23 161" 
+[LOG]: "24 168" 
+[LOG]: "25 175" 
+[LOG]: "26 182" 
+[LOG]: "27 189" 
+[LOG]: "28 196" 
+[LOG]: "29 203" 
+[LOG]: "30 210"
+*/</code></pre>
+
+<pre><code>% 等差数列を出力する Octave (MATLAB) プログラム。suu-b-p158-tousa.m
+% 「初項と公差を入力して，第 1 項から第 30 項までの値を順に表示するプログラムを作れ」
+% 1994 年度新課程「算法とコンピュータ」『改訂版 高等学校 新編 数学 B』数研出版，1997 年，158-159 頁を Octave (MATLAB) で書いたもの。
+
+function main()
+    n = 1;                      % 開始項
+    m = 30;                     % 終了項
+    a = 7;                      % 初項
+    b = 7;                      % 公差
+    while n <= m
+        disp([n, a]);
+        n = n + 1;
+        a = a + b;
+    end
+end</code></pre>
+
+<pre><code># 等差数列を出力する Julia プログラム。suu-b-p158-tousa.jl
+# 「初項と公差を入力して，第 1 項から第 30 項までの値を順に表示するプログラムを作れ」
+# 1994 年度新課程「算法とコンピュータ」『改訂版 高等学校 新編 数学 B』数研出版，1997 年，158-159 頁を Julia 1.3 で書いたもの。
+
+function main()
+  # 実行時引数として与えられた数値が 4 つでない場合に使い方を表示する。
+  if length(ARGS) !4
+    f = PROGRAM_FILE            # 使い方を表示するためにプログラム自身のファイル名を取得する。
+    println("使い方:\tjulia $f [等差数列の開始項] [終了項] [初項] [公差]")
+    println("実行例:\tjulia $f 1 30 7 7")
+
+    return 0                    # 値がないと計算できないのでここでプログラムを終了する。具体的にはこの main() ループを抜ける。
+  end
+
+  # 実行時に与えられた文字列型の数値を整数型の数値に変換してそれぞれの変数に格納する。
+  n = parse(Int, ARGS[1])       # 開始項 を第一引数から文字列として取得して整数型に変換する。
+  m = parse(Int, ARGS[2])       # 終了項 を第二引数（同上）
+  a = parse(Int, ARGS[3])       # 初項 を第三引数（同上）
+  b = parse(Int, ARGS[4])       # 公差 を第四引数（同上）
+
+  while n <= m
+    println("第 $n 項は $a")
+    n += 1
+    a += b
+  end
+
+  return 0
+end
+
+main()</code></pre>
+
+
+<pre><code>// 等差数列を出力する C++ プログラム。
+//「初項と公差を入力して，第 1 項から第 30 項までの値を順に表示するプログラムを作れ」
+// 1994 年度新課程「算法とコンピュータ」『改訂版 高等学校 新編 数学 B』数研出版，1997 年，158-159 頁を openFrameworks 0.11 で可視化したもの。
+// 参考: https://github.com/junkiyoshi/Insta20180126
+// main.cpp
+		ofSetupOpenGL(1280,720, OF_WINDOW); 
+		//ofSetupOpenGL(1920,1080, OF_FULLSCREEN); // Alt+F4 や kill -TERM などで終了。
+// ofApp.h
+		ofEasyCam cam;
+		ofLight light;
+// ofApp.cpp
+//--------------------------------------------------------------
+void ofApp::setup(){
+	ofSetFrameRate(60);
+	ofBackground(0);
+	ofSetWindowTitle("Tousa-suuretsu");
+	ofEnableDepthTest();
+	ofEnableLighting();
+	this->light.enable();
+}
+
+//--------------------------------------------------------------
+void ofApp::update(){
+
+}
+
+//--------------------------------------------------------------
+void ofApp::draw(){
+	this->cam.begin();
+	this->light.setPosition(this->cam.getPosition());
+	int32_t size = 30;
+	int32_t i = 1;
+	int32_t j = 100;
+	int32_t b = 1;
+	while (i <= j) {
+		int32_t n = 1;
+		int32_t m = 100;
+		int32_t a = 1;
+		while (n <= m) {
+			// OpenGL 右手座標系 右:x 高さ:y 手前:z
+			ofDrawBox(ofPoint(1*size, a*size, -i*size), size * 0.95, size * 0.95, size * 0.95);
+			n += 1;
+			a += b;
+		}
+		b += 1;
+		i += 1;
+	}
+	this->cam.end();
+}</code></pre>
+<figure><img class="img-responsive" src="of-tousa.png" width="100%"><figcaption>openFrameworks-0.11.0-linux-armv6l による等差数列の可視化のスクリーンショット。開始項 1，終了項 100，初項 1，公差 1-100 の等差数列。</figcaption></figure>
+<pre><code>//--------------------------------------------------------------
+void ofApp::draw(){
+	this->cam.begin();
+	this->light.setPosition(this->cam.getPosition());
+	int32_t size = 30;
+	int32_t k = 1;
+	int32_t l = 30;
+	int32_t c = 1;
+	while (k <= l) {
+		int32_t i = 1;
+		int32_t j = 30;
+		int32_t b = 1;
+		while (i <= j) {
+			int32_t n = 1;
+			int32_t m = 30;
+			int32_t a = 1;
+			while (n <= m) {
+				// 確か OpenGL は右手座標系なので 右:x 高さ:y 手前:z
+				ofDrawBox(ofPoint(c * size, ((c-1) + a) * size, b * size), size * 0.95, size * 0.95, size * 0.95);
+				// キューブ状配置
+				//ofDrawBox(ofPoint(n * size, i * size, k * size), size * 0.95, size * 0.95, size * 0.95);
+				a += b;
+				n += 1;
+			}
+			b += 1;
+			i += 1;
+		}
+		c += 1;
+		k += 1;
+	}
+	this->cam.end();
+}</code></pre>
+<figure><img class="img-responsive" src="of-tousa2.png" width="100%"><figcaption>openFrameworks-0.11.0-vs2017 による等差数列の可視化のスクリーンショット。開始項 1，終了項 30，初項 1-30，公差 1-30 の等差数列でおそらく正の整数での全パターン。</figcaption></figure><figure><img class="img-responsive" src="of-cube.png" width="100%"><figcaption>openFrameworks-0.11.0-vs2017 による等差数列の可視化のスクリーンショット。等差数列の変形元として作成した 30 * 30 * 30 = 27,000 個の箱。等差数列が xyz 全軸 1 の図形。</figcaption></figure>
+<pre><code># バッファロー製ルータの SSID の 16 進数部分を再度振り出したい。random-hex.py
+# ルータを移動させた場合などに混信を防ぐ目的で SSID を変更したいことがある。SSID「Buffalo-A-FFFF」の 16 進数の 4 桁の最大値の FFFF<sub>16</sub> を Windows の電卓のプログラマーモードに入れると 65,535<sub>10</sub> と出るのでその範囲で整数乱数を振り出して 16 進数に戻す。
+import random
+rnd = random.randint(0, 65535)
+print(hex(rnd))</code></pre>
+
+<!--<pre><code># バッファロー製ルータの SSID の 16 進数部分を再度振り出したい。randomhex2.py
+# 直接 16 進数で範囲指定して振り出す。
+import random
+print(hex(random.randint(0x0, 0xFFFF)))</code></pre>-->
+
+<pre><code># バッファロー製ルータの SSID の 16 進数部分を再度振り出したい。
+# 表計算ソフト
+=DEC2HEX(RANDBETWEEN(0,65535))</code></pre>
+
+<!--<pre><code># バッファロー製ルータの SSID の 16 進数部分を再度振り出したい。
+# カシオ計算機 fx-JP500
+[RanInt][0][,][65535][)][=][HEX]</code></pre>-->
+
+<h4>放送部関係の SDK</h4>
+<p>放送部関係ではブラックマジックデザインやソニーの一部機器はユーザプログラミング用の SDK が出ています。さらに弱電の知識があれば放送卓やミキサーの外部コントロール端子または内部の配線を Raspberry Pi や Arduino から操作できます。</p>
+<ul>
+<li>『Interface』誌など。
+</ul>
+
+<h2 id="uniq-id-0.1816803578888161">書店</h2>
+<p>2020 年現在映像制作や映画制作の本を買おうと思うと専門性が高すぎて大型の書店にしかないかもしれません。</p>
+
+<h3>福井市内</h3>
+<ul>
+<li>勝木書店（福井県全域ほか，大型店には専門書あり。新二の宮店 900 坪）
+<li>阿部書店
+<li>じっぷじっぷ
+<!--<li>福井大学生協ブックショップ明日輪（文京キャンパスカフェテリア二階，生協のウェブサイトによるとキャンパス人口 は 1,100）-->
+</ul>
+<ul>
+<!--<li>紀伊國屋書店（専門書あり）
+<li>ヴィレッジヴァンガード（サブカル系の画集などの趣味性の高い専門書，漫画）-->
+<li>ツタヤブックストア（ワイプラザ新保店 13 万冊 福井新聞 2019/11/23）
+</ul>
+<h3>石川</h3>
+<ul>
+<li>明文堂書店（金沢ビーンズ金沢県庁前本店 1,269 坪 80 万冊）
+</ul>
+<h3>京都</h3>
+<ul>
+<li>丸善ジュンク堂
+<li>大垣書店
+</ul>
+<h3>大阪</h3>
+<ul>
+<li>丸善ジュンク堂（梅田店 2,060 坪）
+<li>紀伊國屋書店（グランドフロント大阪店 1,060 坪）
+</ul>
+<h3>東京</h3>
+<ul>
+<li>丸善ジュンク堂（池袋 2,000 坪）
+<li>紀伊國屋書店（新宿本店本館別館 1,450 坪，新宿南店 1,245 坪）
+<li>八重洲ブックセンター（八重洲本店 1,800 坪）
+<li>三省堂（神保町本店 1,000 坪）
+</ul>
+<h2 id="uniq-id-0.8929126639256778">古書店</h2>
+<p>日本の古書店というウェブサイトから古書店組合に加入している古書店を検索できます。</p>
+<p>個人情報の取り扱いが大丈夫そうな店かどうかの判断に自信のある方，または個人情報よりも本が安く買える利益のほうが大きい方はオンライン購入だと在庫が多くおすすめです。私は後者です。<p>
+<ul>
+  <li><a href="https://www.kosho.or.jp/">日本の古本屋</a>
+  <li>ブックオフオンライン
+</ul>
+<h3>大阪</h3>
+<ul>
+<li>阪急古書のまち
+</ul>
+<h3>東京</h3>
+<ul>
+<li>神田古書店街
+</ul>
+
+<h2 id="uniq-id-0.10903200537654753">Wi-Fi スポット</h2>
+<p>ご自宅の Wi-Fi ルータのほかに出先でも Wi-Fi に接続できれば通信費を下げられます。このためヘビーユーザーは転送量を積極的に Wi-Fi に振るべく通学路の Wi-Fi スポットも考慮する必要があります。福井鉄道は車内にソフトバンクの Wi-Fi スポットが設置されているとありますが 2012 年の記事なので 2020 年現在は不明です。えちぜん鉄道は主要駅にドコモとソフトバンクの Wi-Fi スポットが設置されていて西別院駅，松岡駅など駅によってはソフトバンクのみのようです。JR 福井駅は三キャリアとも設置されているようです。このほか自治体の設置するフリースポットが公立図書館，公立博物館，公立美術館，福井駅周辺，田原町駅，福井中央公園，幾久公園，福井運動公園，足羽山公園などにあります。</p>
+
+<!--
+<h3>NTT ドコモのスポット</h3>
+
+<p>NTT ドコモのスポットは福井市内だと次の通りです。ドコモショップ，JR 福井駅，えちぜん鉄道福井駅，福井駅西口広場，福井口駅，福大前西福井駅，赤十字前駅，福井鉄道花堂駅，ベル前駅，浅水駅，新幹線車内，福井中央公園，福井駅前商店街，福井工業大学，福井県自治会館，ハピリン，ハピテラス，エルパニシムラカフェ前，エルパフードコート，<strong>各コンビニ，各ファストフード店，各コーヒー店</strong>（これは現在進行形の経験談なのですがコーヒーは依存性が強くて人生に於いてただひたすら無駄にお金を使うことになるので，入店の際にはコーヒーの代わりにミルクティーかチャイかココアまたはドーナツなどのフードメニューを注文することを強く強くおすすめします。），各銀行，西武百貨店，一部のヤスサキグルメ館，100 満ボルト，ジョーシン，ケーズデンキ，ホームセンターみつわ菅谷店，一部の調剤薬局，出光興産ブランドのガソリンスタンドの多く，スズキ自販北陸，北陸マツダ，ネクステージボルボ・カー福井，イエローハット，オートバックス，護国神社，足羽神社，佐佳枝廼社。</p>
+
+<h3>KDDI 系列のスポット</h3>
+
+<p>KDDI の au ブランドおよび KDDI 子会社のワイヤ・アンド・ワイヤレスのスポットは前述のドコモとの重複分を除くと次の通りです。au ショップ，ココイチ，すかいらーく系のファミレス，トヨタ系ディーラー，福井トヨペットフォルクスワーゲン福井ルート 8，アップガレージ，ジェームズ，トヨタレンタリース，パレットプラザ，ホームセンターみつわ四ツ井店・江守店，JAL のラウンジ，2 りんかん。</p>
+
+<h3>ソフトバンクのスポット</h3>
+
+<p>ソフトバンクのスポットは前述のドコモ，au との重複分を除くと次の通りです。ソフトバンクショップ，えちぜん鉄道の一部の駅，すき家，アピタ，紀伊國屋書店福井店，福井スズキ自動車販売，スズキオート福井，北陸スバル，福井日産，日産プリンス福井販売，ホンダ四輪販売北陸ホンダカーズ福井，あおい商事モトーレン福井，ポルシェセンター福井・シトロエン福井など福井ヤナセ運営店舗の一部，あおい商事エネオスの一部店舗。</p>
+
+<h3>自治体のスポット</h3>
+
+<p>福井市が提供するスポット（SSID: WiWi_Fukui_City_Free_Wi-Fi）は次の通りです。<strong>福井駅周辺，田原町駅</strong>ほか。福井市が提供するスポット（FREESPOT としての提供）は次の通りです。<strong>福井市立図書館，みどり図書館，公民館全館</strong>ほか。福井市と各事業者が提供するスポット（SSID: WiWi_Fukui_City_Free_Wi-Fi_Lite）は次の通りです。北陸自動車学校など。</p>
+
+<p>福井県が提供するスポット（NTT BP の Japan Connected-free Wi-Fi としての提供）は次の通りです。<strong>福井県立図書館</strong>，幾久公園，福井運動公園ほか計 20 施設。このほか FREESPOT として福井県立病院図書室周辺など。</p>
+
+<h3>そのほかのスポット</h3>
+
+<p>このほか独自に Wi-Fi を提供している主なスポットは次の通りです。アオッサ，パリオシティ 1 階セントラルコート，ショッピングシティベル，セブンイレブン，ローソン，ファミリーマート，各ファストフード店，各コーヒー店，ウエルシア薬局，マツモトキヨシ，ドン・キホーテ，カメラのキタムラ，各家電量販店，小松空港，ANA 機内，JAL 機内，新日本海フェリー，NEXCO 中日本 北陸自動車道 SA/PA 24 箇所，各高速バス，一乗谷あさくら水の駅など。</p>
+
+-->
+
+<h3>VPN による安全性の確保</h3>
+
+<p>Wi-Fi スポットはセキュリティにご注意ください。通信キャリアが高セキュリティスポットとして暗号化して提供している以外の FREESPOT などの公衆 Wi-Fi に接続される際は VPN の使用をおすすめします。ご面倒であれば VPN 分の費用を SIM の転送量のチャージに回してフリースポットは一切使わないのも手です。このほか Wi-Fi 以外で転送量を削る方向性だとウェブブラウザによっては転送量の圧縮オプションもあるようです。</p>
+
+<figure><img class="img-responsive" src="wifi-dwifi.png" width=50%><figcaption>NTT ドコモの d アカウントアプリ内の d Wi-Fi 設定画面<br />自動で接続するかしないかの設定のみなので簡単です。</figcaption></figure>
+
+<figure><img class="img-responsive" src="wifi-au.png" width=50%><figcaption>au Wi-Fi アクセスアプリ<br />VPN のステータス表示やエリア検索の機能があります。自治体の観光客向けフリースポットを自動接続先含めるかどうかの設定項目もあります。</figcaption></figure>
+
+<figure><img class="img-responsive" src="wifi-vpn.png" width=50%><figcaption>VPN 設定画面</figcaption></figure>
+
+<h2 id="uniq-id-0.10903208537654752">大学公開講座／市民講座／オープンエデュケーション／放送大学</h2>
+<p>番組制作のテーマの重なったもののほか，単純に自分の興味のものでもおすすめです。対人の公開講座の場合はいくつか質問できる程度に予習していくことをおすすめします。素人質問でも答えてもらえるので恥ずかしがらずに手を挙げて「見当違いな質問かもしれないのですが」「素人質問なのですが（大学では自分の専門外の質問をする場合これが決まり文句で明らかにわかっている先生が学生相手に冗談としても使います）」と発言してみてください。</p>
+<p>質問する際は可能であれば録画して映像の使用許諾をもらってください。</p>
+<h3>公開講座</h3>
+<ul>
+  <li><a href="http://chiiki.ad.u-fukui.ac.jp/course/lecture/">福井大学</a>
+  <li><a href="http://www.s.fpu.ac.jp/openfpu/">福井県立大学</a>
+  <li><a href="http://tsuruga-nu.ac.jp/publics/index/78/">敦賀市立看護大学</a>
+  <li><a href="http://www.fukui-ut.ac.jp/school_lecture/">福井工業大学</a>
+  <li><a href="https://www.fukui-hsu.ac.jp/contribution/seminar/">福井医療大学</a>
+  <li><a href="https://www.jindai.ac.jp/local/publiclecture/">仁愛大学</a>
+  <li><a href="https://www.jin-ai.ac.jp/about/open_college/">仁愛女子短期大学</a>
+  <li><a href="https://www.fukui-nct.ac.jp/others/lecture/">国立福井高専</a>
+  <li>専門学校，専修学校など。
+</ul>
+<h3>オープンエデュケーション</h3>
+<ul>
+<li><a href="https://www.youtube.com/channel/UCqmWJJolqAgjIdLqK3zD1QQ">予備校のノリで学ぶ「大学の数学・物理」</a>（大学数学物理）
+<li><a href="https://www.youtube.com/channel/UCzDd3Byvt91oyf3ggRlTb3A">とある男が授業をしてみた</a>（中学校高校数学）
+</ul>
+<!--
+<ul>
+<li>大阪大学――大阪大学オープンコースウェア
+<li>九州大学――九州大学オープンコースウェア
+<li>京都大学――京都大学オープンコースウェア
+<li>国際基督教大学――国際基督教大学オープンコースウェア
+<li>上智大学――上智大学オープンコースウェア
+<li>女子栄養大学――女子栄養大学オープンコースウェア
+<li>筑波大学――筑波大学オープンコースウェア
+<li>東京工業大学――東京工業大学オープンコースウェア
+<li>東京大学――東京大学オープンコースウェア
+<li>同志社大学――同志社大学オープンコースウェア
+<li>名古屋大学――名古屋大学オープンコースウェア
+<li>北海道大学――北海道大学オープンコースウェア
+<li>放送大学――放送大学オープンコースウェア
+<li>立命館大学――立命館大学オープンコースウェア
+<li>早稲田大学――早稲田大学オープンコースウェア
+<li><a href="https://ocw.mit.edu/index.htm">マサチューセッツ工科大学</a>
+</ul>
+-->
+<h3>放送大学</h3>
+<p>テキストは公立図書館，大学図書館にあります。</p>
+<ul>
+<li>BS デジタル放送
+<li>BS デジタルラジオ放送
+</ul>
+<h3>NHK 学園高校課程</h3>
+<ul>
+<li>地上デジタル放送――NHK 教育テレビジョン
+<li>radiko および AM 放送――NHK ラジオ第 2 放送
+<li>NHK ウェブサイト
+</ul>
+<h2 id="uniq-id-0.4791154932034254">映像資料</h2>
+<p>2018 年現在すでに少なくなっていますが，テレビ放送やウェブサービス以外でドキュメンタリ，映画，ドラマを視聴する手段としてレンタルビデオ店，図書館，公営の映像ライブラリなどがあります。</p>
+<ul>
+  <li>地上波
+  <li>衛星放送
+  <li>ケーブルテレビ
+  <li>IPTV
+</ul>
+    
+<ul>
+  <li>VOD（NHK ビデオオンデマンド）
+  <li>映像配信サービス（YouTube）
+</ul>
+<ul><li>図書館，博物館，科学館，資料室等の映像ライブラリ</ul>
+<ul>
+<li>ツタヤ
+<li>ゲオ
+</ul>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/DI7BbngUbTE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3><a href="https://ja.wikipedia.org/wiki/Category:%E3%83%86%E3%83%AC%E3%83%93%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%82%BF%E3%83%AA%E3%83%BC%E7%95%AA%E7%B5%84">ドキュメンタリー番組</a></h3>
+<ul>
+<li>BS 世界のドキュメンタリー
+<li>NHK スペシャル
+<li>ETV 特集
+<li>プロフェッショナル仕事の流儀
+<li>ドキュメント 72 時間
+<li>サラメシ
+</ul>
+<h2 id="uniq-id-0.4285101879118769">家電量販店</h2>
+<p>家電量販店では放送部的にはスーパーやホームセンターにないメディア，ケーブル類が買えます。また，大会遠征時に売り場面積の大きな店舗（ヨドバシ梅田，ヨドバシアキバなど）へ行くと普段触れないカメラ，三脚，ヘッドフォンに触れます。</p>
+<h3>福井</h3>
+<ul>
+<li>100 満ボルト（エディオン系列）
+<li>ケーズデンキ
+<li>ジョーシン
+<li>ヤマダ電気
+</ul>
+<h3>秋葉原など</h3>
+<ul>
+<li>ヨドバシカメラ
+<li>ソフマップ（ビックカメラ系列）
+<li>ツクモ（ヤマダ電機系列）
+</ul>
+
+<h2 id="uniq-id-0.18395769935746664">電子部品</h2>
+<h3>福井</h3>
+<ul>
+<li>マルツ福井二の宮店（福井市豊島のマルツ電波から 2010 年に東京都千代田区外神田のマルツエレックとして分離）
+</ul>
+<h3>通販</h3>
+<ul>
+<li>マルツオンライン
+<li>秋月電子
+</ul>
+
+<h2 id="uniq-id-0.031624628688992185">ホームセンター</h2>
+<p>変わったサービスとして複合機の 5 円コピーなどがあります。</p>
+<h3>地元資本</h3>
+<ul>
+<li>PLANT
+<li>みつわ
+<li>ヤマキシ
+<li>ヤスサキワイホーム
+</ul>
+<h3>県外資本直営またはフランチャイズ</h3>
+<ul>
+<li>DCM カーマ
+<li>コメリパワー
+<li>ムサシ
+</ul>
+
+<h2 id="uniq-id-0.031625628688992185">スーパーマーケット</h2>
+<p>変わったサービスとして複合機の 5 円コピーなどがあります。</p>
+<h3>地元資本</h3>
+<ul>
+<li>ハーツ 福井県民生活協同区組合
+<li>A コープ 株式会社 JA 福井市ライフサービス，全国 A コープ協同機構
+<li>ハニー
+<li>ヤスサキ
+<li>PLANT
+</ul>
+<h3>県外資本直営またはフランチャイズ</h3>
+<ul>
+<li>アピタ ユニー（ドンキホーテ傘下）
+<li>平和堂
+<li>バロー
+<li>プリズムマート 金沢ターミナル開発（JR 西日本傘下）
+</ul>
+
+<h2 id="uniq-id-0.031625629688992185">ドラッグストア</h2>
+<p>変わったサービスとして複合機の 5 円コピーなどがあります。</p>
+<h3>地元資本</h3>
+<ul>
+<li>ゲンキー
+</ul>
+<h3>県外資本直営またはフランチャイズ</h3>
+<ul>
+<li>クスリのアオキ
+<li>マツモトキヨシ
+<li>ウエルシア
+<li>スギ薬局
+</ul>
+
+<h2 id="uniq-id-0.3033490605408393">コンビニ</h2>
+<h3>サービス</h3>
+<ul>
+<li>複合機
+<ul>
+<li>コピー
+<li>PDF 化した文書ファイルの印刷
+<li>写真の印刷
+<li>A3 サイズのスキャン
+<li>決済
+</ul>
+<li>コンビニ ATM
+<ul>
+<li>銀行口座の入出金（セブン銀行 ATM，ローソン銀行 ATM，ゆうちょ銀行 ATM ほか）
+<li>前払式電子決済のチャージ（セブン銀行 ATM，ローソン銀行 ATM）
+</ul>
+<li>宅配便
+</ul>
+<h2 id="uniq-id-0.5767605267573502">リサイクルショップ／質屋</h2>
+<ul>
+<li>ハードオフ（全国）
+<li>コメ兵（愛知）
+<li>ソフマップの中古専門店舗（東京）
+</ul>
+<ul>
+<li>マルツの中古コーナー
+<li>キタムラの中古コーナー
+<li>個人質店――大きめの店舗だとカメラ，映像，音響機器が置いてあったりします。
+</ul>
+<ul>
+<li>PC メーカー直販サイトのリフレッシュ PC
+</ul>
+<h2 id="uniq-id-0.1940799241063479">ネットオークション／ネットフリーマーケット</h2>
+<p>書籍などの個人出品であっても最低限の品質が望める商品であれば我々買い手の側が初心者でも有りかと思います。</p>
+
+<h2 id="uniq-id-0.8572429169815576">ツール</h2>
+<h3>最小限必要かつ十分なツール</h3>
+<p>PC やカメラそのほかは部室にありますのでオフラインで活動する場合はノートとペンと図書館の利用者カードだけあれば十分に活動できます。</p>
+<dl>
+<dt>ネタ帳兼作業日誌用のノート
+	<dd>いわゆる取材ノートです。たとえば NHK の制作スタッフがノウハウ共有のために取材ノートを公開しています。「NHK 取材ノート」で検索してみてください。
+	<dd>思いついたことややってみたこと頭に浮かんできた絵コンテは書き留めておかないともったいないのでぜひ小ぶりのノートを買って逐次書きためてみてください。入手性でいうとコンビニで買える小さいノートがおすすめです。放送部の活動の根幹のものなので部費で全員分まとめて高価格帯のカバーノートを買うのもありだと思います。
+	<dd>検索性のためにページ単位でもいいので年月日を必ず書いておくことをおすすめします。
+<dt>加圧ボールペン
+	<dd>加圧ボールペンは上向きでも紙が雨で水に濡れても書けますので放送部向きです。ほかに指名買いのボールペンがなければお試しください。
+	<dd>加圧ボールペンは<a href="https://www.mpuni.co.jp/products/ballpoint_pens/ballpoint/powertank/standerd.html">三菱鉛筆 パワータンク</a>か<a href="https://www.pilot.co.jp/products/pen/ballpen/oil_based/down_force_r/">パイロット ダウンフォース</a>がおすすめです。インク色はこだわりがなければ青インクがおすすめです。通常，提出書類などの一般筆記の色として問題がなく，モノクロの資料に書き込んだときも読みやすいためです。
+<dt>加圧ボールペン以外のボールペン
+	<dd>多色ボールペンも一本あると制作資料への書き込みに便利です。ただノック式でさらに多色だと機構が複雑になるぶんペンのほうが筆圧に負けてガタが出やすいので筆圧が特に高い方は耐久性にコストを掛けたものを選ぶか，シンプルに単色でキャップ式のボールペンを複数本使うほうがストレスなく書けます。
+	<dd>訂正が簡単な熱消去性インクのボールペンもあります。誤字で二重打ち消し線だらけの書類を人に見せるのが嫌でボールペンが苦手だという方におすすめです。書籍への書き込みにも使えます。ただしインクの特性として消去性の獲得と引き替えにインクの発色とインクフローがやや犠牲になる感じです。
+<dt>図書館の利用者カード
+	<dd>自治体図書館の利用者登録を予めしておくと番組制作の行程を進めやすくなります。
+</dl>
+
+
+<h3>必須ではないものの実用性の高いツール</h3>
+<p>なくても支障なくてあれば便利という程度のものです。</p>
+<dl>
+<dt>4B 前後の柔らかいシャープペンシルの芯または 14 金以上の万年筆と顔料インク
+	<dd>浮かんだアイデアを逃げないうちに書き留めるのに便利です。
+	<dd>シャープペンも顔料インクも水酸素日光に強く保存性が高いので記録用途に向きます。
+<dt>四つ股のページホルダまたは書見台
+	<dd>資料の読み込みに便利です。
+	<dd>大きめの書見台はホームセンターで木材をカットしてもらって接着剤で自作が安いような気がします。書見台をモニターアームで固定する組み方もあります。
+<dt>スマートフォン
+	<dd>スマホは放送部としてはサブカメラ，メインカメラ，ボイスレコーダ，音源，ストップウォッチ，辞書，メモ帳，台本の読み書き，製作資料の表示装置としても使用します。
+	<dd>コストパフォーマンスでいうと 2020 年 8 月現在はアップルの二代目 iPhone SE またはグーグル Pixel 4a が良さそうに見えます。アップルはプライバシー保護の重視を明確に打ち出していて iOS は Android よりもプライバシー設定が厳格になっています。他方 Android の開発元であるグーグル純正のスマートフォンは OS のセキュリティサポート期限（EOL: End of Life）が明示されているのが非常に良いです。ただ iPhone は競合の Pixel より長くサポートされるのが通例のようでどちらを選ぶべきか悩ましいところです。さらにユーザとしてはその長いサポートを支えているであろうアップル税やグーグルを支える広告事業による諸々の影響も一瞬考慮する必要があります。
+	<dd><!--国産下位グレードの Andorid 端末は Android One という仕組みで発売から 3 年間のサポートが明示されている一方で国産上位グレードの Android 端末はキャリアによってサポート期間が微妙に異なるので少しだけ選びにくいというのが本音です。例えば最終の更新が 2020 年で止まっている 2017 年発売の国産端末だと結果的なサポート期間が概ね発売から 3 年程度で，EOL が明示されている Pixel シリーズや Android One 端末と同等であると考えられますがキャリアや Android 側の仕様変更やそのほかの条件によってこれより短くなるケースもあります。逆に-->国産端末の良い面としては日本語フォントが凝っていることがあって，個人的にはおそらくフォントワークス製のソニー UD ゴシックフォントを標準搭載しているソニーモバイルの Xperia シリーズが好きです。他にはシャープの AQUOS シリーズはモリサワの新ゴだそうです。海に山に持って行けるタフスマホだと自動的に京セラ TORQUE シリーズになります。
+	<dd>Android を選ぶか iPhone 選ぶかはシェアという切り口だと 2020 年現在のスマートフォンの世界シェアは Android の 85% に対して iPhone が 15% のようです。ただわが国だと iPhone のシェアがざっくり 2/3 前後でもっと高くなるようです。わが国の女性に限定するとさらに高くなります。
+	<dd>アプリケーションの個人開発者目線では開発者ライセンスはグーグルのほうが確実に安いのと macOS のコンピュータを用意しなくても開発できる点で開発コストはさらに安くなります。開発言語として Swift と Java/Kotlin のどちらが好みかという話もあります。公平を期すために自身の立場を補足しておくと iPhone も iPad も Mac も所有したことがない Android ユーザで Andorid アプリの開発者ライセンスを購入していて Swift は触ったことがありません。
+<dt>通信回線
+	<dd>とにかく Wi-Fi に繋いでおけばほとんどのケースで通信料を抑えられます。ご自宅に定額制のブロードバンド回線または WiMAX ルータなどがある場合はご自身のスマートフォンを必ずそちらに接続するように設定して SIM 側の転送量を減らすようにしてみてください。NTT や KDDI からホームゲートウェイが貸し出されている場合はバッファローや NEC の無線ルータを購入して AP モードでホームゲートウェイに接続すると無線で接続できるようになります。
+	<dd>通話 SIM を選ぶ際は通信大手三キャリア以外だと KDDI (au) の UQ mobile が安心かなと思います。たとえば三井住友海上のワンデイ保険の加入に使えるキャリアが三大キャリアと UQ mobile と Y!mobile という大手キャリアのサブブランドまでです。
+<dt>電子辞書
+	<dd>国語辞典，百科事典，アクセント辞典，英英辞典を主に使用します。授業で使えないと困るので学校指定のものをおすすめします。また学校指定がなければランニングコスト的には乾電池式を採用していて汎用の二次電池が使えるカシオ計算機製の電子辞書をおすすめします。
+	<dd>ちなみにある程度長く使われている放送室であれば紙媒体の各種辞典が置いてあります。
+<dt>関数電卓またはグラフ電卓
+	<dd>ハードウェアキーの関数電卓を一台持っておいて損はないと思います。学校の指定がない場合，学校専売機種でない一般販売の関数電卓では 2020 年現在カシオ計算機 fx-375ES A（2020/09 現在ヨドバシドットコムで 2,130 円）とシャープ EL-501J（2020/09 現在ヨドバシドットコムで 844 円）のどちらかまたは両方をおすすめします。両方買って片方を予備として鞄または部室に投げ入れておくと無くしたり貸したり電池が切れたりしても万全です。全長の短さでいうとキヤノン F-605G（2020/09 現在ヨドバシドットコムで 891 円）は胸ポケットから上部が飛び出ないサイズで持ち歩きに適しています。ただ国内仕様の F-605G はやや押下しにくいゴムキーになります。
+	<!--<dd>グラフ電卓はわが国ではカシオ計算機製のものが入手しやすく，米国では TI-84 Plus シリーズが人気です。好事家のあいだでは比較的最近登場したフランス産の NumWorks の人気が高くなっています。TI 製電卓の 入手方法としては新品は米国アマゾンから購入するのが一般的なようです。中古でよければ複数箇所のハードオフに TI 製の Voyage 200 というグラフ電卓が並んでいるのを見かけたことがあります。-->
+	<figure><img class="img-responsive" src="el501jx.jpg"><figcaption>シャープ EL-501J（シャープウェブサイトより）<br />標準入力タイプの関数電卓。ある程度ややこしい計算はパソコン上の表計算ソフトか数値計算ソフト（<code>octave</code>）か数式処理ソフト（<code>maxima</code>）を使用します。</figcaption></figure>
+	<figure><img class="img-responsive" src="scientificcalc.png"><figcaption>OS 標準の関数電卓<br />手前：x11-apps の <code>xcalc</code> 1.0.6（X コンソーシアム，1994 年）の TI-30（1976 年）互換モード。奥：電卓 10.2010.0.0（マイクロソフト，2020 年）。Android はバージョン 5 以降で関数電卓が搭載されていて，Android 11 だと電卓右側を引っ張るか横向きにすると関数キーが出てきます。&#x212F; キー，&pi; キーを押すとどえらい桁数が出てきます。</figcaption></figure>
+<!--	<figure><img class="img-responsive" src="bc-e.png" width=75% height=75%><figcaption><a href="https://ja.wikipedia.org/wiki/Bc_(UNIX)">任意精度演算コマンド</a><br />任意精度の計算機では <code>BC_SCALE_MAX</code> にある通り 21 億桁まで扱えるようです。画像はおそらく最も一般的な GNU の <code>bc</code> コマンド。マニュアルによると <code>-e</code> オプションで引数の式の評価，<code>-l</code> オプションで数学ライブラリ読み込み，<code>scale</code> が小数点以下の桁数だそうです。<code>bc</code> の場合もほかのプログラミング言語と同じように実際に使用される前に除算や丸め誤差について仕様を確認されることをおすすめします。<code>bc</code> は POSIX 規格で標準化されているため比較的どこの OS でも用意されているコマンドで，組み込みに多い BusyBox 環境にも収録されていて個人的にはその昔 PDA の SL-A300 で走らせた覚えがある気がします。<a href="https://ja.wikipedia.org/wiki/%E4%BB%BB%E6%84%8F%E7%B2%BE%E5%BA%A6%E6%BC%94%E7%AE%97">Wikipedia の任意精度演算のページ</a>によると <code>mathematica</code> や <code>maxima</code> のような CAS も他のソフトウェアと同じく GMP というライブラリを使用していて任意精度演算ができるらしいのでこの手の CAS のほうが除算や丸め誤差を人間寄りにケアしてくれて 21 億桁の普段使いにはよさそうです。</figcaption></figure>
+	<figure><img class="img-responsive" src="mathematica-e1000.png"><figcaption>Wolfram Mathematica 12.0<br />e を 1,000 桁表示する。</figcaption></figure>
+	<figure><img class="img-responsive" src="maxima-e1000.png"><figcaption>Maxima<br />有効桁数を 1,000 桁にする。定数 e を多倍長浮動小数に変換する。</figcaption></figure>-->
+	
+<dt>実務電卓
+	<dd>学校専売機種でない一般販売の実務電卓で簿記試験対応のものでは 2019 年現在キヤノン HS-1220TUG が安くて高性能なようです。
+
+
+<!--
+
+<dt>クレジットカードブランドのデビットカードまたはプリペイドカードまたはクレジットカード
+	<dd>電子書籍の購入やブックオフオンラインでの古書の購入や米国アマゾンドットコムでの注文など各種ウェブサービスの決済に使用します。海外のサービスは PayPal などのサービスをかませて決済するとやや安心です。
+	<dd>VISA デビットカードは満 15 歳以上，VISA プリペイドカードは満 6 歳以上で作成できます。クレジットカードは中高生では基本的には作成できないのでクレジットカードをお持ちでない場合はデビットカードをおすすめします。ブランドは VISA か JCB ならほぼどこでも大丈夫です。2020 年現在 MasterCard デビットは再参入の後発で参加銀行が少なくなっています。デビットカードのデメリットとしてはクレジットカードと比べてデビットカードは月額の支払いに使えないことが多いのとガソリンスタンドのような即時決済でない店舗では使用できないようになっています。例外としてガソリンスタンドで使えるデビットカードも少数あるようです。
+	<dd>銀行を特に使い分けない場合は自宅から一番近い福井銀行や北陸銀行または北國銀行で VISA デビットカードまたは JCB デビットカードを作成してみてください。
+	<dd>預金の不正利用防止などのために銀行を決済用口座と貯蓄用口座で使い分ける場合は，決済用口座としては都市銀行またはネット銀行または流通系の銀行のいずれかの銀行またはそれらの銀行の組み合わせが便利かなと思います。
+	<dd>ネット銀行をメインに利用する際の注意点として，地元に支店があれば災害時にキャッシュカードを持っていなくても銀行の支店に並んで本人確認でき次第引き出し可能ですが多くのネット銀行ではこれができません。また公共料金の口座振替に対応していない場合がほとんどです。
+	<dd>貯蓄用口座としては近所に支店があって融資先の選択に共感できてかつ将来自分に住宅購入資金や自動車購入資金や事業資金を貸してくれそうな金融機関（e.g. 北陸ろうきん，福井信用金庫，JA バンク，JF マリンバンク，商工中金，福井銀行，福邦銀行，北陸銀行，北國銀行，ゆうちょ銀行，三井住友銀行，みずほ銀行，三井住友信託銀行など）に口座を開設して可能であればオンラインバンキングにもデビットカードにも申し込まずにオフラインにしておくのが一番安全です。
+	<dd><a href="https://www.smbc-card.com/prepaid/index.jsp">プリペイドカード</a>は 14 歳以下でも作成できる点や銀行口座が必要ない点が魅力です。ただし銀行口座と紐付けされていない分店舗側からの信頼性が下がるので本人確認用途に使えないのとデビットカードよりも決済が通らないサービスが増えます。
+	<dd>バーコード読み取り式やそのほか非接触式のキャッシュレス決済だと現金を介した物理接触が減って感染症の予防効果もあるようです。その反面，現金決済よりも匿名性が大きく失われます。
+-->
+
+<dt>キーボード
+	<dd>ブルートゥース接続のキーボードであればパソコンやスマホやタブレットと無線接続して番組制作に使用できます。USB 接続のキーボードでも変換アダプタでスマホなどと接続できる場合があります。
+	<dd>さらに US 配列キーボードであれば米語圏で作られたソフトウェアとプログラミング言語のキー操作が自然になるほか，バックスペース，エンター，スペースを打鍵しやすくなります。国産のノート PC では VAIO の一部モデルが伝統的に US 配列を選択できます。US キーボードを日本語 Windows のコンピュータに繋ぐ場合は右 Alt キーを半角全角キーにするための ax ドライバを当てるためにレジストリの書き換えが必要になるかもしれません。
+<dt>USB メモリ／メモリーカード／ポータブル HDD／ポータブル SSD
+	<dd>共有のコンピュータで作成した個人のファイルを保存するために使用します。
+<dt>私物のホワイトボードマーカーまたはチョークと字消し
+	<dd>討論に使用します。放送室または使用教室または出先のホワイトボードマーカーのインクが安定的に供給されていない場合などに供給が安定するまで私物を用意してしまうことをおすすめします。放送室のホワイトボードに今現在解けない問題（e.g. いいテーマがみつからない，何から始めたらいいかわからない，完成しない，完成品が面白くない）を書いておくと先生や先輩が「過去の入賞者のテーマを全部洗ってそのキメラの 30 秒パイロット版を一回作ってキャッチアップしてみろ」とか「簡単に達成できるサイズまで限りなく問題・課題を再分割しろ」とか助言してくれることがあります。
+<dt>私物の小型ホワイトボードまたはスケッチブック
+	<dd>討論や撮影時のタイトルなどに使用します。
+<dt>良い椅子
+	<dd>実務用途の高価なものではアーロンとコンテッサが有名です。
+	<dd>オフィス向けの中古家具店で安く購入できることがあります。
+<dt>腕時計
+	<dd>制作，放送のどちらの活動にも便利です。学校生活では模試や試験や面接にも使用します。視線の移動が少なくなるほかに試験会場になる教室や講堂の時計が見えにくいまたは時計がない場合が高い確率であるためです。
+	<dd>使っているうちに欲しい時計の傾向がわかりますので最初はご家庭の余剰のものまたはリサイクルショップにある安いもので十分です。ご家庭やリサイクルショップの店頭に腕時計がなくて，とくにこれといったお好きな時計もないという場合はホームセンターや雑貨屋さんで売っている 1,000 円から 2,000 円くらいで防水のカジュアルウォッチをおすすめします。
+	<dd>二本目の腕時計としてはジーショックまたはベビージーシリーズが特に軽さ頑丈さの観点からおすすめです。機材にぶつけても大雨に降られても気にせず済む上に宇宙開発機関の各種性能テストをパスしていて宇宙にも巻いて行けます。注意点としては試験の残り時間を直感的に把握できて便利なアナログモデルの割合が全体からみて少ないのと，ほとんどのモデルは樹脂素材なのでぶつけても相手を傷つけない反面，5 年程度経過すると加水分解などによるひび割れでベゼルを補修したり社外品ベルトへの交換が必要になります。
+	<dd>一本の腕時計で面接までのすべてのシチュエーションをカバーしたいという場合はいわゆるビジネスウォッチがおすすめです。年代ごとに変遷があって 2020 年現在のビジネスウォッチは防水金属ケースに金属もしくは皮バンド電波ソーラー円形三針タイプの腕時計を指すようです。電波ソーラーの腕時計はカシオ計算機，シチズン時計，セイコー，セイコーエプソンの国内四大時計メーカーのものが信頼性や保守性の面でおすすめです。
+	<!--
+	<dd>個人的にはダイバーズウォッチという一周 60 目盛り 120 ノッチの逆回転防止ベゼルのついた防水時計の究極のジャンルが好きで，これは何も考えなくても回転ベゼルのゼロ位置をぐるぐる回して現在時刻または終了予定時刻の分針や時針の位置に持ってくればジャガイモのあく抜きの残り分数や何時間後にレンダリングが完了するからそれまで別の作業をするといったちょっとした計時ができて便利なのと時計全般の天敵の水・衝撃・磁気に全部強いのでまったく泳げもしないのにダイバーズウォッチが好きなのですが，基本的に大きくて重いのでステンレスベルトで 42 ミリ径の男性用モデルだと 160 グラム，37 ミリ径の男女兼用モデルでも 140 グラムを超えていて日常がやんわり筋トレになります。
+	-->
+	<dd>金属アレルギーに関して時計の裏蓋にステンレススチールと刻印があってとくに水に濡れたさいに接触面の肌が赤くなる場合は，金属アレルギーに配慮した裏蓋のものがおすすめです。代表的な素材としてはサージカルステンレスの SUS316 やチタン合金やガラスなどがあります。このほかに軽い時計であればバンドを常にぶかぶかにして裏蓋を肌に接触させないようにしておく，時計のバンドを引き通しの非金属バンドに交換して裏蓋を覆うなどのアレルギー軽減策があります。
+	<dd>アナログの腕時計を目で合わせる場合の時刻源としてはスマホの Android 11 では設定スタイルからアナログ，秒を表示するを選択して三針のアナログ時計を表示できます。多くの UNIX では <code>xclock -update 1</code> で三針のアナログ時計を表示できます。Windows，macOS，Linux，(Android) では Processing に <code>Clock</code> というサンプルコードがあります。
+<pre><code>// Prosessing 3.5 の Clock の下部に追加するとバーインデックスになります。
+  strokeWeight(4);
+  beginShape(LINES);
+    for (int a = 0; a < 360; a+=30) {
+    float angle = radians(a);
+    float x = cx + cos(angle) * secondsRadius;
+    float y = cy + sin(angle) * secondsRadius;
+    float x2 = cx + cos(angle) * secondsRadius * 0.9;
+    float y2 = cy + sin(angle) * secondsRadius * 0.9;
+    vertex(x, y);
+    vertex(x2, y2);
+  }
+  endShape();</code></pre>
+<pre><code>// Prosessing 3.5 の Clock の下部に追加するとフィールドウォッチ風のアラビア数字インデックスになります。
+  // アラビア数字 12 時間表記
+  int b = 3; // 初期位置が 3 時位置のため 3 からスタートする。
+  for (int a = 0; a < 360; a+=30) {
+    float angle = radians(a);
+    float x2 = cx + cos(angle) * secondsRadius * 0.8;
+    float y2 = cy + sin(angle) * secondsRadius * 0.8;
+    fill(255);
+    textSize(18);
+    textAlign(CENTER, CENTER);
+    text(b, x2, y2);
+    if (b >= 12){b=0;} // 12 以上で 0 にする。
+    b+=1;
+  }
+  // アラビア数字 24 時間表記
+  int b2 = 15;
+  for (int a = 0; a < 360; a+=30) {
+    float angle = radians(a);
+    float x2 = cx + cos(angle) * secondsRadius * 0.6;
+    float y2 = cy + sin(angle) * secondsRadius * 0.6;
+    fill(255);
+    textSize(12);
+    textAlign(CENTER, CENTER);
+    text(b2, x2, y2);
+    if (b2 >= 24){b2=12;}
+    b2+=1;
+  }
+  // 60 分割 5 刻み
+  int b3 = 5;
+  for (int a = 0; a < 360; a+=30) {
+    float angle = radians(a-60); // 5 刻みなので 3 時位置の -60 度を初期位置にする。
+    float x2 = cx + cos(angle) * secondsRadius * 1.1;
+    float y2 = cy + sin(angle) * secondsRadius * 1.1;
+    fill(255);
+    textSize(12);
+    textAlign(CENTER, CENTER);
+    text(b3, x2, y2);
+    b3+=5;
+  }</code></pre>
+  <figure><img class="img-responsive" src="src-prosessing-clock.png"><figcaption>Processing 3.5 <a href="https://processing.org/examples/clock.html">標準サンプルコードの Clock</a> にバーインデックスとアラビア数字インデックスを追加したもの。</figcaption></figure>
+  
+
+<dt>眼鏡
+	<dd>必要な方は色覚補助メガネなど。
+<dt>部活動専用の個人メールアカウント
+	<dd>学校から <code>.ed.jp</code> ドメインのメールカウントと添付ファイルの受信に十分なストレージの割り当てがある場合はそちらがおすすめです。
+<dt>各種サブスクリプション
+	<dd>『日本経済新聞』，『福井新聞』，『日刊県民福井』そのほか興味のある新聞・業界紙，『ビデオサロン』そのほか専門誌・業界誌の定期購読
+	<dd>映像配信サービス，音楽配信サービス，ラジコプレミアム，NHK オンデマンド
+	<dd>メールアカウント
+	<dd>カーシェアリングサービス
+<dt>現金決済
+	<dd>日常の決済手段のなかでは最も信用があって電源と通信を必要とせずあらゆる障害に強いなど電子決済より良い点がいくつもあります。実際に 2021 年 10 月 14 日にドコモの設備更新時の輻輳による通信障害でタクシー，カーシェアリングなどのドコモインフラで動いている電子決済サービスが停止しています。
+</dl>
+
+<h3>少しだけ趣味性の高いツール</h3>
+<p>あれば楽しいというものです。</p>
+<dl>
+<dt>スチルカメラ
+	<dd>スマホをお持ちでも写真機があると自由度が違って楽しいと思います。超広角超望遠と外付けフラッシュは特に違います。2020 年現在ソニー RX100，リコー GR，リコー PENTAX K-30，リコー PENTAX K10D，リコー smc PENTAX DA 35/2.4 が安くなっていて狙い目です。リコーペンタックスの一眼レフは乾電池ホルダーを使えるものがあって古いデジタルカメラの中古で悩まされるバッテリーの入手性が飛び抜けて良くなっています。またリコーペンタックスは比較的古い機種にも SDHC カード対応のファームアップがなされているようです。
+	<dd>福井県内の地域経済のためにはカメラの最終製品の工場はありませんが福井県内に複数の工場を置いている<a href="https://www.net-chuko.com/buy/list.do?kindName=%E3%83%9F%E3%83%A9%E3%83%BC%E3%83%AC%E3%82%B9%E4%B8%80%E7%9C%BC&detailsName=&makerName=&keyword=panasonic+g&price=&condition=&shop=0&photo=false&selling=false&ob=sp-&lc=40&pg=1&is=1&ecmount=&eccolor=&ectype=%E3%83%AC%E3%83%B3%E3%82%BA%E3%82%AD%E3%83%83%E3%83%88&eclan=&ecundai=&eccase=&eczoom=&ecwater=&ecdust=&ecfilter=&echeight=&ecpixel=">パナソニックのカメラ</a>が間違いなくおすすめです。次点で福井県の眼鏡産業と関わりのあるニコン，カールツァイス銘の各社のカメラ機材（ソニーツァイス，タムロンツァイス，富士フイルムツァイス Touit，コシナツァイス Loxia，京セラツァイス，シグマツァイス），リコーの順かなと思います。
+	<dd>もしお金があれば長尺のモノクロフィルムを買ってきてパトローネに詰めて写真を撮って自宅で薬液に浸す「モノクロ自家現像」という沼もあります。ただフィルムと現像用品も入手が難しくなりつつあるようです。
+<dt>パソコン
+	<dd>脚本のかたはハードオフの安いノートでも十分に活動できます。普段お使いのソフトウェアがウェブベースならタブレットと無線キーボードでも大丈夫です。
+	<dd>編集はノートよりもデスクトップのほうが同じ価格で性能が出るので外出先や学校に持っていって編集したいとかがなければデスクトップがおすすめです。
+<dt>トラックボール
+	<dd>特にマルチスクリーン環境下でマウスよりも楽です。ただ 1 ピクセル単位の精密なドラッグが必要な DTP や DTM や動画編集やゲームは苦手分野なので気になる場合はマウスと両方接続して持ち替える必要があります。対象を選択してカーソルキーで 1 ピクセル分動かせるタイプのソフトウェアであれば問題ないと思います。
+
+<h4>ネットワークコンピューティング</h4>
+<p>放送技術とコンピュータとネットワークは密接に関連している分野でデバイスメーカー各社や NHK を含む放送局の研究所，Youtube (Google) のほか Amazon，Netflix などが盛んに研究していて華やかです。2020 年現在，ウェブプログラミングなら次のいずれかが人気のようです。Ruby on Rails は日本語資料が豊富で，JavaScript または TypeScript のフレームワークは webview 型のスマホ／デスクトップアプリ開発にそのまま移行できるメリットがあります。</p>
+
+<table class="table"><caption>ウェブアプリケーションフレームワーク</caption>
+<tr><th>フレームワーク名</th><th>開発言語</th><th>採用事例</th></tr>
+<tr><td>Ruby on Rails</td><td>Ruby</td><td>GitHub，クックパッド，食べログ，（Twitter）</td></tr>
+<tr><td>Laravel</td><td>PHP</td></tr>
+<tr><td>AngularJS</td><td>JavaScript</td><td>Google，Overleaf</td></tr>
+<tr><td>Vue.js</td><td>JavaScript</td></tr>
+<tr><td>React</td><td>JavaScript</td><td>Netflix</td></tr>
+<tr><td>Django</td><td>Python</td><td>YouTube，Dropbox，Instagram，日本経済新聞</td></tr>
+<tr><td>Spring Boot</td><td>Java</td></tr>
+</table>
+
+<p>ハードウェアなら教育用シングルボードコンピュータの micro:bit，Aruduino，IchigoJam などがあって予算があれば全部おすすめです。どれか一つなら 2020 年現在 mirco:bit の書籍がやや多い気がします。時期によってマルツなどの電子部品店にシングルボードコンピュータのデモ機が設置されていることがありますのでぜひ足を運んでみてください。</p>
+
+<ul>
+<li><a href="https://microbit.org/ja/guide/">BBC micro:bit</a>――各種 IO ポート：<a href="https://microbit-micropython.readthedocs.io/ja/latest/pin.html">BT あり</a>，拡張ボード：あり，CPU：超低消費電力 CPU 16 (33) MHz，ファンレス：◎，映像出力：5×5 配列の LED，メインメモリ：16K バイトの SRAM，電源：AC アダプタまたは乾電池駆動，価格：2,178 円 (マルツオンライン 2020/01)，OS：最小限のリアルタイム OS またはベアメタル開発，主要開発言語：<a href="https://microbit-micropython.readthedocs.io/ja/latest/tutorials/io.html">MicroPython（言語リファレンス）</a>，Microsoft MakeCode
+<li><a href="https://ichigojam.net/">IchigoJam S</a>――各種 IO ポート：あり，拡張ボード：あり，CPU：超低消費電力 CPU 12 (48) MHz，ファンレス：◎，映像出力：コンポジット，メインメモリ：4K バイトの SRAM，電源：AC アダプタまたは乾電池駆動，価格：完成品 2,200 円 (マルツオンライン 2020/01)，OS：ROM BASIC，主要開発言語：<a href="https://fukuno.jig.jp/app/IchigoJam/">IchigoJam BASIC</a>（<a href="https://ichigojam.net/IchigoJam.html">言語リファレンス</a>）
+<li><a href="https://www.pc-koubou.jp/magazine/21643">Arduino Uno</a>――各種 IO ポート：あり，拡張ボード：◎，CPU：超低消費電力 CPU 16MHz，ファンレス：◎，GPU および HDMI 出力：なし，メインメモリ：2K バイト (2÷1,024÷1,024 = 1.907 349×10<sup>-6</sup> = 0.0000019G バイト) の SRAM，電源：AC アダプタまたは乾電池駆動，価格：Uno R3 互換品 2,000 円 - Uno R3 純正品 3,000 円 (マルツオンライン 2020/01)，OS：最小限のリアルタイム OS またはベアメタル開発，主要開発言語：Arduino 言語，主要言語で書かれた電子工作関連のソフトウェア資産：◎
+<li><a href="https://developer.sony.com/ja/develop/spresense/">ソニーセミコンダクタ Spresense</a>――各種 IO ポート：あり，拡張ボード：○（Arduino 互換），CPU：内製超低消費電力 32-bit 6 コア CPU 156MHz FPU あり，ファンレス：◎，GPU および HDMI 出力：なし，メインメモリ：1.5M バイトの SRAM，ストレージ：8M バイト，電源：AC アダプタまたは乾電池駆動，価格：拡張ボードを含めて 11,184 円 (マルツオンライン 2021/07)，OS：NuttX，主要開発言語：C/C++ または Arduino 言語，主要言語で書かれた電子工作関連のソフトウェア資産：○，そのほか本体機能：GNSS（GPS L1-C/A，みちびき L1-C/A，GLONASS L1，WAAS，みちびき L1-S）／RTC，そのほか各種拡張ボードの機能：3.3V-5V／microSD カードスロット／ヘッドホンジャック／マイクアレイ入力／nanoSIM
+<li><a href="https://pc.watch.impress.co.jp/docs/column/nishikawa/1229027.html">Raspberry Pi 4B 8 ギガバイトモデル</a>――各種 IO ポート：多種多様，拡張ボード：◎，CPU：64-bit CPU 1.5GHz 4 コア，ファンレス：×，GPU および HDMI 出力：あり，メインメモリ：8G バイト (8×1,024×1,024 = 8,388,608K バイト) の LPDDR4 SDRAM，電源：AC アダプタによる USB 給電またはモバイルバッテリー駆動または PoE 給電，価格：4B 8G バイト RS モデルで 10,340 円 (マルツオンライン 2020/06)，OS：フルの Debian 系 Linux である Raspberry Pi OS のほかに FreeBSD／OpenBSD／NetBSD／Windows IoT Core などの汎用 OS や特殊用途向けの OS，主要開発言語：Python，C 言語ほか多数
+</ul>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ラズパイコーナーが拡大していますよ～～♪<br><br>新商品の【Raspberry Pi 4 Model B】や<br>【Raspberry Pi 3 Model A+】が入荷し、<br>ケースや電源・ケーブル等もいろいろ増えました！<br><br>Raspberry PI 3 Model Bを実働展示していますので、<br>是非触ってみて下さいね♪(^ー^* )ﾄﾞﾚﾄﾞﾚ <a href="https://t.co/iHURVWqGYN">pic.twitter.com/iHURVWqGYN</a></p>&mdash; マルツ福井二の宮店 (@marutsufukui) <a href="https://twitter.com/marutsufukui/status/1220167062577766401?ref_src=twsrc%5Etfw">January 23, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<dt>マイコンボード
+	<dd>マイコンボードは現場に置いたり手に持ったりドローンで飛ばしたりして各種センサーからのデータを収集したり，状況に応じてサーボモータやリレー回路を動かしたりするためのものです。2019 年現在イタリア生まれの Arduino が有力です。Arduino またはその互換ボードは最小構成（Amazon FreeRTOS）から大規模（NuttX）な組み込み向けリアルタイム OS が動作する 8 - 32 bit CPU の低消費電力マイコンボードです。多くは乾電池でも動作します。純正の Arduino のほか互換ボードも多く，国内メーカーから発売されているものだけでも次のようなものがあります。</dd>
+<dd>
+<ul>
+<li>ハイレゾ音源の入出力と全地球航法衛星システム (GNSS) の測位ができる内製 ARM CPU を搭載したソニーの Spresense
+<li>超低消費電力の独自 CPU で無線モジュールの豊富なラピスセミコンダクタ（旧沖電気半導体デバイス事業部）の Lazurite シリーズ
+<li>独自 CPU または ARM CPU のルネサスエレクトロニクス GR シリーズ
+<!--<li>純正の Uno R3 と同等ながら 2/3 程度の価格で増備し易いマルツの Maruduino Uno R3-->
+</ul>
+</dd>
+<dd>海外メーカーでは流行の RISC-V チップを搭載した HiFive1 もあります。はじめて触る場合は Arduino Uno が一般的なようです。
+	<dd>Intel の x86 CPU か AMD の x86 互換 CPU 一色になって既に長いパソコンや，ARM CPU 一色になりつつあるスマホに比べて CPU アーキテクチャにまだまだ多様性があるマイコンボードはコンピュータ好きには楽しい環境だと思います。
+
+<dt>シングルボードコンピュータ
+	<dd>マイコンボードのなかでも映像出力やヒューマンインターフェース入力などを備えたものがシングルボードコンピュータというカテゴリになっているようです。
+	<dd>シングルボードコンピュータは 2019 年現在イギリス生まれの Raspberry Pi が人気です。この Raspberry Pi は Linux と X Window System がフルで動作する 64 bit ARM CPU の高性能シングルボードコンピュータです。性能が同年代のエントリークラスのスマホ相当またはそれ以下でパソコンに遠く及ばない分パソコンより電気代が格段に安く，サイズもきわめて小さいので家庭ではオーディオサーバやファイルサーバや VPN サーバなど各種サーバ用途に使われています。システム合計の計算性能としてはデスクトップ PC には及ばないながらコンピュータ本来の用途であるところの数値計算であればかなり大規模な問題まで解く能力があります。おそらく高校数物の問題ではまず使い切れないはずです。さらにあまり知られていないもののコンピュータ好きにとって嬉しいことに数式処理システムの雄である <i>Mathematica</i> for Raspberry Pi がバンドルされています。また UNIX の実機での学習環境としても Python ベースのとっつきやすい電子工作学習環境としても便利です。ちなみにわが国の企業とも関係が深い製品で，少なくとも先代の Raspberry Pi 3 までの英国生産分はソニーペンコイド工場（ウェールズ）で，日本生産分はソニー稲沢工場（愛知県）で生産されています。ただ教育用のほかのボードに比べて高価で設定の量も多いので電子工作の過程で壊したら結構ショックかもしれません。用途によってはより安価な Raspberry Pi Zero WH もあります。サーバとして利用すると一年程度で microSD カードが書き換え寿命を迎えるようなので，必要なデータは USB メモリか NAS に保存するようにしてください。インターネットに繋がっていて <code>rclone</code> などでバックアップしている場合はそちらでも構いません。システムドライブをより高速で書き換えに強い USB SSD にしてしまう手もあります。Raspberry Pi 3B だと内部バスが USB 2.0 で手元の環境では <code>hdparm -tT</code> 読み 29.55 MB/s まで出るので <code>ssh</code> と <code>tmux</code> と <code>emacs -nw</code>，<code>ipython3</code> のようなテキストベースのアプリケーションであれば同時利用が複数名でも満足のいくレスポンスが得られます。<code>nextcloud</code> や <code>jupyter</code> のようなウェブベースのアプリケーションだと大きな画像や動画になると 3B では厳しいことがありますので快適さでは 4B をおすすめします。熱の情報をお伝えしておくと，手持ちの Raspberry Pi 3B の場合は無線は全てオフで空調の効いた部屋に置いておく限りは通年でファンレスサーバとして使用できます。
+	<dd>教育用として最近人気の BBC micro:bit はイギリスのすべての 11 歳と 12 歳に配布されるイギリス生まれの教育用シングルボードコンピュータです。ウェブブラウザ上でプログラミングが可能で，5×5 の LED ディスプレイも直感的です。IchigoJam と違ってプログラミングのための母艦としてパソコンまたは Raspberry Pi またはスマートフォンが必要です。逆に IchigoJam は無線接続の手段を持っていません。もしご自身のパソコンまたはスマートフォンをお持ちであれば IchigoJam よりも有力な選択肢かもしれません。
+	<dd>福井県鯖江市生まれのよりシンプルで教育用途に特化した IchigoJam という 8-bit ROM BASIC パソコン調のシングルボードコンピュータもあります。この IchigoJam シリーズは鯖江市と福井市の小中学校のクラブ活動で使われているようです。Raspberry Pi と同じく単独でプログラミングできて Raspberry Pi よりも設定が圧倒的に簡単ですぐにコードが書けて文法もシンプルな点がメリットです。とくにネットワーク機能を必要としていなくて，ご自身のパソコンをお持ちでない且つコンポジット映像入力端子のあるディスプレイを持っている場合は最有力候補かもしれません。HDMI しかない場合は Raspberry Pi 向けに IchigoJam BASIC を移植したものがあるようです。
+
+<figure><img class="img-responsive" src="mathematica-bppen.png"><figcaption>Wolfram Research Mathematica 12.0 for Raspberry Pi Linux ARM (32-bit)<br />シングルボードコンピュータの Raspberry Pi を購入するとごく一部の学校でしか自由に使えないあの Mathematica が使えます。加圧ボールペン二種の本体 + 替え芯のコストのグラフを書くと 7 本目の替え芯でトータルのコストが逆転するようです。この二本とも筆記距離の記載がなかったためどちらも JIS 規格の下限の 300 メートルであると仮定しました。書き味はどちらも素晴らしいと思います。放送部は外でも使うのでコンクリートに落としたりして 7 本交換する前にペン軸が駄目になりそうではあります。</figcaption></figure>
+	<figure><img class="img-responsive" src="rpi3-desktop.png"><figcaption>Raspberry Pi 3B + 32G バイト SSD + Raspberry Pi OS 10 buster 32-bit armv7l<br />Mathematica が付属する。</figcaption></figure>
+<dt>クラウドコンピューティングのサブスクリプション
+	<dd>機能単位でかなり細かく時間貸しされる仮想サーバです。欲しい機能が無料枠で事足りる（e.g. 単純に HTML + JavaScript を公開する，アクセス数の少ないウェブサイト／ウェブアプリケーションサイトを構築する，簡単な SNS 告知用の bot プログラムを 24 時間動作させる，VPN サーバにする）場合と，学生のうちに学生向けの無償提供クレジットを使っておきたいという場合におすすめです。UNIX の知識はとくに必要ないので VPS でサーバを立てるより簡単かもしれません。試用後は有償アカウントにアップグレードしないで先に Raspberry Pi で置き換えてみることをおすすめします。
+<dt>VPS (Virtual Private Server)
+	<dd>VPS は月額，専有の仮想サーバです。月額の上限が決まっている VPS であれば想定より多いアクセスがあった際に自動でスケールしないかわりに月額以上の請求が来ることはない点，PC サーバの電気代より安い点，管理者権限が付与されて遠隔地のサーバとしてはレンタルサーバよりも自由度が高い点などがメリットです。契約前に仮想化ソフトで VPS と同じ OS の環境を作成してみることをおすすめします。
+	<dd>2020 年現在，さくら VPS 大阪ゾーン（税抜き 610 円/月）が機能性，信頼性，地理的近さ，決済手段などの関係でおすすめです。
+	<dd>信頼性は必要なくて RAM とストレージが必要な条件では Raspberry Pi のほうが安上がりです。Raspberry Pi であれば 8GB の RAM や 240GB の SSD を選択しても利用時間で課金されません。
+<dt>レンタルサーバ
+	<dd>一番小規模なものは月額の専有でない共有サーバです。利用したいアプリケーション (e.g. WordPress, concrete5, MediaWiki) がすでに決まっていてレンタルサーバ側でセットアップ手順書が整備されている場合におすすめです。主にウェブサイト用に採用されている気がします。さくらインターネットではモリサワのウェブフォントが提供されています。
+<dt>物理サーバ（オンプレミスの物理サーバ）
+	<dd>部内または自宅に設置する専有の物理サーバです。エントリー PC サーバを購入して OS（e.g. Ubuntu，Debian，CentOS，FreeBSD）をインストールして構築します。部内用の 10GbE ファイルサーバ，部内用のアプリケーションサーバ，開発サーバなどの用途が考えられます。
+	<dd>自前の物理サーバのメリットとしては転送料などで課金されない，遅延がゼロに等しい，RAM，ストレージ，CPU を盛っても安い，ユーザがネットワークの内側に居る場合は通信が外に出ないなどです。逆に設置場所，通信費，電気代（普通の PC サーバだと月 2,000 円前後，NAS だと月数百円，Raspberry Pi だと月数十円），ファンによっては騒音，購入設置管理売却廃棄の手間などがデメリットです。
+	<dd>最初はすべてのアクセスを deny にしてからローカルの特定の IP とポートの組み合わせからのみ利用できるように設定することをおすすめします。
+<dt>仮想サーバ（オンプレミスの仮想サーバ）
+	<dd>部内または自宅のコンピュータ上で動作させる専有の仮想サーバです。具体的な仮想化ソフトウェアとしては Oracle Virtual Box，VMware，Microsoft Hyper-V，Docker，Jail などがあります。部内用のアプリケーションサーバ，開発サーバなどの用途が考えられます。
+	<dd>個人では既存のデスクトップ PC またはファイルサーバの空きリソースに開発サーバやアプリケーションサーバを相乗りさせるという形が多いかと思います。
+	<dd>ワークロードによっては Raspberry Pi に Docker を構築するパターンも考えられます。
+<!--<dt>オンラインストレージ
+	<dd>2020 年現在，家庭用や事務用の商用オンラインストレージサービスでは Google ドライブが有名です。共有やバックアップに便利です。電気代や多重化を考えなくて良い点もメリットになります。
+	<dd>また Google ドライブ相当の機能を自分のサーバに構築できる nextcloud というソフトウェアもあります。ちなみに Raspberry Pi 3 B + microSD Class 10 の nextcloud だと最大アクセス人数が一人でもディスク I/O が厳しいので SSD 化をお勧めします。
+	<dd>名簿などの個人情報を含むファイルは基本的に外部サーバに置くべきではありませんが，どうしても外部サーバに置く場合は <code>gpg</code> の楕円暗号で暗号化することをおすすめします。セキュリティ的には暗号化しても 10 年後の未来のパソコンで簡単に復号されてしまうので暗号化したファイルが流出しないことに頼った妥協案ではあります。
+	<dd><pre><code>user@localhost:~$ gpg -k user
+/home/user/.gnupg/pubring.kbx
+-----------------------------
+pub   brainpoolP512r1 2018-04-01 [SC] [expires: 2022-04-01]
+      ________________________________________
+uid           [ultimate] user &lt;user@example.com&gt;
+sub   brainpoolP512r1 2018-04-01 [E] [expires: 2022-04-01]
+
+user@localhost:~$ gpg --encrypt user@example.com 名簿.xlsx
+user@localhost:~$ gpg --output 名簿.xlsx --decrypt 名簿.xlsx.gpg</code></pre>
+	<dd>どの暗号化ソフトで暗号化したか判らなくなって復号できなくなるよりは世界で一番広く使われていて入手性も良い <code>gpg</code> で統一しておくのも手かなと思います。公開鍵はなくさないように <code>pgp.mit.edu</code> や <code>www.keyserver.net</code> に登録しておいて，秘密鍵は <code>paperkey</code> で印刷して手元に保管しておくことをお勧めします。
+-->
+<dt>家庭用無線ルータ
+	<dd>サポート終了を完売から 7 年と明示している NEC 製のものがおすすめです。
+	<dd>二台目を購入するとご自宅が広い場合に中継器にできるほか高機能なものでは IP マスカレードや VLAN で別セグメントを作って遊べます。
+<!--
+<dt>サポート期限切れの家庭用ルータ
+	<dd>中古のネットワーク機器はご利用の前に設置後のリスクをご確認ください。アフターマーケットファームウェアについてはインストールベースが多く共通の手法であれこれできるためあれです。インストール直後にも適切な設定を加える必要があります。
+	<dd>2020 年現在 DD-WRT とそのフォーク元の OpenWrt が人気です。更新サポート切れのルータを再度ルータとして使うほか，中継器や無線 LAN コンバータとして使用したり，VPN セッションを張ったりできます。OpenWrt はデフォルトで NTP も喋れますのでルータのシリアル入出力（UART 直付け）にキャラクタ液晶キットや電子ペーパーキットを繋げば標準電波の届かない立地の放送室でも時計合わせの要らない正確な置き時計兼時刻源になります。
+	<dd>ルータ側に電話の端子がある場合は中古の電話機（ハードオフで 5,500 円）も用意できれば LAN 上に内線電話を構築することができます。イベントで複数の拠点の前に受付担当の部員を置く必要がある場合（放送室前，体育館調整室前，体育館副調整室前，第二体育館調整室前，講堂調整室前，PA 仮設ブース前）に呼び出し用の内線を構築してワンオペができます。スマートフォン側に SIP クライアントをインストールすればスマートフォンで内線を受けられます。
+	<dd>このほか <code>at</code> や <code>crontab</code> で 24 時間 365 日任意のタイミングでプログラムを実行できますのでデータの収集や実験などに使えます。ハードオフのジャンク品であればほとんどのシングルボードコンピュータよりも安く入手できて電気代もシングルボードコンピュータと同等です。
+	<dd>サポート期限切れの家庭用無線ルータのファームウェアを書き換えて使用する場合は USB 端子のあるルータに無線アダプタを繋ぐことでファームウェアを書き換えても無線の技適の問題を回避できるそうです。ルータ選びは DD-WRT または OpenWrt のサポートリストにモデル名があって USB 端子のある機種がおすすめです。DD-WRT または OpenWrt のマニュアルにルータの推奨メモリ容量，推奨フラッシュメモリ容量，SoC の種類，ファームウェアの書き換え方法に関するアドバイスがあります。
+	<dd>ルータがお手元になくても中古 PC サーバと AP モードを持った WPA3 対応の無線アダプタがあればルータ OS をインストールしてルータにできます。
+-->
+<dt>ドメインとダイナミック DNS
+	<dd>Google Domains（1400 円/年）が <code>ddclient</code> に対応しているようです。
+</dl>
+
+
+<h3>趣味性の高いツール</h3>
+<p>あればもっと楽しいというものです。</p>
+<dl>
+<dt>タブレットと作画ソフト
+	<dd>ワコム製液晶タブレットとセルシス コミックスタジオなど。アニメ制作の場合はセルシス レタスなど。
+<dt>PCDJ ソフトとターンテーブル
+	<dd>パイオニア製など。
+<dt>楽器
+	<dd>カシオ計算機 Privia シリーズほかのハンマーアクションの電子キーボード，アコースティックギターなど。
+	<dd>DAW，ソフトウェア音源
+<dt>オーディオ機器
+	<dd>サウンドバー
+	<dd>AM/FM ラジオ
+	<dd>防滴ブルートゥーススピーカ，防滴ラジオ
+<!--<dt>業務用ルータまたはイーサネットデバイスが二つ以上ある PC サーバ
+	<dd>ヤマハ製の業務用筐体の中古品など。-->
+<dt>アナログの道具
+	<dd>シャープペン，14K 以上の万年筆と顔料インク，色鉛筆，アクリル絵の具，スケッチブック，紙，自動巻腕時計，万年カレンダー，算盤，円形計算尺，マニュアルフィルムカメラ，自転車，FI 化前の二輪車，鉱石ラジオ，手旗信号，光学双眼鏡，方位磁石，地図帳，理科年表，野草辞典，百科事典，現金決済，釣り具など。
+<dt>ご自宅の物置にある古い道具
+	<dd>レコード，オープンリールデッキ，カセットデッキ，CD/MD デッキ，映写機，ノンリニア編集機，8-bit パソコン，8-bit パソコンのマニュアル，8-bit パソコンの雑誌など。
+<!--<dt>キャンプ道具
+	<dd>LED 光源，熱源，マルチツール，寝袋，マット，テント，発電機，手回しラジオ，濾過器，非常食，簡易トイレなど。-->
+<!--
+
+<dt>キャンプ道具一式
+	<dd>自分は苦手なのですがキャンプ用寝袋，キャンプ用断熱マット，歯ブラシセットなどがあれば休日，半ドンの編集の長期戦に便利かもしれません。
+	<dd>機械警備の放送室では合宿しようと考えてもトイレに行くときに警報が鳴ってしまうはずなので夜を明かすことはできません。制作合宿の場所としては制作チームの半数超が二輪乗りでノートパソコンと長めの延長コードと LED ランタンとマットと寝袋と大きめのテントがあるなら AC 電源付きの自動車キャンプ場がいいかもしれません。ベテランが居ない場合はオフシーズン且つキャビンサイトのほうがよさそうです。
+	<dd><ul><li><a href="https://www.qkamura.or.jp/echizen/camp/">休暇村越前三国</a>キャビンサイト炉付き 19,000 円 (10 名) + 520 円 × 人数
+	<li><a href="https://www.qkamura.or.jp/echizen/camp/">休暇村越前三国</a>キャビンサイト炉なし 17,500 円 (10 名) + 520 円 × 人数</ul><ul>
+	<li><a href="https://www.qkamura.or.jp/echizen/camp/">休暇村越前三国</a>オートキャンプ AC サイト炉付き 4,800 円 (5 名) + 520 円 × 人数
+	<li><a href="https://www.qkamura.or.jp/echizen/camp/">休暇村越前三国</a>オートキャンプ AC サイト炉なし 4,200 円 (5 名) + 520 円 × 人数
+	<li><a href="http://garagarayama.com/">ガラガラ山キャンプ場</a>オートキャンプ AC サイト 4,500 円 (5 名) + 200 円 × 人数
+	<li><a href="https://www.city.katsuyama.fukui.jp/kankou/kankouweb/asobu/iwaya.html">岩屋オートキャンプ場</a>オートキャンプ AC サイト 3,500 円 + 100 円 × 人数（ドコモ，ソフトバンクのみ）
+	</ul>
+	<ul><li><a href="https://www.city.katsuyama.fukui.jp/kankou/kankouweb/asobu/iwaya.html">岩屋オートキャンプ場</a>キャンプテントサイト 一張 1,000 円 + 100 円 × 人数（ドコモ，ソフトバンクのみ）
+	<li><a href="https://www.city.fukui-sakai.lg.jp/kanko/kanko-bunka/kanko/leisure/takekurabe-hiroba.html">たけくらべ広場</a> 一張 700 円，貸し出しテント 1,400 円
+	<li>鮎川園地キャンプ場
+	<li>坂井市海浜自然公園キャンプ場（7/10 - 9/10 の短期）</ul>
+	<ul><li><a href="http://www.city.awara.lg.jp/mokuteki/industry/kanko/sizen/p000261.html">刈安山キャンプ場</a> <strong>無料</strong>（4 月中旬 - 10 月下旬，トイレ有り，<strong>熊が出ます</strong>）
+	<li><a href="http://www.city.fukui.lg.jp/kyoiku/sports/sisetu/daiannji.html">大安寺キャンプ場</a> <strong>無料</strong>（トイレ有り，飲用不可の水道有り，<strong>熊が出ます</strong>）
+	</ul></dd>
+	<dd>とくに合宿型の制作講習会への参加経験がない場合はあらかじめ企画内容を考えてプレゼン資料を印刷していかないと何もできずに終わってしまうので注意が必要です。初めて合宿を企画するなら制作が軌道に乗ったあとの粗編集の時期か追い込みの時期のほうがいいかもしれません。またキャンプ嫌いが多いと制作の方針でもめてひりついた状態でさらにキャンプの方針でもめて制作が空中分解する可能性もあります。もちろんキャンプ好きが多いと制作がよく進むかもしれませんので二，三人くらいの最小の人数で試行してみるなどの見極めが必要です。ちなみに自分は合宿では気が散ってぜんぜん手が進まないタイプの人間です。合同合宿で他校の強い人間を見て刺激を受けてその後やる気が出るタイプです。-->
+</dl>
+
+<h3>放送室に置いておきたいツール</h3>
+<p>選べるなら基本的にハードオフの中古品，ブックオフ実店舗とブックオフオンラインの古書が安くておすすめです。一部寿命や安全性の判断が難しく目利きが必要なものや中古市場成立しないものもあります。</p>
+<p>予算があれば福井県の地域経済的には福井県内に製造拠点があるオーディオテクニカフクイ（越前市）やパナソニック（福井県内数カ所）の製品の新品での購入がおすすめです。またなるべく福井県内の実店舗での購入をおすすめします。</p>
+<dl>
+<dt>モニターヘッドフォン
+	<dd>音さえよければ映像はなんでもいいと言われるくらい音が重要です。詳しくは『ビデオサロン』などの専門誌を参照してください。
+<dt>オーディオインターフェース
+	<dd>用途ごとに製品の機能や形状が違うので詳しくは『ビデオサロン』などの専門誌を参照してください。
+<dt>マイク
+	<dd>放送部の制作用途ではガンマイクが一番広く使えます。詳しくは『ビデオサロン』などの専門誌を参照してください。
+<dt>PCM レコーダ
+	<dd>音声収録に使用します。詳しくは『ビデオサロン』などの専門誌を参照してください。
+<dt>ビデオカメラまたは映像制作での使用が想定されているミラーレスカメラ
+	<dd>2020 年現在，一般に民生用のビデオカメラはセッティングが簡単かつ大容量メディアを入れて録画ボタンを押すだけで何も考えなくても長尺が絶対に撮れます。レンズ交換式ミラーレスカメラはセッティング量が多い代わりにより綺麗に印象的に撮れます。ただこちらは EU の関税や録画のデータ量やシステム消費電力とバッテリー容量や熱設計の問題で 30 分を超えるような長回しには向きません。センサーサイズ起因のピンボケなどもあります。この場合は長回し部分だけアクションカメラにまかせるという運用方法もありますのでミラーレスをお使いの際はご検討ください。昨今のドキュメンタリー映画はミラーレスで撮られることも多いようです。より詳細なシステム構築に関しては『ビデオサロン』などの専門誌を参照してください。このほかに業務用のビデオカメラやシネマカメラがあります。
+	<dd>カメラ内部で使用されていて明るさに大きく影響するイメージセンサのサイズを除いてはどれも同じようなものなので照明と音響さえしっかりしていればスマホでも行けたりはします。
+	
+<dt>映像のスタビライズのための機器
+	<dd>三脚またはジンバルまたはジャイロ補正できるカメラ
+<dt>メモリーカード
+	<dd>通常 SD カードまたは CFexpress (≒ XQD) または SSD に記録します。
+<dt>映像編集ソフト
+	<dd>詳しくは『ビデオサロン』を参照してください。2020 年現在 Adobe Premiere や Blackmagic Design Davinci Resolve が人気です。特殊効果では Adobe After Effects や Nuke が有名です。
+<dt>フォントのライセンス
+	<dd>映像制作ではモリサワフォントが長年定番で，2020 年現在フォントワークス mojimo も人気です。
+<dt>電波式の置き時計または掛け時計
+	<dd>放送の定時性を高めるために使用します。（ラジオ関西「0.001秒もズレない！「どうやって正確に合わせているの？」ラジオ局の時計のヒミツ」2021/05/09）
+	<dd>時刻の前後関係などの視覚的な情報量が多いのでデジタルよりもアナログまたはデジアナ表示の電波時計がおすすめです。ラジオ局はデジアナです。
+	<dd>電波時計を購入される前に既存の電波時計を借りてきて JJY の電波を十分に受信できるか確認してみてください。季節と電波時計のバーアンテナの性能と放送室の立地と構造によっては電波を受信できないことが結構あります。NICT の図では福井岐阜愛知は JJY の二カ所の送信所のどちらの電波も丁度弱いように見えます。JJY を受信できない場合は電波時計内部のバーアンテナを LAN ケーブルで屋外まで延長する方法や JJY リピータを自作する方法もあるようです。放送室備え付けの時計に秒針または秒単位の表示があっての時刻が職員室の親時計から有線のパルスで集中管理されている場合や FM 放送の時報などで同期されている場合は必要ありません。
+	<dd>JJY が受信できない環境向けに JJY に加えて AM 放送や Bluetooth で同期できる時計もあります。部活動の範囲で手が届く時刻源として JJY，NTP，GNSS のほかに AM/FM 放送の時報，地上デジタル放送の TOT，NITZ + Bluetooth 対応時計などが考えられます。
+	<dd>標準電波が受信できない場合でも放送室内の壁までイーサネットコンセントが来ている場合はそこにコンピュータを接続して NTP で時刻を取得できます。ちなみにパソコンの内蔵時計は結構ずれるので時刻の設定画面から OS 標準の同期先より正確さが上位の NTP サーバでかつそれほど混雑していないはずの <code>ntp.nict.jp</code> や <code>ntp.jst.mfeed.ad.jp</code> を指定してみてください。2020 年現在，主に次のサーバが無償で公開されています。
+	<dd><ul>
+	<li><code>ntp.nict.jp</code> 国立研究開発法人情報通信研究機構
+	<li><code>ntp.jst.mfeed.ad.jp</code> インターネットマルチフィード株式会社（ネットワーク産業，IX，法人向け ISP）
+	<li><code>time.google.com</code> 米国グーグル Google LLC（ソフトウェア産業，ネットワーク産業，広告業）
+	<li>持ち歩くことがないデスクトップやサーバの場合はご契約中のプロバイダの自社網向け NTP サービスも選べます。
+	</ul></dd>
+	<dd>秒単位の正確な時刻が必要な放送の場合は事前にすべての Windows マシンを手動で同期することをおすすめします。お使いのコンピュータの OS が Windows の場合は同期間隔は 60×60×24×7 = 604,800 秒 = 1 週間おき，Mac OS X の同期間隔は親となる NTP サーバの時刻と合っていないうちは 2<sup>12</sup> 秒 ≒ 1 時間おき，通常時は 2<sup>17</sup> 秒 ≒ 36 時間 25 分おきに設定されているようです。この場合，Windows マシンはスリープと復帰で誤差が溜まっていって週にトータルで一分程度の誤差になるようです。自動で同期させたい場合はレジストリの編集で同期間隔をもっと短くできます。また UNIX 系 OS で <code>chrony</code> や <code>openntpd</code> をお使いの場合は最初は 2<sup>4</sup> 秒 ≒ 1 分おき，親と同期がとれてからは 2<sup>10</sup> 秒 ≒ 17 分おきに同期されるようです。Raspberry Pi ユーザ向けに補足すると Raspberry Pi は RTC（ハードウェアクロック）を持たないので再起動や本体の電源を切るタイミングでどうしても時刻がずれるのですが，<a href="https://www.openbsd.org/arm64.html">OpenBSD/arm64 の文書でも各種 ntpd がその代わりになるだろう</a>とあります。
+	<dd>標準電波もインターネット回線もない場合は <code>gpsd</code> と接続できる衛星測位システム受信キットでローカルの NTP や JJY シミュレータの時刻源を作成できます。<!--Spresense の場合はシステム起動後常時測位が動き，測位後すぐに協定世界時 UTC hhmmss.ss ddmmyy と 1PPS 信号が取得されるほか SDK に各種測位衛星から協定世界時を NMEA フォーマットで得られる <code>gnss_atcmd</code> というサンプルがあります。地上の Spresense から追えているのがみちびきの衛星であれば気象庁のデータを利用した「災危通報」の文字列も 4 秒間隔で降ってきますのでリアルタイムの地震台風情報を OBS のテロップや合成音声で放送に乗せられます。-->
+<dt>工具
+	<dd>たいていの放送部は長年部費で買い足されてきた工具一式があります。
+	<dd>放送室に工具が全くなにもない場合は，プラスの 2 番とプラスの 1 番の二本のグリップドライバだけは最低限必要で，ドライバセットでなくて単品で 500 円前後から 2,000 円の価格帯の良いものをおすすめします。これら二本のドライバはパソコンの清掃と拡張を筆頭に一番よく使うためです。プラス #2 のドライバは特にベッセル（大阪）のボールグリップドライバが価格や入手性や性能の面でおすすめです。プラス #1 のドライバはベッセルの標準のものだとノート PC の穴に入らないことがあります。<!--そのほかのメーカーだと有名処の PB スイスツールズ（スイス），ヴェラ（ドイツ），アネックス（新潟三条），ホーザン（大阪）などのブランドのもので，人の頭より高い位置で作業する場合は落下防止用のストラップ環の付いたタイプが，部員に電気工事士取得者が多い場合は電工タイプがいいかもしれません。-->電源やアンプや光源などの高圧で分解に警告表示のある機器は自己判断で分解せずに必要な資格や知識を取得してかつ必要な装備をしてから分解するようにしてください。
+	<dd>さらに次の工具があると便利です。ドライバセット，精密ドライバセット，電池チェッカ，デジタルマルチメータ，作業用ゴーグル，半田ごて，半田，半田吸い取り線，ニッパー，ラジオペンチ，ピンセット，紙やすり，ビニルテープ，マスキングテープ，巻き尺，結束バンド，ケーブルタグ，乾電池式 LED ライト，ニッケル水素電池，ニッケル水素電池充電器，工具箱，軍手，エプロン，静電気除去リストストラップ，ウエス，ペーパーウエス，レンズブロワ，食器用中性洗剤，霧吹き，記録用デジタルカメラ，作業記録用ノート，撮影兼用の脚立，撮影兼用の台車，テーブルタップ，電工ドラム，作業台，デスクマット，デスクライトなど。
+	<dd>ごくごくまれに必要になるかもしれない工具は次の通りです。特殊ドライバセット，ハンマー，ゴムハンマー，ワイヤストリッパ，ダクトテープ，熱収縮チューブ，ヒートガン，ホットボンド，接着剤，浸透潤滑油，接点復活材，無水エタノール，さび止め，塗料，グリス，キッチンタイマー，温度計，作業服，安全靴，ヘルメット，機材を滑らせるための使い古しの毛布，ラッシングベルトなど。
+	<dd>部員の自転車用の整備道具もあると便利というか安全です。エアゲージ，空気入れ，電動ポンプ，潤滑油など。
+<dt>実務電卓
+	<dd>新品を購入する且つ高頻度に使用する場合は 12 桁表示で早打ち対応で 2 色成型キーのものをおすすめします。長く使えます。それほど使用しない場合はシャープ，カシオ計算機，キヤノンいずれかのメーカーの安いものか中古をおすすめします。
+<dt>パソコン
+	<dd>台本や制作資料の作成に使用します。テキスト編集や簡単な画像編集であればハードオフに並んでいるキーボードの壊れた格安ジャンクノートに USB/Bluetooth キーボードと SSD とバックアップ用の USB メモリを買うだけで事足ります。ネットワークに繋ぐ予定でジャンクノートを購入される際は現行の OS とウェブブラウザの要求性能を十分に満たしていることをご確認ください。
+<!--
+	<dd>十分にパワーのある PC であれば，動画編集（Davinci Resolve，Premiere，EDIUS），特殊効果（After Effects），画像編集（GIMP，Photoshop），RAW 現像（Rawtherapee，Lightroom，CatureOne，SILKYPIX），DTP（Inkscape，Illustrator，InDesign，TeX Live），DTM（Audacity，Ardour，LMMS，MuseScore，Studio One），モデリング（Blender，Fusion 360, Maya，3ds Max），アニメーション付け（Blender，Maya，3ds Max），レンダリング（Blender，Maya，3ds Max），プログラミング（Visual Studio Code，IntelliJ IDEA，PyCharm，Jupyter Notebook，Visual Studio）などにも使用します。
+	<dd>もちろんコンピュータ本来の用途であるところの数値計算（MATLAB，Octave，NumPy，Julia，R，C，C++，Fortran，十進 Basic）にも使えます。高校数学物理レベルの計算問題であればジャンクノートでもまず一瞬で解が出ます。
+	<dd>OS なしのジャンクノートの場合は UNIX 系 OS の一種である Debian GNU/Linux または FreeBSD をインストールしてみてください。スマホやゲーム機を含めて世の中の多くのコンピュータ――特にネットワーク関係のコンピュータは UNIX ベースであることが多いので UNIX を覚えておくと安心です。ちなみに FreeBSD の Free は無償という意味ではなく自由の意味の方らしいです。二台目三台目で OS の選択を遊んでみたい方は OpenBSD/amd64-current や Arch Linux もお勧めです。Davinci Resolve や Autodesk Maya を Linux で使いたい場合は 2020 年現在 CentOS がお勧めです。
+	-->
+<dt>ディスプレイ
+	<dd>表示だけできればよくて色再現性や解像度や表示方式を気にしないのであればハードオフにある HDMI 端子付きの動作確認済みテレビかディスプレイの購入をおすすめします。
+	<dd>長時間文書作成やプログラミングや資料の読み込みをされる方は IPS または VA 方式の液晶ディスプレイをおすすめします。一般に IPS や VA 方式でコントラスト比の高いものがより高級です。
+	<dd>色再現性が必要な場合は色校正用途でカラーキャリブレーション対応のものをおすすめします。
+<dt>バックアップ手段
+	<dd>映像音声写真や制作資料のバックアップに使用します。主に外付け HDD または NAS または BD-RE ドライブなどが考えられます。NAS は二人以上で同時に使えるので便利です。NAS を調達する場合はハードディスクを差し込むだけまたはハードディスク装填済みの市販 NAS を購入する方法，NAS ベアボーンキットや普通の PC に NAS 用 OS をインストールする方法，汎用の OS に ファイルサーバ機能をインストールする方法があります。よくわからない場合は 2 ドライブのミラー構成の市販 NAS がおすすめです。
+	<dd>安く仕上げたい場合は余剰の PC に余剰の HDD/SSD を集めて NAS 用 OS をインストールするのが一番簡単です。個人的な趣味では低価格のオフィス用中古 PC サーバに FreeBSD（OpenZFS の 6 ドライブ RAIDZ2 構成，samba 共有）をインストールしてファイルサーバにして必要な時に電源を入れる運用が好みです。PC サーバは現物を見ずに買う際は小規模オフィス用のタワー型または縦置き型またはキューブ型で 100V 電源と間違いなく書いてあるか確認が必要です。ありがちな落とし穴として CPU やメモリやハードディスクの規格が主流と違うものや 200V 電源のものや一人で運べないサイズのもの，データセンター用の今にも飛んでいきそうな轟音の冷却ファンのものがあります。
+	<dd>HDD/SSD を集める際は，ハードオフで捨て値で売っている HDD や，古いパソコンの SSD 化で余剰になった HDD や，外付けの HDD や NAS の中身をより大きなものに交換して押し出された中途半端な容量の HDD や，周囲で破棄されるパソコンの内蔵 HDD/SSD，使用年数が経って故障前に予防交換した HDD/SSD を集めると安く済みます。RAIDZ2 や RAIDZ3 を構築する場合は安全マージンが広いので信頼性の低い HDD/SSD でも構いません。HDD の記録方式が CMR 方式か SMR 方式かにも注意してください。<strike>CMR の方が書き込み時に低速にならないのでおすすめです。</strike>ZFS は CMR を使用するべきで SMR は使用してはいけないようです。また ZFS の場合はドライブ間で一番小さいドライブの制約を受けますので容量の近しいドライブを集めると記憶領域を無駄なく使えます。
+	<dd>汎用 OS を使う場合は FreeBSD またはメジャーな Linux ディストリビューションであれば OpenZFS が移植されています。
+	<!--<dd>ファイルサーバ以外だと普段お使いの映像編集ソフトが Davinci Resolve とか現像が Darktable や RawTherapee で OS が CentOS ならシステムを SSD の xfs，ストレージを HDD の raidz または SSD の zmirror で組むのもありかと思います。ZFS としては最小構成の zmirror でもとりあえず ZFS にしておけばサイレントクラッシュがないのとドライブの交換が簡単です。
+	<figure><img class="img-responsive" src="zfs.png"><figcaption>RAIDZ2 を拡張するための HDD 交換作業の様子。ZFS は旧来のソフトウェア RAID に比べて交換が簡単です。ドライブを入れ替えた後に <code>zpool replace <i>プール名 旧ドライブ 新ドライブ</i></code> の一行で完了します。RAIDZ2 だと二本まで故障しても耐えられるので，一本目の故障中の復旧操作または拡張の操作が本当に安心です。この後案の定 zroot 用の gpt を切り忘れたことに気付いて手戻りしています。ちなみに手元の環境では 512 バイトセクタと 4K セクタの HDD が混在していると zpool replace ができないようなので <code>ashift=12</code> で再構築しました。</figcaption></figure>
+	<figure><img class="img-responsive" src="zfs-cksum.png"><figcaption>RAIDZ1 を構成するハードディスク 1 台が寿命で SMART の情報ではリードエラーが頻繁に出ていて（正常なドライブであればリードエラーは 0 で，1 以上になると危険で，このドライブは 206,568,644。），そのリカバリーのためのエラーのカウントが増えている様子。ここからエラーが出ているドライブを交換してリビルドが完了するまでに他のドライブに異常がでるとデータを失うので，特に古いドライブを集めて RAID を構築する場合は RAIDZ2 以上のほうが圧倒的に簡単安心です。RAIDZ1 でも日頃から外付けハードディスクに日次バックアップをしていて，この時点ですぐにバックアップを更新できれば問題ありません。</figcaption></figure>-->
+<dt>二重バックアップの手段
+	<dd>M-DISC 対応の BD-RE XL ドライブが手軽かなと思います。
+<!--	<dd>NAS に加えてバックアップ用に次のいずれかが欲しいところです。M-DISC 対応の BD-RE XL ドライブまたは型落ちの中古 LTO テープドライブまたは Amazon S3 Glacier Deep Archive などのアーカイブ向けオンラインストレージなど。
+	<dd>容量が小さくても問題ない場合は比較的雑に扱える光学メディアの BD-RE XL が手軽です。USB 接続タイプの BD ドライブであれば部員全員で使えます。ちなみにテレビ朝日若葉台メディアセンター（2017 年運用開始）や関西テレビやフジテレビ報道部門が BD ベースか BD を発展させた光学メディア規格（アーカイバル・ディスク第三世代 5.5 TB）の映像アーカイブです。
+	<dd>磁気テープの LTO はデータセンター向けの業務用テープ型ストレージメディアで，光学メディアと並んで放送局のファイルベース映像アーカイブに使用されています。容量が大きい点や後方互換性がメリットです。デメリットとしては業務用なので電源容量，埃，湿度，温度を<a href="https://www.sony.jp/oda/casestudy/ktv.html">かなり厳密に動作範囲内に納める必要があります</a>。具体的な設備で言うと放送室か機材室の空調に調湿と集塵フィルタが入っている必要があります。またテープメディアは光学メディアより可動部が多い分二重三重バックアップ，予備ドライブなどをより厳しく管理する必要があります。事例としては <a href="https://www.jstage.jst.go.jp/article/jkg/69/2/69_84/_pdf/-char/ja">NHK BS8K/BS4K</a>，讀賣テレビなど。-->
+<dt>放送部自前のルータまたはスイッチングハブ
+	<dd>学校の情報コンセントの数や Wi-Fi の帯域が足りなくて増備の申請も通らない場合に，校内ネットワークに接続されない部内のコンピュータ同士のローカルなファイル共有のために独自に設置して使用します。学校のネットワーク管理者に機器の設置を相談しておくと安心です。
+<dt>各種辞典
+	<dd>歴史の長い放送部だと紙の『アナウンス辞典』と『新明解』または『広辞苑』が置いてあります。
+<dt>雑誌の定期購読
+	<dd>歴史の長い放送部だと『ビデオサロン』誌が置いてあります。
+<dt>大小のホワイトボード
+	<dd>放送室または使用教室に備え付けのものがない場合は導入した方がなんやかんや便利です。
+	<dd>手持ちサイズのホワイトボードがあれば番組内でも使えます。
+<dt>フラットベッドスキャナまたはスキャン機能付き複合機
+	<dd>制作資料のスクラップに便利です。CCD 式であれば本のノド付近もピントが合った状態でスキャンできます。10 円/枚のコピー機に比べてスキャンした資料を印刷しない限りインク代がかからない反面，バックアップに気を遣わないとハードディスクのクラッシュでスクラップ資産を一気に失います。
+<dt>防湿庫
+	<dd>レンズやコンデンサマイクの保護に使用します。湿度が高い日本海側は特に必要になります。
+<dt>電気ケトル，湯飲み，ティーバッグまたは急須と茶葉，スポンジ，食器用洗剤，国産の浄水ポット
+	<dd>お茶や粉末スープを飲むのに便利です。自販機で暖かい缶入り飲料を買う回数×部員数ですぐに元がとれます。電気ケトルは 0.8 リットル以下のモデルだと多人数で飲むには少ないので 1 リットル以上のモデルがおすすめです。国内メーカーの象印マホービン（大阪）やタイガー魔法瓶（大阪）のものは外国製の安いものより安全装置がしっかりしている印象です。その一方で電気ケトルの元祖ティファール（フランス）は軽くて持ちやすい印象です。
+	<dd>紅茶の茶葉を購入する場合は専門店百貨店以外だと福井駅ビル内のスーパーやカルディで入手できます。普段紅茶を飲まない方に対して布教を兼ねてミルクティーを煎れる場合は CTC 加工のアッサムという茶葉がクセがなく万人向けでおすすめです。スーパー一般に広く置いてある茶葉だと三井農林の「こく味のある紅茶アッサムブレンド」がミルクティー向きです。とくに夏場に煎れた後の茶葉を一時保存できる冷蔵庫がなくて廃棄が面倒な場合は希釈で飲めるリキッドタイプもあります。
+	<dd>学食や購買が完売だったときのためにカップ麺，レトルトご飯，味噌汁，粉末スープ，缶詰（タンパク質充足の要），レトルト食品，栄養調整食品，災害用の保存食を箱買いして常備しておくと昼食を食いっぱぐれません。通常は学食や購買の維持のためにそちらを優先して利用されることをおすすめします。
+<!--
+<dt>電子レンジ
+	<dd>あれば昼食を温めるのに便利です。ものによってはトースト機能があって食パンも焼けます。
+<dt>調理道具一式
+	<dd>機材にダメージを与えない調理道具としては卓上 IH コンロ，IH 対応鍋，IH 対応土鍋，まな板，包丁，菜箸，ザル，食器などが考えられます。卓上 IH コンロは強力な換気扇があって鍋，煮物，麺，白米好きであればおすすめです。油を使った料理は天井の建材や機材を傷める恐れが極めて高いので自宅で作って持ってきて電子レンジで温めるのがよさそうです。
+	<dd>スパゲティはバリラの 5 キロが安くておすすめです。また袋入りインスタントラーメン，乾そば，乾うどん，粉末だし，乾燥ネギ，乾燥のり，乾燥わかめ，かつお節，天かす，一味，乾燥錦糸たまごの組み合わせは保存が利きます。
+	<dd>自宅に余剰のものがあれば炊飯器やホームベーカリー，ヌードルマシンなどもありです。
+<dt>冷蔵庫
+	<dd>スーパーやコンビニが放送室から遠い場合は欲しいかもしれません。あればミルクティー用の牛乳や昼食やカメラ用フィルムの保管に便利です。
+	<dd>冷食も良さそうです。お好み焼き，たこ焼き，チャーハン，唐揚げ，パスタなど。
+-->
+<!--
+<dt>冷房器具
+	<dd>備え付けの空調がない放送室の場合は窓用エアコンとスポットクーラーの二択です。窓用エアコンは防音室に設置してしまうと防音性能が失われるかもしれません。
+	<dd>放送室の壁または天井に穴が空けられて室外機を設置できて 100 - 200 V の電源をとれる場合は一般的な形状のエアコンが使えるかもしれません。防音性能との兼ね合いにご注意ください。
+<dt>暖房器具
+	<dd>備え付けの空調がない放送室だと石油ファンヒーター，窓用エアコン，オイルヒーター，セラミックファンヒーター，電気カーペット，電気こたつなどが考えられます。
+	<dd>灯油が放送室にも安定的に供給されるなら石油ファンヒーターが熱効率と安全性の面でおすすめです。開放型の石油ファンヒーターは室内に一酸化炭素が溜まって朦朧としてくるので換気が手間です。国民生活センターのテストによるとトヨトミ，ダイニチ製のものが一酸化炭素少なめだそうです。
+-->
+<!--
+<dt>除湿器・空気清浄機
+	<dd>放送室の立地や構造上，自然換気に時間的な制約がある場合はあったほうが良いかも知れません。
+	<dd>加湿器だけは福井県北部であれば必要ないことが多いのと，タンクに薬剤をまぜるなどして継続的に適切なメンテナンスがないと本当に危険なカビをまき散らす機械になるので基本的には設置しないことをおすすめします。
+-->
+<dt>消火器
+	<dd>古い機材はほこりなどによってごくごく希に火を噴くことがあるため，消火器が放送室内か放送室付近にあることを確認してください。
+</dl>
+
+<h2 id="uniq-id-0.03710477743716467">スキル</h2>
+<p>中高生でも受験しやすい資格としては IT パスポートが有名です。IT パスポート以外では技能の実効性，難度，設備，環境諸々のバランスを考えると高校の商業科の資格取得パターンを踏襲するべきかもしれません。</p>
+<h3>放送部に関連した資格</h3>
+<p>放送部関係のコアな資格はほとんど民間資格になるようです。国家資格は次の通りです。</p>
+<dl>
+<dt>IT パスポート
+	<dd>コンピュータを扱える知識量を持っているかどうかの目安になる資格です。難易度がそれほど高くなくて開催地も開催数も多いので最初の資格としておすすめです。高校では商業科，情報科の生徒がよく取得しています。<!---情報処理の分野を広く扱う体系立った内容なので，ほとんどパソコンに触ったことがないけど使えるような知識量になりたいという方，我流だけど自分がどの程度の知識量でコンピュータを使えているか知りたいという方にもおすすめです。-->この試験の上のレベルにセキュリティマネージャ試験や基本情報処理技術者試験があります。
+<dt>基本情報処理技術者試験
+	<dd>コンピュータの資格では最も一般的な国家資格です。毎年高校生にもごく少数の合格者が出て新聞の地方面の記事になっていることがあります。合格していると情報工学を専攻していなくてもアルバイトや就職の採用などで工学部情報工学科卒業程度であると認められることがあります。<a href="http://www.info.mie-u.ac.jp/news/post-7.html">三重大学工学部情報工学科 4 年生の取得率で 40 % 程度，さらに上のレベルの応用情報処理で 5 % 程度</a>のようです。午前試験は知識問題で，午後試験でプログラミングと数学の問題が出ます。
+<dt>第二種電気工事士
+	<dd>住宅や店舗などの 600 V 以下のコンセントや配線に関する国家資格です。
+<dt>舞台機構調整技能士
+	<dd><a href="https://www.javada.or.jp/jigyou/gino/giken/3kyu/syokusyu/24.html">PA に関する国家資格のよう</a>です。
+</dl>
+<p>民間資格で色彩検定，統計検定，統計調査士，アナウンス検定，マナー検定，電話応対技能検定（もしもし検定），サウンドレコーディング技術認定試験，音響技術者能力検定，映像音響処理技術者資格認定試験，などがあるようです。本職のアナウンサーとナレーターを含む声優さんのプロフィール欄を見るとマナー検定を取得されている方が多い気がします。</p>
+<h3>放送部に直接は関係しない資格</h3>
+<dl>
+<dt>日商簿記 3 級
+	<dd>お金を扱う資格として一般的かつ有用な資格かと思います。試験が多く開催されているので最初の資格としてもおすすめです。本場たる高校商業科においては日商簿記ではひとつ上の 2 級の取得（<a href="http://www.tonkou.ed.jp/gakka-syouyou.html">敦賀高校</a>，<a href="http://www.fukusho-ch.ed.jp/2016_annai.pdf">福井商業高校</a>）を目指します。
+<dt>危険物取扱者乙種 4 類
+	<dd>石油全般を安全に扱うための資格で，身近なところではガソリンスタンドの時給が少し上がる資格です。実技試験がなく座学も高校一年生レベルの化学と物理の知識で解けます。試験が多く開催されているので日商簿記と並んで腕試しにおすすめです。高校生もよく取得している資格のひとつで化学科（<a href="http://www.kagakugijutsu-h.ed.jp/gakka_syoukai/C/chem/c_sikaku.html">科学技術高校</a>，<a href="https://www.fukui-nct.ac.jp/employ-adm/qualification/">福井高専</a>）や普通科の科学部が取得しています。
+<dt>潜水士
+	<dd>高校では水産科で取得することがあります。（<a href="https://www.wakasa-h.ed.jp/juniorhighschool.html">若狭高校海洋科学科</a>）
+<dt>アマチュア無線技士 4 級
+	<dd>災害時の通信に有効なほかドローンの操作に必要な場合があるようです。
+<dt>TOEIC
+	<dd>就職試験にも対応した英語の資格としては最も一般的かもしれません。高校 3 年生（2018 年，16,827 名）の平均でリスニング 247 点，リーディング 175 点，合計 422 点のようです。
+<dt>普通自動二輪免許
+	<dd>先に電動アシスト自転車を検討してそれでも登下校の手段として必要な場合は安全のために特定軽二輪をおすすめします。
+	<dd>最短で順調に合格できればほぼ 17 歳から二人乗りができて活動の幅が広がります。免許取得後に一年経過すると二人乗りができるので部員を輸送したい方は 16 歳の誕生日当日に取得する――自動車学校によって上限は異なりますが 16 歳になる数週間前から数ヶ月前に自動車学校に入校することをおすすめします。
+<dt>普通自動車免許
+	<dd>就職時にほとんどの職種で必要になります。進学する場合は自動車または原付通学のために地元の自動車学校で大学入学前に取得してしまうパターンと進学先は電車通学で最終学年手前くらいまでに大学付近の自動車学校に通学または遠方の自動車学校の合宿で取得するパターンがあります。合宿のほうは多忙で教官の目が行き届かないことがあるようなので通学のほうがおすすめです。
+	<dd>車好き機械好きの方はマニュアルが楽しくておすすめです。楽しい以外の理由としては電気自動車になるとマニュアルがなくなってしまうので今のうちに経験しておきたい点，車好き向けの車にマニュアルが多い点，選べる中古車が増える点，過走行車だとマニュアルの方が維持費用が安い点，すべての軽トラを動かせる点，DCT や CVT あるいはトルコン AT のドライブフィールが苦手な人の逃げ道のひとつである点，減速の手段が一つ多くなるので安全である点，前進後退時の踏み間違いが起きにくいので安全である点などです。運転者ご本人の特性によってはマニュアルには向かないパターンがあって教習中にオートマチックへの転向を勧められることがあります。
+<dt>2 級小型船舶操縦士免許
+	<dd>総トン数 20 トン未満の船舶で海岸から 5 海里以内を航行できる免許です。海沿いにお住まいでマリーナが近いまたは自宅に船がある場合におすすめです。
+	<dd>高校では水産科で取得することがあります。（<a href="https://www.wakasa-h.ed.jp/juniorhighschool.html">若狭高校海洋科学科</a>）
+<dt>2 級湖川小出力小型船舶操縦士免許
+	<dd>総トン数 5 トン未満，出力 15 kW 未満の湖川用船舶の航行免許です。湖川沿いにお住まいのかたにおすすめです。
+<!--<dt>特殊小型船舶操縦士免許
+	<dd>水上オートバイで陸岸から 2 海里以内を航行できる免許です。母船登録すると 2 海里を超えて航行できるようです。乗り物が使用されるシチュエーション上かなり危険な乗り物なので特に人の多いわが国ではおすすめできませんが，国内外で人の少ない海をご存じであれば取得もありかもしれません。-->
+</dl>
+<h2 id="uniq-id-0.87540210144135">交通手段</h2>
+<ul>
+<li>徒歩
+<ul>
+<li>背嚢，ソール，ヘッドライトなどの登山分野の快適装備は町中で使っても快適です。
+</ul>
+<li>自転車
+<ul>
+<li>自前の電動アシスト自転車
+<li>レンタルサイクル
+</ul>
+</li>
+<li>電車
+<ul><li>JR 北陸本線<a href="http://www.youtube.com/watch?v=tr_MJgtuQ7s">（YouTube 上の映像）</a>
+</li><li>JR 越美北線<a href="http://www.youtube.com/watch?v=-2HTpHtg4tE">（YouTube 上の映像）</a>
+</li><li>えちぜん鉄道三国芦原線<a href="http://www.youtube.com/watch?v=HGsCV5JRiwM">（YouTube 上の映像）</a>
+</li><li>えちぜん鉄道永平寺線
+</li><li>フェニックス田原町ライン（福井鉄道・えちぜん鉄道相互乗り入れ：福井鉄道福武線越前武生駅 - えちぜん鉄道三国芦原線鷲塚針原駅）
+</li><li>福井鉄道福武線<a href="http://www.youtube.com/watch?v=ITHpdcU4SYU">（YouTube 上の映像）</a>
+</li></ul>
+</li><li>バス
+<ul>
+<li>京福バス
+<ul><li><a href="https://bus.keifuku.co.jp/rosen/rainy2.php">レイニーバス</a>（福井県交通まちづくり課）</ul>
+<li>福鉄バス
+<li><a href="https://www.city.fukui.lg.jp/kurasi/koutu/public/chiikibetudia.html">福井市が運営する各種コミュニティバス</a>
+<ul>
+<li><a href="http://smile.ftmo.co.jp/">すまいるバス</a>――循環バス，一律 100 円，一日フリー 300 円
+</ul>
+<li>フレンドリーバス――福井県が運営する福井県立図書館利用者向けの循環バス，無料
+</ul>
+<li>タクシー
+<ul>
+<li>4 人以上で乗車して割り勘（5 km 1,930 円，10 km 3,640 円）
+</ul>
+<li>自動運転小型電動カート
+<ul>
+<li>永平寺参ろーどでの自動運転レベル 4 相当の実証実験（2018/11/09 - 2018/11/30）「<a href="https://www.fukuishimbun.co.jp/articles/-/736788">自動運転車で下校「乗り心地いい」永平寺町で実証実験</a>」『福井新聞』（2018/11/10）
+</ul>
+<li>特定二輪車
+<ul>
+<li>特定小型自動二輪――排気量 125 cc まで
+<ul>
+<li><a href="https://www.yamaha-motor.co.jp/mc/lineup/tricity/">Yamaha Tricity 125 ABS</a>
+</ul>
+<li>特定普通自動二輪――排気量 400 cc まで
+<ul>
+<li>Yamaha Tricity 155 ABS
+<li><a href="https://www.yamaha-motor.co.jp/mc/lineup/tricity300/">Yamaha Tricity 300</a>
+<li>Adiva AD1 200
+<li>Piaggio MP3 Yourban 300
+</ul>
+</ul>
+<li>四輪車
+	<ul>
+		<li>自前の四輪車
+		<li>レンタカー，カーシェアリング
+		<li>安全運転であると評価されている先輩の四輪車
+	</ul>
+</ul>
+<p>地点間の道なりの距離を測りたい場合には，マピオンの「<a href="http://www.mapion.co.jp/route/">キョリ測</a>」が便利です。</p>
+<h2 id="uniq-id-0.03202950075030797">鉄道・バスの乗り方</h2>
+<p><a href="http://www.youtube.com/watch?v=bQNPDA1RhjU">近江鉄道の乗り方（YouTube 上の映像）</a>，<a href="https://www.youtube.com/watch?v=aT9hvSOKsck">すまいるバスの乗り方（YouTube 上の映像）</a>が参考になります。</p>
+<h3>交通系 IC カード</h3>
+<p>JR 西日本は ICOCA です。私鉄とバスは 2019 年段階で導入の実証実験中のようです。</p>
+<h3>回数券</h3>
+<p>11 枚綴りの両方向の回数券 + 通常の切符 1 枚なら 6 人で使えます。</p>
+<h3>企画切符</h3>
+<p>土日祝日や区間限定で一日乗り降りできる切符があったりします。</p>
+<ul>
+<li>えちぜん鉄道 800 円
+<li>えちぜん鉄道・福井鉄道 1,200 円
+<li>福井鉄道 500 円
+<li>京福バスの一部 500 円
+</ul>
+<!--<h3>えちぜん鉄道サポーターズクラブ</h3>
+<p>1,000 円/年で切符が一割引になるとあります。500 円の区間に年間 11 回以上乗られる場合はサポーターズクラブに加入すると安くなる計算ですがサポーターは沢山払ったほうが良いのではという気がしないでもありません。</p>-->
+
+<h3>両替</h3>
+<p>車内の両替機では千円札までしか両替できなかったりで諸々の制約がありますので，よくわからない場合は ATM と自販機などで予め小銭を用意しておくほうが確実です。</p>
+<h3>鉄道車輌</h3>
+<p>越前武生，田原町間に 2013 年現在わが国で一番定員の多い低床車である F1000 形が走っています。</p>
+<table class="table">
+<caption>鉄道，路面電車一編成の比較（2013）
+</caption>
+<tr>
+<th>路線
+</th>
+<th>車輌
+</th>
+<th>一編成の価格
+</th>
+<th>定員
+</th>
+<th>営業最高速度
+</th>
+<th>営業開始
+</th></tr>
+<tr>
+<td>JR 北陸本線
+</td>
+<td>JR 西日本 683 系電車
+</td>
+<td>
+</td>
+<td>546
+</td>
+<td>130 km/h
+</td>
+<td>2001 年
+</td></tr>
+<tr>
+<td>JR 北陸本線
+</td>
+<td>JR 西日本 521 系電車
+</td>
+<td>4.60 億円
+</td>
+<td>252
+</td>
+<td>120 km/h
+</td>
+<td>2006 年
+</td></tr>
+<tr>
+<td>JR 越美北線
+</td>
+<td>JR 西日本キハ 120 形気動車
+</td>
+<td>1.00 億円
+</td>
+<td>105
+</td>
+<td>85 km/h
+</td>
+<td>1991 年
+</td></tr>
+<tr>
+<td>えちぜん鉄道全線
+</td>
+<td>Mc7000 形（国鉄 119 系）
+</td>
+<td>1.22 億円
+</td>
+<td>278
+</td>
+<td>70 km/h
+</td>
+<td>2013 年
+</td></tr>
+<tr>
+<td>えちぜん鉄道三国芦原線
+</td>
+<td>LRT 化用低床車
+</td>
+<td>3.11 億円
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>2014 年以降
+</td></tr>
+<tr>
+<td>福井鉄道福武線
+</td>
+<td>F1000 形
+</td>
+<td>3.17 億円
+</td>
+<td>155
+</td>
+<td>65 km/h
+</td>
+<td>2013 年
+</td></tr>
+<tr>
+<td>福井鉄道福武線
+</td>
+<td><a href="http://de.wikipedia.org/wiki/SSB_GT4">西ドイツ・シュトゥットガルト市電 GT-4</a>
+</td>
+<td>0.78 億円
+</td>
+<td>124
+</td>
+<td>60 km/h
+</td>
+<td>2013 年以降
+</td></tr>
+<!--
+<tr>
+<td>JR 小浜線
+</td>
+<td>JR 西日本 125 系電車
+</td>
+<td>1.80 億円
+</td>
+<td>113
+</td>
+<td>85 km/h
+</td>
+<td>2002 年
+</td></tr>
+<tr>
+<td>JR 北陸本線
+</td>
+<td>JR 西日本 225 系電車
+</td>
+<td>5 億円前後
+</td>
+<td>547
+</td>
+<td>130 km/h
+</td>
+<td>2010 年
+</td></tr>
+-->
+</table>
+<p>出典：ウィキペディア日本語版，ウィキペディアドイツ語版，福井市の議事録，福井新聞ウェブサイト，JR 西日本ウェブサイト</p>
+
+
+<h2 id="uniq-id-0.7658341377882317">普通自動二輪車</h2>
+<div class="alert alert-info" role="alert"><p>2020 年 7 月現在新型コロナウィルス COVID-19 の影響で公共交通機関が利用しにくくなっているため二輪免許を取得する社会的なハードルが下がっています。高齢であるか基礎疾患を持ったご家族が居なければ長期休暇での自動車学校への入校を検討してみてください。</p></div>
+
+<p>学区制の廃止や公共交通の路線網の縮退が進んで 2019 年現在埼玉県をはじめ複数の都道府県で自動二輪の<a href="https://ja.wikipedia.org/wiki/%E4%B8%89%E3%81%AA%E3%81%84%E9%81%8B%E5%8B%95">「三ない運動」</a>が撤廃されつつあるようです。自動車は四輪を含めて免許の返納がなかなか進まないくらい便利で，たいへん生活水準の向上に資する反面，脳や脊髄や髄液や四肢や手指に重い障害が残るような事故も盗難も多いので登下校プラス部活動の足としては諸々の天秤に掛けきった本当に本当の最後の手段ではあると思います。ちなみに体の末端の障害が多いのは典型的な生存者バイアスで，これの余事象が体の中心の心臓肺への致命傷または上半身泣き別れによる致命傷または対大型トラックなどで人間の原形が見当たらないパターンです。福井県は雨が多く二輪車には特に危険な条件ですので公共交通機関で済むのであればそちらが良いと思います。<p>
+
+<p>実際に自動二輪を検討すると，自宅と学校との距離が 8 キロメートル以上（茨城県立つくば工科高等学校）など学校ごとに免許取得の条件が違うほか，免許取得費用，イニシャルコスト，保守部品代，工賃または工具代，ファミリーバイク特約から外れる 126 cc 以上の排気量では任意保険料の高さ，盗難保険，駐車場代などのハードルがあります。学校によっては学校に申請せずに免許を取得してしまうと退学処分（広島県全域）になる可能性があるので必ず担任の先生または学校の事務局に相談してください。また，50 cc の原付スクーターが欲しい場合は地域の交通事情によっては左折車の巻き込みと 30 km/h 走行と二段階右折が特別に危険なことがあるので，あらかじめお近くのバイク屋さんに「スクーターでの通学を検討していて，地図のここからここまでの通学路だとすると 50 cc と 125 cc のどちらを買えば良いか」という内容で相談してから免許を取得してください。地元のバイク屋さんであればバイク通学の可否そのほかの情報が蓄積されているはずです。</p>
+<p>2000 年の<a href="https://ja.wikipedia.org/wiki/%E5%A4%A7%E8%A6%8F%E6%A8%A1%E5%B0%8F%E5%A3%B2%E5%BA%97%E8%88%97%E7%AB%8B%E5%9C%B0%E6%B3%95">大店法廃止</a>以降，地方の地域密着型の小規模商店が次々に衰退して今では自動車でしか到達できない大型ロードサイド店に生活を依存している――言い換えれば大都市圏の住人と地方の住人が同じような環境に暮らしている訳ではなかったにも関わらず，大店法廃止に併せて両輪の政策として大都市圏以外の地方の四輪免許の年齢制限を 18 歳から米国と同じ 16 歳前後に引き下げなかったために結果とくに地方の高校生の生活圏から書店，古書店，そのほか商店，図書館，学習塾，病院がなくなって生活水準が下がったように思います。つまり不幸を減らすはずの三ない運動を消極的に撤廃しているのも大型ロードサイド店と自動車への依存の現実と地方格差の是正の目標が要因のはずです。幸い普通自動二輪免許は 16 歳から取得できますので，わが国としては道路も狭いしこちらを使って欲しいということかもしれません。バイク通学の可否を決める担当の先生が地歴公民科の先生なら大店法の廃止と土日に幅二メートル長さ六メートルの大きなピックアップトラックをウォルマートに駐めて一週間分の生活必需品を買い入れて広い住宅の大きな冷蔵庫と食品庫を一杯にする米国式のライフスタイルの浸透と日本式の足まわりとのズレを論拠に陳情すれば斟酌して貰えそうです。</p>
+<p>スクーターがあると図書館，書店，アルバイト先，予備校の選択肢が増えます。バイク通学の予備校生は太平洋側では別に珍しくありませんが雨が多くて積雪のある福井県にも少数居たりします。電車バスの待合乗り換え時間分を予備校での学習に回せるのも大きなメリットです。キャンパス間の距離がある大学や僻地の大学，専門学校だとどの道スクーター必須だったりします。</p>
+<p>二輪での移動は乗り合いの公共交通機関に比べて感染症にかかりにくいというメリットもあるようです。</p>
+
+<ul>
+<li>日本二輪車普及安全協会，日本自動車工業会『<a href="http://www.jama.or.jp/motorcycle/environment/pdf/hss_safetydrive.pdf">高校生の二輪車安全運転教育の充実</a>』概観，数値データなど
+<li>日本自動車工業会『<a href="http://www.jama.or.jp/motorcycle/environment/pdf/high_school_student.pdf">高校生への二輪車安全運転教育好事例 2018</a>』事例集
+</ul>
+<ul>
+<li>日本二輪車普及安全協会「<a href="http://www.hondacapital.co.jp/safty1802.pdf">これだけは知っておこう高校生のためのセーフティライディング</a>」
+<li>本田技研工業株式会社安全運転普及本部『<a href="https://www.honda.co.jp/safetyinfo/guidebook/riding/">ホンダセーフティライディングガイド</a>』
+</ul>
+<div class="row">
+<div class="col-lg-6 col-xs-12">
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">【昨日の人気記事】[PR] スーパーカブで通学する種子島の高校生　卒業式にHondaが新聞の「全面広告」で祝福 <a href="https://t.co/CjWoTxAaIv">https://t.co/CjWoTxAaIv</a> <a href="https://t.co/qGa0lfdpt0">pic.twitter.com/qGa0lfdpt0</a></p>&mdash; ねとらぼ (@itm_nlab) <a href="https://twitter.com/itm_nlab/status/977568357837778949?ref_src=twsrc%5Etfw">2018年3月24日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>スーパーカブ通学で有名な鹿児島県立種子島高校を取り上げたホンダのプロモーション</p>
+</div>
+<div class="col-lg-6 col-xs-12">
+</div>
+</div>
+<div class="row">
+<div class="col-lg-6 col-xs-12">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/OsYRGI5JXpQ?start=113" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>鹿児島県立種子島高校の生徒がスーパーカブで登下校する実際の映像（ホンダのプロモーション映像内）</p>
+</div>
+<div class="col-lg-6 col-xs-12">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/WpPMNYhnqDQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>鹿児島県立種子島高校放送部「部活動紹介ビデオ」（参考）</p>
+</div>
+</div>
+<h3>費用助成</h3>
+<p>高校生のバイク通学の助成制度として福井県高浜町では高校生通学費助成の一区分にバイク通学の項目があって，申請すると月額 3,000 円が支給されます。</p>
+<h3>特定普通自動二輪</h3>
+<p>とくに福井県特有の雨のシチュエーションでそうですが，普通自動二輪免許で運転できる乗り物としてはヤマハ発動機のトリシティというスクーターが比較的転びにくい三輪構造で二輪に比べるとずっと安全です。</p>
+<p>三輪については国内外の二輪メーカー各社で転びにくい安全な自動二輪の開発が続いている背景があって，その一つとして前二輪後一輪のリバーストライクというカテゴリが存在します。カーブで車体を倒し込めないリバーストライクには四輪の普通免許が必要になってしまう一方で，倒し込み（リーン）可能なリバーストライクとして 2019 年現在国内で最も広く販売されているヤマハ トリシティ 125 ABS は，法的には特定普通自動二輪のくくりで 125 cc の排気量かつ自動変速のため，最低限，普通自動二輪免許（小型・AT 限定）があれば運転できます。</p>
+<div class="row">
+<div class="col-lg-6 col-xs-12">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/IX8G4x5QHpg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<div class="col-lg-6 col-xs-12">
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">【2/10(月)～27(木)】山梨県スパティオ小淵沢「延命の湯」にて、昨年3月公開からサウナのように熱い支持を頂いている描き下ろし漫画『ゆるキャン△SPECIAL EPISODE サウナとごはんと三輪バイク』特別カラーのトリシティ展示はじめました！<a href="https://twitter.com/hashtag/%E3%82%86%E3%82%8B%E3%82%AD%E3%83%A3%E3%83%B3?src=hash&amp;ref_src=twsrc%5Etfw">#ゆるキャン</a><a href="https://twitter.com/hashtag/%E5%BB%B6%E5%91%BD%E3%81%AE%E6%B9%AF?src=hash&amp;ref_src=twsrc%5Etfw">#延命の湯</a><a href="https://twitter.com/hashtag/%E3%81%B8%E3%82%84%E3%82%AD%E3%83%A3%E3%83%B3?src=hash&amp;ref_src=twsrc%5Etfw">#へやキャン</a><a href="https://t.co/g26l6LOUV2">https://t.co/g26l6LOUV2</a> <a href="https://t.co/F7PvvsaMr4">pic.twitter.com/F7PvvsaMr4</a></p>&mdash; ヤマハ バイク (@yamaha_bike) <a href="https://twitter.com/yamaha_bike/status/1226835010042261504?ref_src=twsrc%5Etfw">February 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<!--<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/%E6%95%A3%E9%AB%AA%E3%81%AE%E6%97%A5?src=hash&amp;ref_src=twsrc%5Etfw">#散髪の日</a><br>ショートカットな志摩リンとトリシティの実力をご堪能くださいませ！<a href="https://twitter.com/hashtag/%E3%82%86%E3%82%8B%E3%82%AD%E3%83%A3%E3%83%B3?src=hash&amp;ref_src=twsrc%5Etfw">#ゆるキャン</a><a href="https://t.co/ywCglyBmHL">https://t.co/ywCglyBmHL</a> <a href="https://t.co/c5fStZvA7l">pic.twitter.com/c5fStZvA7l</a></p>&mdash; ヤマハ バイク (@yamaha_bike) <a href="https://twitter.com/yamaha_bike/status/1103762795575701504?ref_src=twsrc%5Etfw">2019年3月7日</a></blockquote>-->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+</div>
+<h4>国内メーカー</h4>
+<p>2019 年現在，国内メーカーでは唯一ヤマハが前二輪のリーニングリバーストライクつまり特殊な三輪スクーターであるところのトリシティを商品展開しています。保険料の安い 125 がおすすめです。特に雨の多い福井県では予算上三輪に手が届かない場合は安全のために乗らない選択肢をおすすめします。</p>
+<ul>
+<li>ヤマハ トリシティ 125 旧型（2020/02 現在中古車総額で 20 - 49 万円，<a href="http://www.yamaha-motorcycle-sales.jp/usedmoto/source/c4p219as.html">認定中古車本体で 31 万円</a>）
+<li>ヤマハ トリシティ 125 ABS 新型（2020/02 現在<a href="https://www.goobike.com/maker-yamaha/car-tricity/map/index.html">中古車総額で 28 - 42 万円</a>，<a href="http://www.yamaha-motorcycle-sales.jp/usedmoto/source/c4p219as.html">認定中古車本体で 38 万円</a>）
+<li>ヤマハ トリシティ 155 ABS（2020/02 現在中古車総額で 31 - 62 万円）
+<li>ヤマハ トリシティ 300 ABS（2020/12 現在中古車総額で 87 万円）
+</ul>
+<p>雨に降られやすい福井県民にはありがたいことにトリシティ用の屋根がアフターパーツとして出ていて屋根を付けるとプラス 14 万円と工賃です。</p>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/XUscyWLe1MI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h4>海外メーカー</h4>
+<p>海外メーカーに目を向けるともう少し選択肢があります。リバーストライク型の三輪スクーターは世界的にはイタリアのピアジオ MP3 シリーズが代名詞になっています。このピアジオ MP3 をわが国で所有しようと考えると輸入車共通のデメリットとして高額な部品代，部品の入手性の不透明さ，修理を受け付けてもらえる整備工場が近隣にあるかどうか，気候の違いからくる不具合などのハードルがあります。</p>
+<ul>
+<li>ピアジオ MP3 Yourban 300 ie（2020/12 現在中古車総額で 50 - 59 万円）
+<li>ピアジオ MP3 400 FL（2020/12 現在中古車総額で 41 万円）
+<li>アディバ AD1 200（2020/12 現在中古車総額で 58 万円）
+<li>アディバ AD3 400
+</ul>
+<p>また輸入車の故障率は国産車に比べて高めです。数字でいうと米国『コンシューマリポート』誌の 2015 年の調査の概要だけ見ると，日本のヤマハが 11% で最も低く，日本メーカーが同じくらいで続いて，カナダのカンナム（ボンバルディアレクリエーショナルプロダクツ）が 42% と最も高くなっています。</p>
+<ul>
+<li>Bartlett, Jeff, "<a href="https://www.consumerreports.org/cro/news/2015/04/who-makes-the-most-reliable-motorcycle/index.htm">Who makes the most reliable motorcycle?</a>", <i>Consumer Reports</i>, 2015/04/07.
+</ul>
+
+
+<!--<h3>後ろ二輪の三輪バイク</h3>
+<ul>
+<li>ホンダ ジャイロ
+<li>ホンダ ジャイロ e:
+<li>ホンダ ジャイロ キャノピー（2020/12 現在中古 54 万円）
+<li>ホンダ ジャイロ キャノピー e:
+</ul>-->
+
+
+<!--<h3>電動二輪</h3>
+<ul>
+<li>ホンダ PCX e:HEV
+</ul>
+<ul>
+<li>ヤマハ e-Vino
+<li>ホンダ ベンリィ e:
+<li>ホンダ ジャイロ e:
+<li>ホンダ PCX エレクトリック（2020 年現在法人向けリースのみ）
+<li>BMW Motorrad C evolution（台湾キムコ）-->
+</ul>
+<h3>運転者以外の者を乗車させて普通自動車二輪を運転する</h3>
+<p>活動中に運転者以外の放送部員を遠隔地に輸送したいことがあります。二人乗りは免許取得後一年経過する必要があるので，誕生日の早い順に二年生の 4 月 3 日から運転者以外の放送部員一名を遠方の撮影地または図書館に輸送できるようになります。</p>
+<p>ウィキペディアを読む限り特定二輪車をのぞく側車付の自動二輪車であれば一年の制限がない（保安関係の法令は細かく更新されているので必ず最新の情報を取得してバイク屋さんと相談したうえで購入してください）はずなので，一年生から二人乗りしたい場合と単純に同乗者の人数を増やしたい場合は定員二名の単車にサイドカーを後付けすれば一年生の時点で最低でも三名で乗車できます。サイドカーはそれ自体が非常に高価な上に駐車場代を筆頭に諸々の区分が上がったりして維持費も高くなるのでこの方法は予算に上限がないかすでに自宅にあるという方に限られます。またサイドカーと本体の車体のデザインや走行機能の不整合の解決策の一つとしてサイドカー込みで設計されている <a href="https://www.gqjapan.jp/car/news/20180512/ural-motorcycles">IMZ ウラル</a>（<a href="https://ja.wikipedia.org/wiki/IMZ%E3%83%BB%E3%82%A6%E3%83%A9%E3%83%AB">BMW 製軍用バイクの厳密なコピー</a>）がありますが，こちらは 200 万円を超える価格で免許も大型二輪または四輪免許が必要です。ちなみにウラルは軍用車で設計から不整地に強い上にドイツのタイヤメーカーのハイデナウタイヤからスタッドレスタイヤも出ていますので雪道も走行できます。</p>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/iP5rX9r4vRk?start=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>同じくウラルのサイドカーをヤマハが SR400 の純正オプションとして扱っていたようでこちらは普通自動二輪免許で運転できます。この<a href="https://www.goobike.com/spread/8300342B30200123001/index.html">ヤマハの SR-URAL は 2020/02 現在中古で 72 万円</a>です。ただ福井県で冬に乗るには 2020/02 現在調べた限りでは SR400 側に合うスタッドレスタイヤが存在しない気がします。</p>
+<h4>保険</h4>
+<p>二人以上で乗るためには保険の見直しが必要な場合があります。</p>
+<!--<p>全労済のマイカー共済で原付，人身付帯無し，搭乗者 500 万円，対人対物無制限の年額概算だと 25,760円です。一人で乗ると 13,320 円なので，差額の 12,440 円が二人乗りのランニングコストです。同一条件で 126 cc 以上になると 16 歳だと年額 9 万円くらいになります。</p>-->
+<h3>運転マナー</h3>
+<p><a href="http://www.jaf.or.jp/profile/news/file/2016_17.htm">JAF の 2016 年のアンケート調査</a>では「都道府県内の全般的な運転マナーについてとても悪いまたは悪いと回答した比率」が，福井県は 9 位 58.2%，全国平均 38.3%（<i>&#x1D427;</i> = 64,677 名，内福井県 0.5% = 323 名，JAF のウェブサイトでのオンラインアンケート）で十指に入る悪さです。福井県内を運転する場合は大都市の福岡，大阪，愛知並に身構えて慎重に運転する必要があるかもしれません。</p>
+<p>また四輪車の一般道での後席シートベルト着用率も福井県 30.3%，全国平均 38.0%（「後席シートベルト着用，福井が最低 高速道で，一般道も全国平均以下」『福井新聞』2018/12/19，JAF 福井支部と福井県警の共同調査）で，その前年の 14.8% の最下位記録から絶対値はかなり改善されているものの相対的にはまだ下位のようです。</p>
+<h3>雨天時</h3>
+<p>福井県は降水量がかなり多いイメージのある沖縄県の少し下くらいの降水量です。断水で給水車に並ぶということが全くないのは嬉しい反面二輪には厳しい条件ですので雨の日は乗らないのがおすすめです。雨の日に乗る場合は耐水性能の高いレインウェアとバッグを買うか，通年の雨を見越して屋根を付けてしまうのも一つの手です。</p>
+<h3>降雪時</h3>
+<p>平成 28 年度の福井県は奥越をのぞく全域が豪雪地帯，奥越が特別豪雪地帯です。三輪構造で対応するスタッドレスタイヤが世に出ていて道がすべて融雪されているとか交通量が極端に少ないなど条件が揃わない限り冬場は乗らないほうが良さそうです。</p>
+<p>トリシティ 125/155 ABS の場合はスタッドレスタイヤの井上ゴム工業 <a href="https://ircmoto.jp/product-list/snow/sn26/">IRC SN26</a> を履くことである程度までの雪道を走行できるようになるようです。もしどうしても冬も乗る場合はトリシティ本体の購入前にバイク屋さんかバイク用スタッドレスタイヤを取り扱っているバイク用品屋さんに相談してください。トリシティのほかにホンダ ジャイロキャノピーにスタッドレスタイヤを履かせる例などもあるようです。</p>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/CdvUpISSk14?start=156" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h3>そのほか悪路</h3>
+<p>自宅と学校との間に未舗装の悪路が長くある場合はオフロード二輪や泥よけの付いたカブや大径スクーターのほうがいいかもしれません。バイク屋さんに悪路の最悪条件の写真と地図を持ち込んで相談してください。</p>
+<p>海外の登下校事情を調べると過酷なものも多く衝撃的です。</p>
+<div class="row">
+<div class="col-lg-6 col-xs-12">
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">【せかい旬景】「125CC以下のバイクは免許が必要ありません」。カンボジアでは小中学生まで通学の足としてバイクを利用しています。ノーヘルに２人乗り、さらにサンダル履きとわが国ではありえない光景。国によって安全意識や事情が違うようです。（顕）<a href="https://t.co/9Cw4Bp7gyg">https://t.co/9Cw4Bp7gyg</a>　<a href="https://twitter.com/hashtag/%E3%82%AB%E3%83%B3%E3%83%9C%E3%82%B8%E3%82%A2?src=hash&amp;ref_src=twsrc%5Etfw">#カンボジア</a>  <a href="https://twitter.com/hashtag/%E3%83%90%E3%82%A4%E3%82%AF?src=hash&amp;ref_src=twsrc%5Etfw">#バイク</a> <a href="https://t.co/dPSgXKU8JI">pic.twitter.com/dPSgXKU8JI</a></p>&mdash; 日経新聞 写真部･映像報道部 (@nikkeiphoto) <a href="https://twitter.com/nikkeiphoto/status/1043315200303058945?ref_src=twsrc%5Etfw">2018年9月22日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+</div>
+<!--
+<h3>自動車学校</h3>
+<p>福井県指定自動車教習所協会の<a href="http://www.fukuiadsa.or.jp/map/index.html">福井県指定自動車教習所一覧</a>をみると福井県の自動車学校は全部で 10 校あってすべての自動車学校で普通二輪を取得できます。自動車学校のスクールバスは入校の時期によっては定時性や快適性において大きく当たり外れがあったりしますが自分の知る限り北陸自動車学校は JR と私鉄の駅に近くて，もしスクールバスが合わないと思っても割と気ままに通えると思います。どちらの駅もダイヤは長閑ではあります。</p>
+<p>教習料金は申し込み方法，決済方法ごとの基本的な割引のほかシーズンごとに各種キャンペーンを実施していて繁忙期と閑散期で傾向が違うようです。自動車学校は 2，3，8 月が明確に繁忙期で，その前後も繁忙期の可能性があります。逆に 10 月から 12 月が閑散期のようです。また不定期に二輪メーカーの販売会社主催の<a href="https://ysp-members.com/support/getLicense/">新規免許取得者向けキャッシュバックキャンペーン</a>が実施されていますので新車を購入される方は入校前に実施されているかどうか確認してください。</p>
+<p>北陸の気候から北陸自動車学校の二輪教習では 11 月中旬から翌 3 月中旬まで雪の影響で入校できないようです。</p>
+<h4>普通自動二輪免許の教習料金（2019 年 10 月現在時点）</h4>
+<ul>
+<li>北陸自動車学校 普通自動二輪 学科 26 コマ，技能 19 コマ 総額 191,846 円（夜間総額 202,296 円）
+<li>福井自動車学校 普通 AT 限定 学科 26 コマ，技能 15 コマ 総額 176,990 円（夜間 550 円/コマ割り増し）
+<li>福井自動車学校 小型自動二輪 学科 26 コマ，技能 12 コマ 総額 158,840 円（夜間 550 円/コマ割り増し）
+<li>小浜自動車学校 小型 AT 限定 学科 26 コマ，技能 9 コマ 総額 150,150 円（夜間 550 円/コマ割り増し）
+</ul>
+<p>すでに四輪の免許を持っている場合は学科がほぼなくなって次の通りです。一部の自動車学校で再入校時の卒業生割引があります。</p>
+<ul>
+<li>北陸自動車学校 普通自動二輪 学科 1 コマ，技能 17 コマ 総額 119,573 円（夜間総額 128,923 円）
+<li>北陸自動車学校 小型自動二輪 学科 1 コマ，技能 10 コマ 総額 88,773 円（夜間総額 94,273 円）
+<li>小浜自動車学校 小型 AT 限定 学科 1 コマ，技能 8 コマ 総額 81,730 円（夜間 550 円/コマ割り増し）※2018 年の法改正から福井県では小浜自動車学校でのみ最短 2 日で取得できるようになりました。
+</ul>
+<h3>ディーラー</h3>
+<p>車両を購入する際は自宅から近いバイク屋さんまたはメーカーの直営店のどちらかが良さそうです。</p>
+<p><a href="http://ajfukui-bike.com/">福井県オートバイ事業協同組合</a>を参照してください。</p>
+
+<h3>デメリット</h3>
+<ul>
+<li>死亡する，死亡させる
+<li>障害を負う，障害負わせる
+<li>盗難リスク
+<li>屋根を付けないと冬期は死ぬほど寒い
+<li>ごく一部の車種にしかスタッドレスタイヤがないので降雪地の冬期は基本的には乗れない
+<li>免許取得に費用と時間がかかる上に確実でない
+<li>本体が中古でも高価
+<li>維持費が四輪より遙かに安いとはいえなかなかのもの（全労済の任意保険，法定点検，ガソリン，駐輪場）
+<li>51 cc 以上は駐輪場が見つけにくい
+</ul>
+<h3>メリット</h3>
+<ul>
+<li>取材先の選択肢が増える
+<li>図書館で一度に借りられる冊数が増える
+<li>免許取得後一年経過すれば 51 cc 以上の二輪車でなら部員を一人輸送できる
+<li>部活の活動時間が増える
+</ul>
+<ul>
+<li>生活水準が向上する
+<li>乗り合い乗り換えの待ち時間の分だけ学業の活動時間が増える――一日一時間なら三年で 600 時間ほど。卒業式の日に 600 時間 = 75 日のロスタイムが貰えたら嬉しい。
+<li>朝に寄れるお店が増えて朝食と昼食のバリエーションが広がる
+<li>夕方にスーパーに寄れるので夕食と翌日の朝食のバリエーションが広がる
+<li>アルバイト先の選択肢が増える
+<li>予備校，私塾の選択肢が増える
+<li>グリップヒーターが暖かい
+<li>125 cc かそれより大きな一部のスクーターは屋根が付けられるので自転車より寒くない
+</ul>
+-->
+<!--
+<h3>学校付近で駐輪場／駐車場を探す</h3>
+<p>バイク通学の許可が出ても安全性や騒音，管理，生徒指導上の問題で学校内への駐輪に難色を示された場合と単純に学校の駐輪場の治安が悪い場合は学校外の駐輪場を契約するのも手です。</p>
+<p>また消防法を細かく調べると学校の敷地内に意外に駐められそうな場所があるかもしれません。</p>
+<h4>私設の駐輪場</h4>
+<p>学校から少しだけ離れた駐輪場の空きを一台分三年一括先払いにするなどして交渉が上手くいけばなんとか借りることができます。安いところであれば契約してもそのほか燃料代などのコストとトータルで定期代とトントンくらいでいけると思います。</p>
+<h4>公設の駐輪場</h4>
+<p>学校周辺の駅に無料の駐輪場が整備されている可能性もあります。福井市の場合は<a href="https://www1.g-reiki.net/city.fukui/reiki_honbun/s500RG00000436.html">福井市自転車等駐車場の設置及び管理に関する条例</a>に基づいて無料かつ原付も駐められる駐輪場が整備されています。ピンクナンバーの写真もあるので原付二種も駐められるかもしれません。どこも盗難多発の掲示があって盗難の可能性は私有地の月極の駐輪場よりかなり高いはずです。</p>
+<p>2020 年現在，条例の駐輪場は福井市内 46 駅に対して 27 箇所あります。<p>
+<ul>
+<li>福井市 JR 福井駅自転車駐車場（自転車盗多発の張り紙）
+<li>福井市えち鉄越前島橋駅自転車駐車場
+<li>福井市 JR 森田駅自転車駐車場
+<li>福井市 JR 足羽駅自転車駐車場
+<li>福井市 JR 越前東郷駅自転車駐車場
+<li>福井市 JR 大土呂駅自転車駐車場
+<li>福井市 JR 一乗谷駅自転車駐車場
+<li>福井市えち鉄鷲塚針原駅自転車駐車場
+<li>福井市えち鉄新田塚駅自転車駐車場
+<li>福井市えち鉄東藤島駅自転車駐車場
+<li>福井市福鉄浅水駅自転車駐車場
+<li>福井市福鉄江端駅自転車駐車場
+<li>福井市えち鉄追分口駅自転車駐車場
+<li>福井市 JR 越前花堂駅自転車駐車場
+<li>福井市田原自転車駐車場
+<li>福井市えち鉄越前新保駅自転車駐車場
+<li>福井市福鉄赤十字前駅自転車駐車場
+<li>福井市 JR 市波駅自転車駐車場
+<li>福井市 JR 越前大宮駅自転車駐車場
+<li>福井市 JR 越前高田駅自転車駐車場
+<li>福井市えち鉄八ツ島駅自転車駐車場
+<li>福井市えち鉄日華化学前駅自転車駐車場
+<li>福井市えち鉄越前開発駅自転車駐車場
+<li>福井市 JR 福井駅西口再開発ビル自転車駐車場（原付不可）
+<li>福井市えち鉄田原町駅自転車駐車場
+<li>福井市福鉄ベル前駅自転車駐車場
+<li>福井市えち鉄福井口駅自転車駐車場
+</ul>
+<ul>
+<li>社会実験自転車駐車場 新栄テラス暫定自転車駐車場
+</ul>
+<h4>駐車場</h4>
+<p>51 cc 以上，場所によっては 126 cc 以上だと自転車と同じ駐輪場ではなくてバイク用駐車場か四輪車用の駐車場に駐める必要があります。四輪車用の月極駐車場だと駐輪場よりも見つけやすいかもしれません。</p>
+<ul>
+<li>坂井市営駐車場 JR 丸岡駅南駐車場 月極 2,000 円
+</ul>
+<h3>安全のために</h3>
+<ul>
+<li>前後席ともに胸部プロテクタを装備する。
+<li>少しでも体調の悪い日は乗らないようにする
+<li>雨の日は可能であれば乗らないようにする
+<li>速度レンジの高い道路をなるべく避ける
+</ul>
+<ul>
+<li>信頼できる販売店を見つける
+<li>特定二輪か側車付きの三輪の車種を選ぶ
+<li>雨で滑らないことを謳うまたはその評判の銘柄のタイヤを履く
+<li>タイヤが減りきる前に余裕をもって交換する
+<li>定期的に必ず走行前（走行後は危険です）にエアゲージでタイヤの空気圧をチェックして規定値まで入れておく
+<li>メーカーもしくは販売店が指定するエンジンオイルの交換時期を厳守する
+<li>必ず法定 12 ヶ月点検に出す
+</ul>-->
+<h2 id="uniq-id-0.15829785703666632">四輪車</h2>
+<p>四輪は個人的には将来的に衝突軽減ブレーキ車専用免許が 16 歳で取得できればとは思うのですが，現状では 13 歳または 16 歳で入学されて，6 年または 3 年のストレートで卒業される場合の進路が決まってから卒業までのわずかな期間に後輩や物品の輸送に走り回るという用途がメインになるかと思います。これ以外の年齢で入学卒業される場合や国立高専や全日制以外の学校だともう少し長く走り回れます。もし原付二種のスクーターをお持ちなら四輪の修理中の交通手段をカバーできて過走行車やラテン車に乗るという冒険の選択肢もとれます。</p>
+<p>とにかく安く乗るならミラかアルトのもしあればマニュアル仕様の中古車です。これらの車種は軽セダンというカテゴリのようです。トランスミッションはマニュアルのほうが修理費用を安く抑えられます。運転の練習がてら高年式過走行の安いものを買うとするとメーカー販社公式の 12 ヶ月保証付き中古車で 2020/02 現在 30 万円台から買えます。また運よく程度の良い個体に当たれば大学の 4 年間ずっと乗り続けられます。長距離と高速走行に不安があればその都度別に車をレンタルするという手があります。</p>
+<p>個人的な立場を表明しておくとエンジンやタイヤが正常でとにかく走れさえすればボディやシートがボロボロでもトゥクトゥクでも原付でもなんでもいいというタイプの人間です。</p>
+<ul>
+<li>ダイハツ ミライース
+<li>ダイハツ ミラ
+<li>ダイハツ ミラ トコット
+<li>スズキ アルト――5MT 設定有り。
+<li>スズキ アルト ラパン
+</ul>
+<p>人間の居住性と荷物の積載性なら軽スーパーハイトワゴンが人気です。趣味用の大型犬や楽器や自転車や釣りやキャンプの愛好家の車としてだけでなく，わが国全体の四輪車の売れ筋もここです。</p>
+<ul>
+<li><a href="https://www.honda.co.jp/Nbox/">ホンダ N-BOX</a>――2017，2018，2019 年販売台数首位で新聞雑誌の紹介記事でも国民車の称号を勝ち取っています。ホンダ認定中古車だと 2020/02 現在 70 万円弱から購入できるようです。雨の日にありがたい機能として二代目 N-BOX からは前後列のウォークスルーができます。派生車種の NBOX+ は車中泊に特化したパッケージのようです。
+<li>ダイハツ タント
+<li>スズキ スペーシア
+<li>日産 ルークス，三菱 eK スペース
+</ul>
+
+<p>もう少し全高が低くて軽くて安い軽ハイトワゴンという前述二つの中間のカテゴリもあります。スーパーハイトほどではないにせよ座面もルーフも十分高く程々に乗り込みやすくて積載性も折りたたみ式でない自転車の積載ができない程度でほとんどの買い物には十分良いという感じです。低くて軽い分走行性能も横風や側面衝突による横転への耐性もスーパーハイトに比べて良くなります。</p>
+<ul>
+<li>ダイハツ ムーブ
+<li>スズキ ワゴン R
+<li>ホンダ N-WGN
+<li>ホンダ N-ONE
+<li>日産 デイズ，三菱 eK ワゴン
+</ul>
+
+<p>車高を上げた SUV もあります。</p>
+<ul>
+<li>スズキ ハスラー
+<li>ダイハツ タフト
+</ul>
+
+<p>不整地走行ができるオフローダーだとジムニーがあります。</p>
+<ul>
+<li><a href="https://www.suzuki.co.jp/car/jimny/">スズキ ジムニー</a>
+</ul>
+
+<p>専ら一人で乗って荷物の運搬がメインであれば軽バンまたは軽トラックがあります。</p>
+<ul>
+<li>ダイハツ ミラ バン
+<li>スズキ アルト バン――5MT 設定有り。
+<li>スズキ エブリィ，スズキ キャリィ
+<li>ダイハツ ハイゼットカーゴ，ダイハツ ハイゼット
+<li>ホンダ N-VAN
+</ul>
+
+<p>以降に挙げる車種は概ね個人的な趣味によるものです。四輪の普通車を買う予算に余裕があってミニバンや SUV でないカテゴリでは B セグメント前後のマニュアル仕様のホットハッチが面白いと思います。積載性居住性が十分で走行性能にも余裕があります。たとえば売れ筋のスイフトスポーツだと FF，4 気筒，1.4 リットルターボ，230 N m，100 kW（140 馬力），200 万円弱です。</p>
+<ul>
+<li>ホンダ N-ONE RS
+<li>スズキ アルトワークス
+<li>三菱 アイ ガソリンターボモデル――珍しい 4AT，珍しい RMR レイアウト。
+<li>フォルクスワーゲン up! GTI
+<li>ルノー 3 代目トゥインゴ GT――かなり珍しい RR レイアウト。
+</ul>
+<ul>
+<li><a href="https://www.suzuki.co.jp/car/swiftsport/">スズキ スイフトスポーツ</a>
+<li>マツダ 2 15MB，マツダ デミオスポルト
+<li>ホンダ フィット RS
+<li>日産 ノート NISMO
+<li>三菱 コルト ラリーアート R
+<li>フォルクスワーゲン ポロ GTI
+<li>シトロエン DS3
+<li>プジョー 208 GTi
+<li>ルノー ルーテシア R.S.
+</ul>
+<ul>
+<li>ホンダ シビックハッチバック 1.5L ターボ
+<li>マツダ 3 ファストバック 2.0L
+<li>トヨタ カローラスポーツ 1.2L ターボ
+<li>スバル インプレッサ 4 代目 スポーツ 2.0L
+<li>フォルクスワーゲン ゴルフ GTI
+<li>BMW 116i
+<li>シトロエン DS4
+<li>プジョー 308 GTi
+<li>ルノー メガーヌ R.S.
+</ul>
+
+<p>ちなみにホットハッチの最上級モデルだと次の顔ぶれです。これらの車種はアウトバーンの無制限区間やニュルブルクリンクや北欧の雪深いラリー選手権会場を一秒でも速く走るための車で、わが国の一般道はもちろんわが国の高速道路でも性能を持て余しますので国内で所有されている方は相当な車好きです。おおむね FF ベース四駆，4 気筒，2.0 リットルターボ，400 N m，220 kW（300 馬力），500 万円前後の車両です。</p>
+<ul>
+<li>トヨタ GR ヤリス RZ ハイパフォーマンス
+<li>ホンダ シビック タイプ R
+<li>スバル WRX STI 5 ドア
+<li>フォルクスワーゲン ゴルフ GTI TCR
+<li>BMW M135i
+<li>メルセデス AMG A 45 S 4MATIC+
+<li>ルノー メガーヌ R.S. トロフィー R
+</ul>
+
+<p>FF または FF ベース四駆のセダンだとこんな感じです。セダンは重心が低いうえにハッチバックやミニバンに比べて各ドアの開口部が小さい分ボディーがたわまないので走行性能も良くできるようです。静粛性にも優れます。雪道の安全性では FR よりも FF が有利です。</p>
+
+<ul>
+<li>ホンダ シビックセダン
+<li>ホンダ インサイト
+<li>ホンダ アコード
+<li>マツダ 3
+<li>マツダ 5
+<li>スバル インプレッサ G4
+<li>スバル レガシィ B4
+<li>スバル WRX STI
+<li>三菱 ランサーエボリューション X ファイナル
+</ul>
+
+<p>憧れの FR 車だとこんな感じです。ちなみに自動二輪は 50 cc からリッター車まで全部後輪駆動なので回頭性能と加速性能を求めるなら自動二輪でいいような気もします。また近年，かつて購入も維持も高コストで高嶺の花だった三菱のアクティブヨーコントロールのようなトルクベクタリング技術が安く賢くこなれてエントリーモデルでも内側のブレーキのみ摘まむことで FF 特有のアンダーステアをある程度消し込むことができるようになった結果，かつて FR の牙城だった BMW でも必ずしも FR という訳でもなくなってきたようです。</p>
+<ul>
+<li>スバル BRZ，トヨタ 86
+<li>BMW 1 (F20 まで)
+<li>マツダ ロードスター
+<li><a href="https://www.suzuki.co.jp/car/jimny/">スズキ ジムニー</a>
+<li>スズキ 三代目エスクード
+</ul>
+
+<ul>
+<li>BMW 3
+<li>メルセデス C クラス
+<li>トヨタ マーク X
+<li>日産 スカイライン
+<li>マツダ RX-8
+</ul>
+
+
+
+<!--<p>居住性積載性静粛性耐候性経済性安全性そのほかすべてを犠牲に夢の 2 人乗りオープンスポーツを手に入れるというのもありです。ただ自動二輪も屋根なし 2 シーター後輪駆動であることがほとんどなのでスクーターで良い気もします。</p>
+<ul>
+<li>マツダ ロードスター
+<li>ダイハツ コペン
+<li>ホンダ S660
+</ul>-->
+
+<p>輸入車には 4 人乗れるオープンカーであるところのカブリオレというカテゴリもあります。どうしても好みが分かれるところで音や景色や太陽光や風や雨をプラスに評価するかマイナスに評価するかによると思うのですが個人的にこのカブリオレが車の一番贅沢なカテゴリである気がします。</p>
+<ul>
+<li>ルノー トゥインゴ キャンバストップ
+<li>フィアット 500C キャンバストップ
+<li>シトロエン DS3 カブリオ
+<li>フォルクスワーゲン ゴルフ カブリオレ
+<li>BMW 1/2/3/4/6/8 カブリオレ
+<li>メルセデス C/E/S カブリオレ
+<li>アウディ A5 カブリオレ
+<li>ポルシェ 911 カブリオレ
+<li>フェラーリ ポルトフィーノ――先代はフェラーリ カリフォルニア
+<li>トヨタ レクサス LC500 コンバーチブル
+</ul>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_YCOGbRBQh0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>フラグシップだと次のような感じです。</p>
+<ul>
+<li>日産 GT-R
+<li>ホンダ NSX
+<li>トヨタ レクサス LFA
+<li>ポルシェ 911
+<li>BMW M8
+<li>メルセデス AMG GT
+<li>アウディ R8
+</ul>
+
+<p>憧れのパノラマルーフだとこんな感じです。</p>
+<ul>
+<li><a href="https://www.daihatsu.co.jp/lineup/taft/">ダイハツ タフト</a>
+<li>シトロエン 二代目 C3 ゼニスウィンドウ
+<li>プジョー 208 シエロルーフ
+</ul>
+
+<p>海外の歴史的な国民車だとこんな感じです。現代では車の趣味が極まった人が乗っています。</p>
+<ul>
+<li>シトロエン 2CV――宮崎駿の愛車のひとつ。
+<li>フィアット 初代 500――『ルパン三世カリオストロの城』に登場。
+<li>VEB ザクセンリンク トラバント
+<li>フォルクスワーゲン メキシコビートル
+</ul>
+
+<p>衝突安全性能の情報は NCAP，Euro NCAP，JNCAP で取得できます。予算が許せばフォルクスワーゲンの中上位モデル，アウディ，メルセデス，BMW あたりがアウトバーンでの 200 km/h 超の高速走行前提で基本的に要求性能が高いので安全かと思います。日本車ではスバルが衝突安全性能を売りにしています。このほか静粛性の面だと 2020 年現在，ホンダ 10 代目アコードが人気のようです。ちなみに安全上絶対におすすめできませんが乗り物にパワーウェイトレシオだけを求めるなら川崎重工業（兵庫）の航空宇宙産業のノウハウが注がれたカワサキ Ninja H2 Carbon（ほぼ 1 キログラム/馬力で人間を乗せると 2 キログラム/馬力弱，363 万円）のようなお化けバイクを選べば同じくらいのパワーウェイトレシオの四輪のスーパーカー（ランボルギーニ Aventador，2.03 キログラム/馬力，4,576 万円）よりもかなり安く，十分の一以下で買えます。川崎重工業の二輪の顔である Ninja シリーズに関しては，同じ基本設計でサーキット仕様の Ninja H2R が公道で時速 400 キロメートルという市販二輪車世界最高記録を持っています。ただ日常の用途ではパワーウェイトレシオやパワーバンドよりもトルクウェイトレシオやトルクバンドのほうが重要です。</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jbVSNjOz6Lo?start=166" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h3>安全のために</h3>
+<p>四輪免許を取得してすぐの先輩か同級生の車に同乗する場合は必ず後部座席を選んで必ずシートベルトを着用してください。初心者特有の事故に繋がるので音楽を切って会話も最小限に控えた方が無難です。運転が荒っぽい先輩の車にはそれとなくごまかして乗らないようにして，もし乗ってしまったら最短の行程でそれとなく降りるのが一番安全です。危険な運転者の兆候は次の通りです。</p>
+<ul>
+<li>急加速，急ブレーキ，急ハンドル，低速での雑なクラッチ操作で体が前後上下に揺すられる
+<li>ほかの運転者や交通状況への悪態，普段とハンドルを握っているときで人格が違う
+<li>ウィンカー，ブレーキ，ハンドル操作が遅い
+<li>微妙に信号を守らない
+<li>車間距離を詰めぎみ
+<li>追い越し，割り込みが多い
+<li>ほかの車や歩行者に道を譲らない
+<li>信号機のない横断歩道，狭い生活道路，駐車場，交差点で減速と徐行が十分でない
+<li>停止線，停止の標識，歩道，路側帯，踏切の前で一時停止しない
+<li>シートを下げて倒して片手で運転している，デザイン優先で見切りの悪い車を買っている，初心者マークを付けることを嫌がる，スピードを出したがる
+<li>ろれつが回っていない，あくびが多い，ユーモアが通じない，運転しながら別のことをしている
+<li>運転席のフロアに物が落ちている，ヒールを履いている，常に内気循環にしている，爆音で音楽を流す，購入時または購入後に安全装備を外した
+<li>車にへこみが多い
+<li>車の説明書を一度も開いたことがない，適正空気圧の記載位置がわからない
+<li>エンジンルームを開けたことがない，液面の読み方がわからない，車から異音がしている，車の下から油が垂れている，タイヤの空気圧が足りていない，タイヤの溝がない，タイヤにひび割れがある，タイヤの製造年がずいぶん古い，ランプ類が片目になっている，ワイパーがガコガコ鳴っている，エンジンがかからないことがある
+<li>ナンバーに角度や板がついている，車高が極端に低い，タイヤ側面が車の側面とツライチか飛び出ている，ホイールが極端に大きく意匠が派手でかつタイヤがほかで見ないくらい薄い，窓ガラスのスモークがほかで見ないくらい濃い，排気音が大きい
+<li>ワンデイ保険への加入を渋る
+<li>免許証の確認をせがんでも一瞬たりとも見せてくれない
+</ul>
+<h4>事故に遭いにくい車の色</h4>
+<p>銀色の車が事故に遭いにくいようです。既にオープンアクセスになっている 2003 年の <i>BMJ</i> 掲載の論文「車の色と自動車事故のリスク」――Furness, S. and J. Connor and E. Robinson, et al., <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC300804/?_escaped_fragment_=po=62.5000">"Car colour and risk of car crash injury: population based case control study"</a> によると，白の車を 1 とした場合，茶が 2.1，黒が 2.0，緑が 1.8，銀が 0.4 の比率で事故に遭いやすい（症例対照研究，ケース群 <i>&#x1D427;</i> = 571，コントロール群 <i>&#x1D427;</i> = 588 クラスター抽出）ようです。もしこの論文に従うのであれば茶，黒，緑色の車とは十分に車間距離をとって自身は銀色の車に乗るべきです。よく危ないといわれている青はこの論文では 0.9 で灰 0.9 や黄 0.8 と同じくらいです。</p>
+<ul>
+<li>Furness, S. and J. Connor and E. Robinson, et al., <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC300804/?_escaped_fragment_=po=62.5000">"Car colour and risk of car crash injury: population based case control study"</a>, <i>BMJ</i>, Vol.327 No.7429, 2003, pp.1455-1456. <!--<code>https://doi.org/10.1136/bmj.32774291455</code>-->
+</ul>
+<h4>タイヤ</h4>
+<p>タイヤの安全性能に関してはウェットグリップ性能の指標があります。冬タイヤには停止距離の届け出があるようです。</p>
+
+<h2 id="uniq-id-0.1829681070790532">アルバイト</h2>
+<p>前借りへの印象はどうでしょうか。国公立大または私学の特待生（全額免除，半額免除，または国公立相当額への減額）または公務員または有力企業に必ず合格，内定することを条件にご両親から前借りして夏休み以外はアルバイトをしないという手があります。もし承諾が貰えるなら勉強と部活に使える時間が増えるので非常におすすめです。</p>
+<p>学力的に国公立大等への合格を確約できなくて長期のアルバイトをする場合は詐欺的な求人や，業界の構造不況の影響で地雷となっている求人が多数ありますのでご両親か信頼の置ける先輩などに相談してください。</p>
+<!--<p>さてアルバイト代で原付二種スクーターに乗る皮算用してみると検索してたまたま一番上に出た某滋賀県発祥の寿司店の求人の高校生 950 円 + 休日手当 50 円の時給で，土日各 6 時間のシフトを一年生の一年間だけ続けると「小型限定普通二輪免許」と「中古のヤマハ トリシティ 125 ABS」と「グリップヒーター」ともしかしたら「SHOEI のヘルメット」が買えます。土曜 6 時間のシフトだと「小型限定普通二輪免許」と「中古保証整備済みのスズキ アドレス V125 シリーズ」がぎりぎり買えるか買えないかくらいです。あとはガソリン代と税金と自賠責・任意保険とオイル交換とタイヤ交換と法定点検と駐車料金くらいなので一年半でやめてしまっても原付二種スクーターに乗るということに関しては二年生三年生時点でそこまでの出費はありません。相当に甘い見積もりなので駄目だったらすみません。</p>
+<ul>
+<li>時給 1,000 円 × 土日 6h × 4 週 × 12 ヶ月で 576,000 円
+<li>時給 1,000 円 × 土曜 6h × 4 週 × 12 ヶ月で 288,000 円
+</ul>
+<p>ちなみに土日のロードサイドの寿司店は地獄だと聞いたことがあります。</p>-->
+<h3>Youtube の投稿動画やストックサービスの収益化</h3>
+<p>ご両親のご協力があれば 18 歳未満でも収益化できることがあります。実際に収益化する場合は収益の分配，肖像権の許諾書の保存，後年の動画削除の連絡をあらかじめ考慮する必要があります。</p>
+
+<h2 id="uniq-id-0.10618388334373774">給付制度</h2>
+<p>家庭の経済状況を申請すると主に社会保障を目的として給付されるお金と，学業成績や研究論文の業績の将来性に対して主に社会投資などの目的で給付されるお金があります。ローン型はデメリットが大きいので給付型から検討することをおすすめします。給付型奨学金の場合は給付されたお金を返却する必要はありません。篤志家を含めると年間数万円のものから数百万円のものまでかなりあるはず（あってほしい）なのでご自身が何かの給付制度に該当しないか是非探してみてください。多くは併用もできますので併用をおすすめします。</p>
+<ul>
+<li>高等学校等就学支援金制度，高校生等奨学給付金，その他の修学支援策
+<li>日本学生支援機構
+<li>あしなが育英会
+<li><a href="https://www.pref.fukui.lg.jp/doc/kyousei/kyouikuiinkai28_d/fil/1050-4.pdf">きぼう応援奨学金</a>――福井県内の中学 3 年生対象，高校で給付，年額 21.6 万円
+<li><a href="https://www.students.keio.ac.jp/other/prospective-students/scholarship-gakumon.html">慶應義塾大学 学問のすゝめ奨学金</a>――年額 60 万円 + 入学金 20 万円
+</ul>
+<ul>
+<!--<li><a href="https://masason-foundation.org/">孫正義育英財団</a>――進学に関する費用-->
+<li><a href="https://www.students.keio.ac.jp/com/scholarships/guideline/internal.html">慶應義塾大学 学内奨学金</a>――年額 50 万円前後。実際にこの給付型奨学金の給付を受けたことのある慶應義塾に進学した先輩かつ友人の話では「自分の中では大きい（成功）体験」とのことです。金銭的にも大きな額です。慶應義塾に進まれる方は是非チャレンジしてみてください。
+</ul>
+<h3>学校単位の助成制度</h3>
+<ul>
+<li>ソニー教育財団 ソニー子ども科学教育プログラム教育実践論文（小中学校対象）――最大 300 万円とソニー製品
+<li>パナソニック教育財団 学校教育に対する研究・助成事業――一般 1年間 50 万円，特別研究指定校 2 年間 150 万円
+</ul>
+<h3>卒業生が学校や学生に対して支援を行う</h3>
+<ul>
+<li><a href="https://www.pref.fukui.lg.jp/doc/wakatei/furusatonouzei/nouzeipro1.html">福井県ふるさとの母校応援プロジェクト</a>（県立高校，私立高校）
+<li><a href="https://kifu-portal.shigaku.go.jp/">私立学校寄付金ポータル 日本私立学校振興・共済事業団</a>（私立学校）
+</ul>
+
+<!--<h2 id="uniq-id-0.13385817035954917">進学先の授業料の減免措置</h2>
+<p>学費と寮費が無償で一部給与が出る学校もあります。狭き門かつ副業禁止で学校生活も給与分大変ではありますが「給料がもらえる！「学費ゼロ」の学校選び」『プレジデント Family』2014 年 5 月号によると次の学校です。これらの学校は進学を希望していて優秀ではあるが家庭の経済状況上進学が厳しいという受験生が選べる，夜間高校，夜間大学に並ぶ選択肢の一つです。わが国が海洋国家でその経済が自動車産業に強く支えられているということがわかります。</p>
+<ul>
+<li>陸上自衛隊高等工科学校
+</ul>
+<ul>
+<li>気象大学校
+<li>航空保安大学校
+<li>海上保安学校
+<li>海上保安大学校
+<li>防衛大学校
+<li>防衛医科大学校
+<li>防衛医科大学校看護学科（自衛官候補看護学生）
+<li>自治医科大学
+</ul>
+<ul>
+<li>トヨタ工業学園
+<li>日野工業高等学園
+<li>デンソー工業学園
+<li>日立工業専修学校
+</ul>
+<ul>
+<li>マツダ工業技術短期大学校
+<li>デンソー工業学園短大課程
+</ul>
+<p>そのほかの各省庁大学校でも優秀な学生を獲得して自身の社会的使命を遂行すべく学費や寮費ほかでゼロまでいかないにせよ減免の措置があります。</p>
+<ul>
+<li>国立看護大学校――学士（看護学），修士（看護学）
+<li>水産大学校――学士（水産学），修士（水産学）
+<li><a href="http://www.uitec.jeed.or.jp/">職業能力開発総合大学校</a>――学士（生産技術）
+</ul>
+<p>このほかの学校でも多少の減免の措置があります。最初からゼロや国立大学の半額相当が決まっているものに比べると期待はしないほうがよさそうです。</p>
+<ul>
+<li>成績が優秀であると認められるもの
+<li>経済上の理由で納付が困難であると認められるもの（失業，死別，疾病，災害など）
+</ul>
+-->
+<!--
+<h2 id="uniq-id-0.8702055179051708">予備校</h2>
+<p>オフラインまたはサテライトの予備校は上手く選べば放送部と同じで賢くて面白い人間がたくさん居る楽しい場所です。教育法や講師やチューターとの相性以前に外から見て判らないことが多いので進学前，1，2 年生時点のお試し講習には積極的に参加してみることをおすすめします。</p>
+<p>もちろん高校入試，大学入試の範囲の授業をもれなく履修しているという条件でしっかり予習して授業を集中して聞くという本番の授業を定着のほうに利用する反転授業の脳内バージョンをやれば予備校は要らないしなんなら学校でノートもとらないというケースや，さらに進んで教科書と参考書を読めばわかる以上学校の授業さえ聞く必要が無いというケースの子もちょいちょい居ます。</p>
+<p>進学先の希望が変わったとか進学校で理転するパターンでは予備校がありがたいかもしれません。</p>
+<p>進路は<strong>特に希望がなければ</strong>男女ともに手堅く公務員をおすすめします。一般論として公務員は立ち位置が審判員のようなルールの外側に居る特殊な位置なので試合に勝つことがないかわりに通常負けるという判定がありません。（これは但し書きが付いて公務員の中でも特に激務の霞ヶ関，福祉分野，教員ほかですと過労心労でつぶれたりは普通にあります。根本的には人口オーナスと大企業の課税逃れのダブルパンチで国民の求める公共サービスに対して税収が絶対的に不足していて公共サービスの水準を下げるか，国民の所得を増やすなどして税収を上げるか，GAFA のサービスの利用を別のサービスで代替していくほかありません。もちろん子どもを増やす方向もあります。）加えて一口に公務員といっても調べきれないくらいかなり幅広い職種がありますのでご自身の能力とのマッチングの面でも安心です。また語学が特別に堪能で学位が学士か修士であれば国連職員の道もあります。一方で公務員というか官僚制の減点主義，前例主義，文書主義が耐えられない場合は理数科目が得意であれば国公立大学理工学部修士からの製造業をおすすめします。大企業も大概官僚制ではありますが社内ベンチャーなどの逃げ道があります。</p>
+-->
+<h2 id="uniq-id-0.01516167029564186">収録条件</h2>
+<h3>気象</h3>
+<p>地上デジタル放送を直接受信していてテレビに郵便番号を設定している場合は NHK 総合を選局してからリモコンの d ボタンを押すとデータ放送でその地域の週間天気予報を取得できます。</p>
+<ul>
+<li><a href="http://www.jma.go.jp/jma/">気象庁</a>
+<li><a href="http://www.jma-net.go.jp/fukui/">福井地方気象台</a>
+<li><a href="http://tenki.jp/">日本気象協会 tenki.jp</a>
+</ul>
+<h3>日の出・日の入り</h3>
+<p>国立天文台の<a href="http://eco.mtk.nao.ac.jp/koyomi/dni/">「各地のこよみ」</a>から日の出・日の入りの時刻が調べられます。</p>
+
+<h2 id="uniq-id-0.11885100993337416">安全</h2>
+<p>放送部は重い機材を運んだり強い音や光を扱ったりすることがあります。この場合は工科系の教育機関の安全の手引きが特に参考になると思います。</p>
+<ul>
+<li><a href="http://www.nagaokaut.ac.jp/j/gakubu/anzentebiki.html">長岡技術科学大学「安全の手引き」</a>
+<li><a href="http://www.ct.osakafu-u.ac.jp/zaigakusei.html">大阪府立大学工業高等専門学校「安全の手引き」</a>
+</ul>
+<ul>
+<li><a href="http://www.mhlw.go.jp/topics/syokuchu/dl/point0709.pdf">厚生労働省食品安全部監視安全課「家庭でできる食中毒予防の 6 つのポイント」</a>
+<li><a href="http://www.health.vic.gov.au/foodsafety/downloads/yourguide_japanese.pdf">豪州ヴィクトリア州保健省食品安全部「食品安全の手引き Your guide to food safety JAPANESE」</a>
+</ul>
+
+<ul>
+<li>東京都総務局総合防災部防災管理課『東京防災』2015 年。
+</ul>
+
+
+<h2 id="uniq-id-0.11885100993337417">健康</h2>
+<h3>摂った方がよいもの</h3>
+<ul>
+<li>三食の食事
+<li>タンパク質
+<li>カロリー
+<li>水分
+<li>塩分
+</ul>
+<h3>摂らない方がよいもの</h3>
+<ul>
+<li>アルコール
+<li>カフェイン
+</ul>
+
+<h2 id="uniq-id-0.16032424226146347">オープンデータ</h2>
+<ul>
+<li><a href="http://www.city.fukui.lg.jp/sisei/tokei/opendata/opengov.html">福井市オープンデータパーク</a>
+<li><a href="http://www.pref.fukui.lg.jp/doc/toukei-jouhou/opendata/">福井県オープンデータライブラリ</a>
+<li><a href="http://www.data.go.jp/">DATA.GO.JP</a>
+<ul>
+<li>国土交通省“国土数値情報ダウンロードサービス”
+</ul>
+</ul>
+<h2 id="uniq-id-0.5404368990566716">地理情報ソフトウェア</h2>
+<h3>ウェブアプリケーション</h3>
+<ul>
+<li>国土交通省国土政策局国土情報課“<a href="http://nrb-www.mlit.go.jp/webmapc/mapmain.html">国土情報ウェブマッピングシステム</a>”
+<li>国土地理院“<a href="http://maps.gsi.go.jp">地理院地図</a>”
+<li>Google Map
+<li>Google Earth
+</ul>
+<h3>汎用 GIS</h3>
+<ul>
+<li>ESRI ArcGIS――多くの大学，公的機関，企業で使われる汎用の GIS
+<li>QGIS――フリーの GIS
+</ul>
+<h3>地理情報可視化ライブラリ</h3>
+<ul>
+<li>folium――有名な JavaScript 用地理情報可視化ライブラリ Leaflet の Python ラッパ
+</ul>
+<h4>folium</h4>
+<pre>
+###
+# 実行例――Debian 系 Linux（WSL + Debian + VcXsrv）
+###
+<code>
+$ sudo apt install python3 python3-pip firefox-esr
+$ sudo pip install folium
+$ python3 folium-bike.py
+$ firefox map1.html</code>
+</pre>
+<pre>
+### 
+# 実行例――FreeBSD 12.0-RELEASE/amd64
+###
+<code>
+$ sudo pkg install python36 py36-pip firefox-esr
+$ sudo pip install folium
+$ python3.6 folium-bike.py
+$ firefox map1.html</code>
+</pre>
+<figure class="folium"><img class="img-responsive" src="folium-map.PNG" alt="folium で可視化した地理情報">
+<figcaption>公開地理情報と folium を用いた自動二輪通学の検討（2019 年）<br />
+バス停のオープンデータと folium を使用して福井県立高志中学校高等学校から一定の距離を灰色，京福バスのバス停から 1 km を紫色，福鉄バスのバス停から同じく 1 km の距離を青色で描画した（<a href="folium-bike.py">folium-bike.py リンク先を保存</a>，<a href="map1.html">出力結果の html</a>）。福井県北部ではコミュニティバスを含めるとほぼすべての住宅が網羅されているため，公共交通機関での登下校が厳しい生徒は運悪くこのバス路線網に漏れているのでなければ，バスの始発終発の時刻，乗り継ぎ，便数，オンデマンドバスの制約の問題であることがわかる。福井新聞のレイニーバス存続を伝える記事にはステークホルダ間の調整と補助金についての記述がある。また国土交通省・総務省の「過疎地域等条件不利地域における集落の現況把握調査」（平成 27 年度）を読むと財政上バス事業者を補填しきれない自治体があることがわかる。
+<br />TODO: 市町村議会の議事録，パブコメ，国内・諸外国の先進事例，<a href="http://www.okuetsumeisei-h.ed.jp/02gaiyou/02_gaiyou.html">寮（福井県立奥越明成高等学校）</a>・<a href="https://takefuhigashi-h.jp/schoollife.php#04">下宿（福井県立武生東高等学校）</a>との損益分岐点，日本学生支援機構の自宅外通学の基準「実家から大学等までの通学時間が片道 90 分以上であり，交通機関の運行本数が 1 時間当たり 1 本以下（目安）」</figcaption></figure>
+<h2 id="uniq-id-0.33097888403132814">放送部にとってのゴールのひとつである大会</h2>
+<p>2020 年現在大会全振りよりも YouTube に作品を投稿したほうが評価や金銭を貰えるかもしれません。</p>
+<h3>中学校高校放送部</h3>
+<ul>
+<li>NHK 全国中学校放送コンテスト（N コン）
+<li>NHK 全国高等学校放送コンテスト（N コン）
+<li>全国総合文化祭放送部門（全総文）
+<li>近畿総合文化祭放送部門（近総文）
+<li>東海ラジオ高等学校ラジオ作品コンクール
+</ul>
+<h3>一般</h3>
+<p>小さいものでも雑誌『ビデオサロン』に告知が出ていることがあります。</p>
+<ul>
+<li>地方の時代映像祭――グランプリ 100 万円
+</ul>
+<h2 id="uniq-id-0.5719429778835047">このページについて</h2>
+<p>ウェブ上にある Google Maps JavaScript API v3 のサンプルを改変して，放送部向きの施設にマーカーを置いた放送部用の地図を試作してみました。ページを保存してエディタで開いて position: と content: の行をコピーして書き換えるとマーカーを増やせますので放送部関係者の方はお試しください。公開する場合は ISP などのウェブスペースが必要です。緯度経度は通常の Google マップ上で右クリックして［この場所について］を選択すると取得できます。</p>
+<p>どこに放送部にとって有益な取材先，施設があってそこへどうやって行けばよいかという情報はおそらく重要です。放送部員は足を使うのが基本だからです。放送部員は顧問の先生や講習会の講師や先輩から足で稼げ腰が重いと駄目だと繰り返し教わります。放送部においては「足で稼ぐ」とは次のような意味です。</p>
+
+<ul>
+<li>図書館でドキュメンタリー制作と映画制作の入門書を複数読み込む
+<li>10 取材しても剪定後に 1 しか素材として使えないからには，剪定作業を見込んでたくさん取材して作品の理想の密度を保つ
+</ul>
+<div class="row">
+<div class="col-lg-6 col-xs-12">
+
+<ul>
+<li><strong>すごくよくできた作品（＝先行事例）を研究し尽くしてキャッチアップする</strong>
+	<ul>
+	<li>N コン全国大会上位入賞作品（e.g. 長野県松本深志高等学校 <a href="https://www.youtube.com/watch?v=nNBwOLIVCCk">準決勝『折衝会』</a>，<a href="https://www.youtube.com/watch?v=9QQITvkaGFI">決勝『鼎談深志』</a>，<a href="https://www.nhk.or.jp/event/n-con/hs/tv_doc.html">N コン WEB</a>）
+		<ul>
+		<li>N コンの傾向を分析して上位入賞からプロセスを逆算して作品をつくる方策もあります。いわゆる受け狙いなのでこれが面白くない人も多いと思いますが，狙って簡単に入賞できるとは限らないのと，これを単純に入賞のベースラインに至る習作として次を自由に制作してどちらか面白い方を提出すれば万全です。
+		</ul>
+	<li>国際映画祭入賞作品
+	<li>BS 世界のドキュメンタリー放送作品
+	<li>NHK スペシャルの当たり回
+	<li>新書など（中高生から見て面白い題材の調査報告書，人の心に寄り添う良質な調査報告書<!--，<a href="https://www.amazon.co.jp/dp/4004201993">『バナナと日本人』</a>，<a href="https://repository.kulib.kyoto-u.ac.jp/dspace/bitstream/2433/68752/1/D_Takeuchi_Yoh.pdf">『日本のメリトクラシー――構造と心性』</a>-->）
+	</ul>
+</ul>
+
+</div>
+<div class="col-lg-6 col-xs-12">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/nNBwOLIVCCk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+</div>
+
+<ul>
+<li>ネタを探しに行く（＝文化人類学用語でフィールドワーク）
+	<ul>
+	<li>自分を異国に来た文化人類学者だと思い込む。
+	<li>体当たり企画（＝文化人類学用語で参与観察），困りごと，全国的には珍しい面白い取り組み，特別に記録しておきたいもの，特別に応援したいもの，感銘を受けた体験，普段見慣れたものの別の面・別の見方，変わった人，変わった組織，変わった制度，変わったもの
+	</ul>
+<li>学校で習った概念やスキルをすべて投入してみる。
+	<ul>
+	<li>入力：録画，録音，スケッチ，アンケート，計量（数学 I，物理基礎），測量（測量），そのほかセンシング（工業技術基礎，電子機械）
+	<li>処理：比較実験，相関係数（数学 B 2003-2011），統計的仮説検定（数学 B 2003-2011，数学 I 2018-），模擬実験，計算機シミュレーション（情報の科学）
+	<li>出力：グラフプロット（数学 I，工業数理基礎，社会と情報，情報処理）
+	</ul>
+</ul>
+
+<ul>
+<li>取材先を探しに行く
+<li>取材しに行く
+<li>映像・音声素材を探しに行く
+<li>助言を請う
+	<ul>
+	<li>e.g. 調べたら面白そうなネタはないか，身近に面白い人はいないか，面白い人を紹介してくれそうな人はいないか，作品の出来はどうか
+	</ul>
+<li>計画を立てる
+	<ul>
+	<li>e.g. 反実仮想，作品の制作資金を 1 億円と仮定してみる，制作期間・制作人員数にでたらめに大きな数字を入れて計画してみる
+	</ul>
+</ul>
+<ul>
+<li>図書館に足繁く通う
+<li>データをとる
+<li>実験してみる
+<li>アンケート調査を設計・実施する
+<li>電話をかける，メールを書く
+<li>番組制作の講習会に参加する
+</ul>
+
+<p>ただ足で稼げと言われても何をどうすればよいか全く見当が付かなくて取材量に比例して作品の質を上げられるのだという量の意味にしかとっていなかったので，もし過去のあらゆる取材先を地図の注釈として世代間で共有できれば，足に複数の行き先があるということに早い段階で気付けるのではないかなと思います。つまり地図と地図の注釈は，取材の主題・問題設定の巧拙，量，人，場所，手法，技量などのさまざまな問題のうちの「場所」の問題の解決策を提示してくれます。また地図があれば取材先への交通手段の検討も具体的にできます。あと単純に楽しくて良いと思います。</p>
+
+<p>放送室の中で使うなら紙の地図帳と付箋紙の組み合わせのほうが便利かもしれません。GIS 用部内サーバはサーバと回線の用立てや保守，引き継ぎ資料作成および閲覧および習熟の手間，不意のデータ消失を考える必要があります。</p>
+
+<ul>
+<li>『スクリーンマップ 分県地図 福井県』旺文社。
+<li>『福井のトリセツ』旺文社，2021 年。
+<li>『ことりっぷ福井』旺文社，2021 年。
+<li>『るるぶ福井 越前 若狭 恐竜博物館 '21』JTB パブリッシング，2020 年，るるぶ情報国内中部。
+<li>『ライトマップル福井県道路地図』旺文社，2021 年。
+<li>『まっぷる福井 恐竜博物館 '21』旺文社，2021 年。
+</ul>
+<ul>
+<li>単体の方位磁針（理科教育用・登山用）
+<li>スマホの方位計
+<li>高機能腕時計の方位計
+</ul>
+
+<p># <del>誰かが卒業しても使い続けられるように個々人のアカウントに紐付けされない形にしたい場合地図サイトの API で地図を作ればおそらく可能である反面，かなり大規模なコードになって私では作れません。誰か JavaScript 使いの放送部員に期待。共有用のコードを書かなくても，XOOPS Cube の GNavi というモジュールでできました。部内用の情報システムを XOOPS Cube で組んでいる放送部さんはインストールしてみてください。</del></p>
+<figure><a href="xoops_gnavi.png"><img class="img-responsive" src="xoops_gnavi.png" width="640px"></a><figcaption>GNavi 1.00</figcaption></figure>
+<figure><a href="nextcloud-maps.png"><img class="img-responsive" src="nextcloud-maps.png" width="640px"></a><figcaption>Maps 0.1.4</figcaption></figure>
+<p>2020 年 1 月現在 Nextcloud 用地図プラグインの Maps がローカルで使う分には良さそうに見えます。Raspberry Pi で Nextcloud サーバを建てる場合は書き換え寿命と IO 性能的にシステムドライブの SSD 化が必要です。</p>
+<pre><code>###
+# Nextcloud は Raspberry Pi OS を含む Debian 系の OS だと次の 2 行でインストールできます。ただ WSL2 の Debian だと 2020 年現在 snap がインストールできません。
+###
+
+$ sudo apt install snapd
+$ sudo snap install nextcloud</code></pre>
+
+
+<h3>調査報道について</h3>
+<p>調査全般については<a href="http://www.fujishima-h.ed.jp/data/Kouki%20kenkyukiso%20text%20bunkei.pdf">福井県立藤島高等学校 SSH 企画会議「高校生のための研究入門――探究のサイクルを楽しむ」（福井県立藤島高等学校，2012 年）</a>が実践的です。</p>
+<p>N コンに提出するようなドキュメンタリ作品には新聞学用語でいうところの調査報道の要素が多分に含まれます。メディアの受け手側もそうですが，送り手側に立った場合はより注意が必要になります。コタツで書けるのでコタツ記事と呼ばれるネットの特にネガティブな書き込みの引用とそれに付いた気に入った気に入らないの反響を恣意的に抜き出したものを一緒にした謎のまとめ記事や，それと同様の構図で有識者でない人間や元々自分の立場に近い有識者を誘導して記者自身の考えを代弁させる悪質な，インタビュイーの名前だけを利用するようなインタビュー記事や，「先日発売の『週刊xx』が報じたところによると」のような他社週刊誌の特ダネのゴシップ記事の宣伝，官公庁・企業のプレスリリースほぼそのままの低コストな新聞・雑誌記事ではなくて，現場や図書館で繰り返し取材して調査にコストをかけた新聞・雑誌記事のことです。調査報道という用語は政治的な怖そうなシーンで使われがちですが N コンでよくあるコミカルな題材であっても調査報道は調査報道です。調査報道については，著者名が NHK スペシャル取材班のような本に番組本編より詳しい調査の軌跡が記録されていてこれが調査報道の実践そのものです。調査記事には検証も含めて大きなコストがかかっていてどのメディアも紙幅を割けないのが実際のところだと思います。大きいメディアだとそれぞれの記者が上げてきた沢山の記事の中から社会部政治部のデスクや校閲担当者が出来のあやしい記事をはじいて差し戻せるはずなのですが讀賣朝日の規模でも予断や破綻や調査不足やメディアスクラムが見える謎の独自調査記事が掲載されていることがあります。</p>
+<p>メディアの受け手側に立った場合に情報の真贋を見分けるひとつの見方としてお金の流れがあります。儲けを度外視できる本当にわずかなレアケースを除いて，たとえばニュースバリューの方向性が自社の広告収入の増加にのみ特化した義憤に見せかけた炎上アクセス数狙いの滅茶苦茶なコタツ記事，広告収入と地続きのメディアスクラム，代用ゴシップ，釣りタグ，釣り見出し，釣りサムネ，釣り記事，誤報，統計の誤った取り扱い，詭弁，自社の食品を「ほんとうは誰にも教えたくないおすすめ食品ランキング」動画記事に入れてくれたらページビュー数または購入成約数の何パーセントをアフィリエイト収入としてキックバックという提灯記事，認知科学を応用した購買行動への煽動などは，短期的には記者の収入を目的として毎日無数に配信されているので注意が必要です。民放は規制産業としての良心となる報道部以外の例えばニュース番組風のワイドショーなどは大部分がゴシップか広告で，実際にワイドショーの制作はバラエティ部署で制作会社もバラエティ番組の制作会社です。同様の構図でヘッドラインが端末の画面表示を毎秒占有している Twitter や LINE，Yahoo!，Google，MSN などのネットの無料で読める記事も同様にゴシップがずらっと並ぶ構造で，そうでない記事は有料版のおためし記事つまり広告でしかも耳目を特別に集めるようなゴシップ寄りの記事です。意に反してゴシップ担当広告担当に配属されてしまったご同輩のみなさまがんばえー。このため受け手の場合はその情報で誰が儲かるのか，出資元の一番大元は誰か，その割引モデル，フリーミアムモデルの原資はどこかを考えたり，根本的には世間から信頼に足るとされている教科書やメディアやウェブサービスに直接お金を払って情報を購入すればある程度回避できたりします。割引の話はよくよく聞くと保存則がおかしくて永久機関が作れそうだったり，儲け話の多くは法を犯したりリスクプレミアムを上手く誤認させているもので，無から金を生成する本当の錬金術が存在してしまうとハイパーインフレが起きて世界経済が破綻します。</p>
+<ul>
+<li>Gula, Robert J., <i>Nonsense: a handbook of logical fallacies</i>, Mount Jackson: Axios Press, 2002.<br />〔ロバート・グーラ『論理で人をだます法』山形浩生訳，朝日新聞社，2006 年〕
+<!--<li>林直哉・松本美須々ヶ丘高校放送部『ニュースがまちがった日――高校生が追った松本サリン事件報道，そして十年』太郎次郎社エディタス，2004 年。-->
+<li>池尾和人『現代の金融入門』新版，ちくま新書，2010 年。
+</ul>
+
+
+<h3>調査手法について</h3>
+<p>わが国の場合は法学部政治学科新聞学専攻と社会学部にマスコミ研究の拠点があって，ドキュメンタリー作品の制作者に社会学部出身者が多くなった結果，社会学的な調査手法を取り入れた作品も自然と多くなっているように見えます。<!--余談ですが社会学の本場ドイツとアメリカでは社会学部人気は落ち込んでいる一方，わが国では人気学部（岸政彦 2018）ですのでもっと面白いドキュメンタリー映画がわが国から出てきて欲しいなと思っています。ちなみに高校の進路相談などで食えない側の学問であるとされる社会学を専攻されたい方は最悪大学のネームバリューで就職できるように国公立大学や慶應義塾の社会学科もしくは筑波大学の社会工学専攻をおすすめします。-->社会学的な調査手法は次の二つです。</p>
+<h4>量的調査 quantitative research</h4>
+<p>福井市の街頭で街行く市民にボードにシールを貼ってもらって○○の人を数えてみた結果福井市民は○○であるとわかったというようなあれです。旧手法に対して新手法がある問題にどれくらい有効かというような自然科学分野でみられるエビデンスベースの考え方を社会科学に輸入したものに量的調査という名前が付いたみたいです。社会学分野では社会調査士という教育プログラムパッケージに標準化されています。社会調査士とは自治体と協力してドヤ街で一日の収入がいくらで支出がいくらで何畳の生活空間があってというような数字の生データを問診票で収集して公共政策に繋げたりする人です。集めたデータは必要があれば多変量解析の各種手法で処理したりします。調査設計がより高次のものではケースコントロール研究，コーホート研究，ランダム化比較試験，同じ題材を分析した複数の比較試験同士を突き合わせて信憑性を計るメタアナリシスという分析手法もあります。</p>
+<p>自分で生データをあつめた場合，表やグラフの右下の出典が自分の名前（e.g. ○○高校放送部調べ，番組調べ）になります。また書籍やオープンデータなどで公開されている量的調査を使用するケースも多くあります。この場合は表やグラフの右下の出典がそのデータを公開した人や機関の名前になります。公開情報を元に加工して表やグラフを作成した場合は，出典を元に加工したものであるという但し書きが付きます。</p>
+<p>ドキュメンタリー作品では各種センサーの数値（e.g. 騒音計 20 db，pH 試験紙 pH 8）やアンケートの集計結果の数値（e.g. 問い 99：あなたはこれまでの回答をすべてでたらめに書きましたか？　はい 51.00 %，いいえ 48.00 %，どちらでもない 1.00 %，<i>&#x1D427;</i> = 200）やグラフ，数値の入った表を最終的に生成するものが量的調査にあたります。</p>
+<ul>
+<li>量的調査の入門書
+<li>社会調査士，統計検定，統計調査士の参考書など
+<li>表計算ソフトで完結する簡単なデータサイエンスの入門書
+<li>広い意味でのセンシングの入門書
+</ul>
+<h5>量的調査データの例</h5>
+<ul>
+<li>yes/no の二値または n 段階の尺度で回答できる最終的に数値（＝量）になるアンケート
+<li>自由記述でも似た内容で分類した後カウントされて最終的に数値（＝量）になるアンケート
+<li>実験などで各種センサーから出てくる数値，グラフ
+<li>計算機シミュレーションの数値，グラフ
+<li>調査報告書に出てくる数値，グラフ
+</ul>
+<ul>
+<li>国勢調査，全国学力調査，NHK 国民生活時間調査などの大規模で予算のかかったメジャー処の調査
+<li>各省庁・自治体・大学・国立研究所の調査報告書，国連の調査報告書（私見ですが注意しないと公的機関でも眉唾のものが結構あります。調査や国際比較に割り当てられる予算の制約もありそうです。英語の細かい字で書いてある膨大な但し書きを私が読めていないだけの可能性も大いにあります。）
+<li>「報告書 site:go.jp OR site:ac.jp OR site:or.jp filetype:pdf」で検索して出てくる報告書
+<li><a href="https://ja.wikipedia.org/wiki/%E7%A0%94%E7%A9%B6%E6%89%80#%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%81%AE%E7%A0%94%E7%A9%B6%E6%89%80">民間の研究所</a>，<a href="https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%B3%E3%82%AF%E3%82%BF%E3%83%B3%E3%82%AF#%E6%97%A5%E6%9C%AC">シンクタンク</a>，銀行，NPO，NGO，そのほか法人・団体などの調査報告書
+</ul>
+<ul>
+<li>公的な生データ
+<ul>
+<li>オープンデータ
+</ul>
+</ul>
+<h5>取り扱いに注意が必要な量的調査データの例</h5>
+<ul>
+<li>母集団 (<i>&#x1D40D;</i>) とサンプル数 (<i>&#x1D427;</i>)，サンプリング方法 (e.g. ランダムサンプリング，クラスター抽出) の記載がない調査データ
+<li>サンプル数が少ない調査データ――厳密には調査・検定手法に対してサンプル数が足りていない調査データ
+<li>アンケートの設問が一緒に載っていないアンケート結果――恣意的な設問になっている可能性がある
+<li>NHK，民放，新聞社の世論調査――据え置き・携帯電話番号ベースの調査手法が多いので国民全体を網羅しているか疑わしい。メッセージアプリしか使わない人は？　電話を持っていない人は？　情報の疎通になにかしらの障害を持っている人は？　忙しい人ほど回答しないのでは？
+<li>民間企業が自社の宣伝のために出している調査データ――商品知識があったり自宅に検査装置があるわけでもない一般消費者向けの商品は数字を盛っていたりサンプル数が極端に少ないなど大企業の製品パンフレットでも販売子会社の「xxマーケティング株式会社」，「xx販売株式会社」が宣伝を担当しているので客をだますインセンティブが働いてあやしいものが多い。企業の納入先に規制産業がある場合は製品スペックを盛ると入札に参加できなくなるので業務用・医療用製品は盛られていないことが多い。製品評価機構のウェブサイトはぜひチェックしてみてください。
+</ul>
+<h4>質的調査 qualitative research</h4>
+<p>福井市のマイナーなお祭りに体当たり参加してみた結果マイナーでもお祭りが続けられている原因は○○であるとわかったというようなマリノフスキ的な体当たり企画のあれです。学術論文では検証可能性の高さから量的調査のほうが好まれますが，ドキュメンタリー作品では質的調査も同じかそれ以上に好まれます。インタビュー，映像記録が質的調査にあたります。</p>
+<ul>
+<!--
+<li>岸政彦・石岡丈昇・丸山里美『質的社会調査の方法――他者の合理性の理解社会学』（有斐閣ストゥディア，2016）
+-->
+<li>佐藤郁哉『フィールドワーク――書を持って街へ出よう』新曜社，増訂版，2006 年。
+</ul>
+<h5>質的調査の例</h5>
+<ul>
+<li>体当たり参加（＝参与観察）した映像，手記
+<li>調査対象者へのインタビュー
+<li>調査対象者の書いた手記
+<li>アンケートの記述回答の記述（数値に変換しないもの）
+</ul>
+<h5>取り扱いに注意が必要な質的調査の例</h5>
+<ul>
+<li>作り手側に明確なゴール（＝先入観）があってインタビュイーの選出から既にそこに誘導するような我田引水のインタビュー
+<li>ある問題に対して二つ以上の考え方の集団がいるときに一つにだけ取材したもの――賛成，反対，興味はあるが立場上どちらでもメリットがあるのでどちらでもよい，興味がない，どちらにもメリットがなくなるべく関わりたくない，そもそもそれが問題の本質ではないことを知っているなど。
+</ul>
+<h3>一次情報と二次情報</h3>
+<p><a href="https://ja.wikipedia.org/wiki/%E3%83%9A%E3%82%B9%E3%83%88%E5%8C%BB%E5%B8%AB">ペスト医師として現場で生データを自身でとったノストラダムスが残した文献が一次情報</a>で，ペスト医師らが残した情報を整理したり加工した文献が二次情報です。</p>
+
+<h2 id="uniq-id-0.035276602765341837">放送部の魅力</h2>
+<p>部員がみんなそれなりに喋れて本が読めてクリエイター指向でエンタメ精神に溢れていて先輩方の冗談から文化の薫りがすることがある点が魅力です。これは同じ学校内で部員の獲得において放送部と競合するような映画研究会，弁論部，クイズ研究会，演劇部，漫画研究会，写真部，文芸部，物理部，化学部，生物部，地学部，コンピュータ部，ロボコン部そのほかが強くなくてそちらに優秀で文化的な部員を先に捕られていないことが前提条件になります。映像作品を作りたい場合は，同じ学校内で放送部と映研で映研のほうが圧倒的に精力的であればそちらに行くべきかもしれません。放送部と映研の作品の傾向の違いとしては放送部はざっくりドキュメンタリー寄り，映研はほぼフィクション寄りな気がします。一応の傾向があるだけでどちらに入部してもジャンルの縛りはなくておそらく自由に撮れます。</p>
+<!--<ul>
+<li>知的好奇心がやや旺盛である――人間，社会，本，言語，音楽，撮影機材，録音機材，エンタメ
+<li>読書量がやや多い
+<li>日本語の語彙量がやや多い
+<li>英語を話せる人がやや多い
+<li>ピアノを弾ける人がやや多い
+<li>DAW を使える人がまれに居る
+<li>Traktor を使える人がまれに居る
+<li>撮りたいものはとくにないけれど，とにかくカメラを回したい人が居る
+</ul>-->
+<h2 id="uniq-id-0.035276602765341836">参考文献</h2>
+<ul>
+<li>村山祐司・柴崎亮介編『生活・文化のための GIS』朝倉書店，2009 年，シリーズ GIS／3。
+<li>村山祐司・柴崎亮介編『ビジネス・行政のための GIS』朝倉書店，2008 年，シリーズ GIS／4。
+</ul>
+<ul>
+<!--
+<li>Barnouw, Erik, <i>Documentary: a history of the non-fiction film</i>, 2nd rev. ed., New York; Tokyo: Oxford University Press, 1993.
+<br />〔バーナウ，エリック『ドキュメンタリー映画史』安原和見訳，筑摩書房，2015 年〕
+<li>Bernard, Sheila, <i>Documentary Storytelling: Creative Nonfiction on Screen</i>, 4th ed., Boston: Focal Press, 2016.
+<br />〔バーナード，シーラ『ドキュメンタリー・ストーリーテリング――「クリエイティブ・ノンフィクション」の作り方』島内哲朗訳，今村研一監修，増補改訂版，フィルムアート社，2020 年〕
+-->
+<li>Eco, Unberto, <i>Come si fa una tesi di laurea</i>, 6th ed., Milano: Bompiani, 1982.<br />
+〔ウンベルト・エコ『論文作法――調査・研究・執筆の技術と手順』谷口勇訳，而立書房，1991 年〕
+
+<li>岸政彦・北田暁大・筒井淳也・稲葉振一郎『社会学はどこから来てどこへ行くのか』有斐閣，2018 年。
+<li>岸政彦・筒井淳也<a href="https://synodos.jp/society/19195">“「比較しろ」って簡単に言いますけどね――質的調査 VS 量的調査”</a>「SYNODOS」2017 年 3 月 3 日（2020 年 3 月 1 日情報取得）。
+<li>国土交通省・総務省<a href="https://www.mlit.go.jp/common/001145930.pdf">「平成27年度 過疎地域等条件不利地域における集落の現況把握調査 報告書」</a>平成 28 年（2020 年 3 月 1 日情報取得）。
+<li>戸田山和久『論文の教室――レポートから卒論まで』新版，NHK ブックス，2012 年。
+<!--<li>筒井淳也・前田泰樹『社会学入門――社会とのかかわり方』（有斐閣ストゥディア，2017）-->
+<li>根本祐二『朽ちるインフラ――忍び寄るもうひとつの危機』日本経済新聞出版，2011 年。
+<li>福井県立藤島高等学校 SSH 企画会議編<a href="http://www.fujishima-h.ed.jp/data/Kouki%20kenkyukiso%20text%20bunkei.pdf">「高校生のための研究入門――探究のサイクルを楽しむ」</a>福井：福井県立藤島高等学校，2012 年（2020 年 3 月 1 日情報取得）。
+<!--
+<li>山登義明『ドキュメンタリーを作る 2.0――スマホ時代の映像制作』京都：京都大学学術出版会，2016 年。
+-->
+</ul>
+
+
+<h2 id="uniq-id-0.035276602765341839">ライセンス表記</h2>
+<p>このページの引用元やライセンス表記のないコードとリソースはすべて二条項 BSD ライセンスです。</p>
+
+
+
+<footer>
+<hr>
+<p class="pull-right"><a href="index.html">index.html</a></p>
+<p><!-- hhmts start -->Last modified: Sun Mar 1 00:00:00 JST 2020 <!-- hhmts end --></p>
+</footer>
+</div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    
+    <!--
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+-->
+    
+    <!-- add tocbot 2020/03/01 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+   
+<script>
+   (function(){
+   "use struct;"
+    
+    tocbot.init({
+  // Where to render the table of contents.
+  tocSelector: '.js-toc',
+  // Where to grab the headings to build the table of contents.
+  contentSelector: '.js-toc-content',
+  // Which headings to grab inside of the contentSelector element.
+  headingSelector: 'h2, h3',
+  // For headings inside relative or absolute positioned containers within content.
+  hasInnerContainers: true,
+  positionFixedClass: 'is-position-fixed',
+});
+})();
+</script>
+    
+</body>
+</html>
+<!--2022/01/11 コメントアウトは後から書き直したい箇所です。-->
