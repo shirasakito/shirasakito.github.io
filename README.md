@@ -7,7 +7,7 @@
 
 ## A list
 
-[卒論](https://shirasakito.github.io/thesis.pdf)
+[卒論](https://shirasakito.github.io/thesis.tex)
 - TODO: 2024/01/25 書き直したい。
 
 [中学校高等学校放送部における GIS 活用](https://shirasakito.github.io/bbcmap.htm)
