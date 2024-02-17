@@ -50,7 +50,7 @@ AutoPrinter
 
 わたし関連の度を超えたなりすまし被害の情報がありましたらたいへんお手数ですが前記宛に情報をお寄せいただけますようお願い申し上げます。または最寄りの警察署にご連絡ください。
 
-### micro blog
+### Micro blog
 - shrsk
 - kari_username (VTuber)
 
