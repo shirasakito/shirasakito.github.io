@@ -43,6 +43,7 @@ AutoPrinter
 - タイヤ残の検出アプリ。Tire.IsEnable?、TiresGripSensorClient（JavaScript）、サーバ（Python、Go）。2024/01/26
 - 睡眠障害からの復帰者のためのツール、メモを書きたい。2024/01/30
 - 睡眠障害のドキュメンタリを撮りたい。2024/02/05
+- 子どもと大人の栄養不足を防ぐツールを書きたい。2024/06/01
 
 ## Contact to me
 - shirasakito
