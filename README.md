@@ -2,6 +2,9 @@
 [The my website (https://shirasakito.github.io/)](https://shirasakito.github.io/)
 - 目的: 2024/01/25 地方の活性化
 
+## Announcement 
+- 原因不明の睡眠障害の未婚女性をご存知の知人のかたは電子メールにてご連絡ください。2024/06/03 5:11。
+
 ## TODO
 - このウェブページを再構築したい。2024/02/01
 
