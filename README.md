@@ -11,7 +11,7 @@
 ## A list
 
 [卒論](https://shirasakito.github.io/thesis.tex)
-- TODO: 2024/01/25 書き直したい。
+- TODO: 2024/11/19 書き直したい。英語に翻訳しておきたい。
 
 [中学校高等学校放送部における GIS 活用](https://shirasakito.github.io/bbcmap.htm)
 - TODO: 2024/01/25 ホンダ N-ONE の試乗記を追加したい。N-ONE すごく良い。
@@ -54,6 +54,7 @@ AutoPrinter
 
 - 下 4 桁繰り返しの番号は常用の番号です。2002 年頃から使用。SMS が利用可能です。
 - 上でない番号について数ヶ月から数年以内に解約の予定です。2023 年頭頃から使用。
+- 080 について契約の 2023 年内に解約しております。
 
 ### Micro blog
 - shrsk
