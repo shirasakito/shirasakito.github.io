@@ -63,4 +63,4 @@ AutoPrinter
 ## Other Announcement
 - 病気かと思った未知の睡眠障害はたぶん二種類の過去の怪我からなるものでした。鼻骨骨折（2004 年）、呼吸筋ほとんどの過伸展（2011 年頃）。しゃっくりが出なくなる規模の横隔膜の過伸展。変なストレッチの情報を真に受けたもの。2024/06/07 
 - 原因不明の睡眠障害の未婚女性をご存知の知人のかたは電子メールにてご連絡くださいましたらと思います。2024/06/03
-  https://docs.google.com/presentation/d/1nENIQuhEKmh4OcypQjbRM54nTQfvkUVV7z6YwwnlCYM/edit?usp=sharing
+- https://docs.google.com/presentation/d/1nENIQuhEKmh4OcypQjbRM54nTQfvkUVV7z6YwwnlCYM/edit?usp=sharing
