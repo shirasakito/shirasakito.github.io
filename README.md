@@ -49,7 +49,7 @@ AutoPrinter
 
 ## Contact to me
 - shirasakito (github プロフィールページにあるグループウェアの某メールサービス).com
-- shrskt (同).com
+- shrskt (同).com # エイリアスの付かない純粋な lastname + firstname はわたしではありません。
 - (lastname).(firstname) (通信キャリア d 社).ne.jp
 
 - 下 4 桁繰り返しの番号は常用の番号です。2002 年頃から使用。SMS が利用可能です。
