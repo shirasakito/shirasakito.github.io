@@ -51,8 +51,9 @@ AutoPrinter
 - shirasakito (github プロフィールページにあるグループウェアの某メールサービス).com
 - shrskt (同).com # エイリアスの付かない純粋な (lastname).(firstname) はわたしではありません。
 - (lastname).(firstname) (通信キャリア d 社).ne.jp
-- kari.username.1 (同某メールサービス、2020-2022?)
-- kari.username.2 (同某メールサービス、2020-2022?)
+- kari.username.1 (同某メールサービス、2018-2022?)
+- kari.username.2 (同某メールサービス、2018-2022?)
+- ichiji.username（同某メールサービス、2018-2022?）
 
 - 下 4 桁繰り返しの番号は常用の番号です。2002 年頃から使用。SMS が利用可能です。
 - 上でない番号について数ヶ月から数年以内に解約の予定です。2023 年頭頃から使用。
